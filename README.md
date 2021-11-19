@@ -2,4 +2,3 @@
 
 Totally different CTF platform
 
-we ❤️ IU

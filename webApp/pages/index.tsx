@@ -1,8 +1,11 @@
-import Head from 'next/head'
-import TopNav from '../components/topNavigation'
+import Head from 'next/head';
+import SidebarNavigation from '../components/sidebarNavigation';
 
-export default function Home(){
-    return (
-        <TopNav></TopNav>
-    )    
+export default function Home() {
+	return (
+		<>
+			<SidebarNavigation />
+			<h1>Home page under construction</h1>
+		</>
+	);
 }

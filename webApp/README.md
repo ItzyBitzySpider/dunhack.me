@@ -2,19 +2,69 @@
 
 CTF Platform built with [Next.js](https://nextjs.org/) React Framework. 
 
-### `public`
+## File Structure
+
+### `database`
+
+Supposedly contains the files necessary to spin up a mysql server instance configured for the platform.
+
+
+### `webApp/public`
 
 Contains assets that are publically accessible used throughout the application.
 
-### `pages`
+### `webApp/pages`
 
 Contains typescript files, each file representing a unique web page. 
 
-### `components`
+### `webApp/components`
 
 Contains React Components.
 
-### `styles`
+### `webApp/styles`
 
 Contains Sass stylesheets. 
+
+
+### `webApp/prisma`
+
+Contains prisma files used to set up a working database used to login to the platform. 
+
+## Setup with [Docker](https://www.docker.com/) (Work in progress)
+
+``` 
+$ docker-compose up
+```
+
+## Setup (Manual)
+
+The platform is built with the following versions
+
+```bash
+$ node -v
+v16.13.0
+$ npm -v
+8.1.0
+```
+
+### Install dependencies
+
+``` 
+$ cd webApp/
+$ npm install
+```
+
+### Create `.env` file to store secrets
+
+User Authentication was implemented via the NextAuth library. To configure the platform authentication, please create a `.env` file with the following contents:
+
+```
+DATABASE_URL=mysql://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>
+
+EMAIL_SERVER=smtp://<USERNAME>:<PASSWORD>@<SMTP SERVER>:587
+EMAIL_FROM=It'z Different CTF Authentication <noreply@example.com>
+
+NEXTAUTH_URL=<SITE URL>
+```
+
 

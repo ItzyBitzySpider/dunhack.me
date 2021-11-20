@@ -25,7 +25,7 @@ Contains Sass stylesheets.
 
 Contains prisma files used to set up a working database used to login to the platform. 
 
-## Setup with [Docker](https://www.docker.com/) (Work in progress)
+## Setup with [Docker](https://www.docker.com/) 
 
 1) Ensure that you have docker and docker-compose
 2) Copy `env.example` to `.env` and enter your configuration

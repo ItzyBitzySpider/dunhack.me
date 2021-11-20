@@ -14,7 +14,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
   webapp:
-    build: ./webApp
+    build: ./
     container_name: webApp
     restart: always
     ports:

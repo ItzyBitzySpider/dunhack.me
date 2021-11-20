@@ -118,4 +118,4 @@ dist
 .pnp.*
 
 #prisma
-webApp/prisma/migrations/
+webApp/**/migrations/

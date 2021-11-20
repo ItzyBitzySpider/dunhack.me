@@ -44,7 +44,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  points        Int
+  points        Int       @default(0)
   enabled       Boolean   @default(true)
   competing     Boolean   @default(true)    
 }

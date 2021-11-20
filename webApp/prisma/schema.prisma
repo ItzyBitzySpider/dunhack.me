@@ -71,7 +71,7 @@ model challenges {
   added                         DateTime
   added_by                      String
   title                         String   @db.VarChar(255)
-  category                      Int      @db.UnsignedSmallInt(5)
+  category                      Int      @db.UnsignedSmallInt
   description                   String   @db.Text
   exposed                       Boolean  @default(true)
   available_from                DateTime 
@@ -81,8 +81,8 @@ model challenges {
   automark                      Boolean  @default(true)
   points                        Int      
   solves                        Int      @db.UnsignedInt @default(0)
-  num_attempts_allowed          Int      @db.UnsignedTinyInt(3) @default(0)
-  min_seconds_btwn_submissions  Int      @db.UnsignedSmallInt(5) @default(5)
+  num_attempts_allowed          Int      @db.UnsignedTinyInt @default(0)
+  min_seconds_btwn_submissions  Int      @db.UnsignedSmallInt @default(5)
   relies_on                     Int      @db.UnsignedInt
 }
 

@@ -44,6 +44,9 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  points        Int
+  enabled       Boolean   @default(true)
+  competing     Boolean   @default(true)    
 }
 
 model VerificationToken {
@@ -52,4 +55,65 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model categories {
+  id                 Int      @id @default(autoincrement())
+  added              DateTime
+  added_by           String
+  title              String   @db.VarChar(255)
+  description        String   @db.Text
+  exposed            Boolean  @default(true)
+}
+
+model challenges {
+  id                            Int      @id @default(autoincrement())
+  added                         DateTime
+  added_by                      String
+  title                         String   @db.VarChar(255)
+  category                      Int      @db.UnsignedSmallInt(5)
+  description                   String   @db.Text
+  exposed                       Boolean  @default(true)
+  available_from                DateTime 
+  available_until               DateTime
+  flag                          String   @db.Text
+  case_insensitive              Boolean  @default(false)
+  automark                      Boolean  @default(true)
+  points                        Int      
+  solves                        Int      @db.UnsignedInt @default(0)
+  num_attempts_allowed          Int      @db.UnsignedTinyInt(3) @default(0)
+  min_seconds_btwn_submissions  Int      @db.UnsignedSmallInt(5) @default(5)
+  relies_on                     Int      @db.UnsignedInt
+}
+
+model hints {
+  id                 Int      @id @default(autoincrement())
+  challenge          Int      @db.UnsignedInt
+  added              DateTime
+  added_by           String
+  visible            Boolean  @default(false)
+  body               String   @db.Text
+}
+
+model announcements {
+  id                 Int      @id @default(autoincrement())
+  added              DateTime
+  added_by           String
+  title              String   @db.VarChar(255)
+  body               String   @db.Text
+}
+
+model email_whitelist {
+  id                 Int      @id @default(autoincrement())
+  email              String?   @unique
+}
+
+model submissions {
+  id                            Int      @id @default(autoincrement())
+  added                         DateTime
+  challenge                     Int      @db.UnsignedInt
+  user_id                       Int      @db.UnsignedInt
+  flag                          String   @db.Text
+  correct                       Boolean  @default(false)
+  marked                        Boolean  @default(false)
 }

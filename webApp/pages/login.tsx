@@ -1,10 +1,10 @@
 import Form from 'react-bootstrap/Form';
-import TopNav from '../components/topNavigation';
+import SidebarNavigation from '../components/sidebarNavigation';
 
 export default function Login() {
 	return (
-		<>  
-            <TopNav/>
+		<>
+			<SidebarNavigation />
 			<Form.Group>
 				<Form.Label>Email address</Form.Label>
 				<Form.Control type='email' placeholder='Enter email' />

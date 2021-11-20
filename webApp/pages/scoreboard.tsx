@@ -1,5 +1,10 @@
-import TopNav from "../components/topNavigation";
+import SidebarNavigation from '../components/sidebarNavigation';
 
-export default function Scoreboard(){
-    return (<><TopNav/><h1>Site under construction</h1></>)
+export default function Scoreboard() {
+	return (
+		<>
+			<SidebarNavigation />
+			<h1>Scoreboard page under construction</h1>
+		</>
+	);
 }

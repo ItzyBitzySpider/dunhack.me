@@ -27,8 +27,11 @@ Contains prisma files used to set up a working database used to login to the pla
 
 ## Setup with [Docker](https://www.docker.com/) (Work in progress)
 
+1) Ensure that you have docker and docker-compose
+2) Copy `env.example` to `.env` and enter your configuration
 ``` 
 $ docker-compose up
+
 ```
 
 ## Setup (Manual)
@@ -61,10 +64,3 @@ EMAIL_FROM=It'z Different CTF Authentication <noreply@example.com>
 
 NEXTAUTH_URL=<SITE URL>
 ```
-
-
-### Quick Start Guide (Docker)
-1) Ensure that you have docker and docker-compose
-2) Copy `env.example` to `.env` and enter your configuration
-3) `docker-compose build`
-4) `docker-compose up -d`

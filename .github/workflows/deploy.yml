@@ -4,9 +4,9 @@ name: Deploy
 on:
   # Triggers the workflow on push or pull request events but only for the live branch
   push:
-    branches: [ live ]
+    branches: [ main ]
   pull_request:
-    branches: [ live ]
+    branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

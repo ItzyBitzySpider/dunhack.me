@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  database:
+    image: mysql:latest
+    container_name: devsql
+    restart: always
+    environment: 
+        MYSQL_ROOT_PASSWORD: "root"
+        MYSQL_ROOT_HOST: '%'
+    ports:
+        - "3306:3306"
+    expose:
+        - '3306'
+    volumes:
+      - mysql:/var/lib/mysql
+  webapp:
+    build: ./webApp
+    container_name: webApp
+    restart: always
+    environment:
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/db"
+      EMAIL_SERVER: "smtp://acsictftraining@gmail.com:a*nv2RgeRCd`NSfv@smtp.gmail.com:587"
+      EMAIL_FROM: "Itzy Yuna<noreply@example.com>"
+      NEXTAUTH_URL: "http://localhost:3000"
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./webApp:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes: #define our mysql volume used above
+  mysql:

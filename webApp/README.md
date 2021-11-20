@@ -4,11 +4,6 @@ CTF Platform built with [Next.js](https://nextjs.org/) React Framework.
 
 ## File Structure
 
-### `database`
-
-Supposedly contains the files necessary to spin up a mysql server instance configured for the platform.
-
-
 ### `webApp/public`
 
 Contains assets that are publically accessible used throughout the application.

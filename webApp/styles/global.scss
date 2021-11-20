@@ -1,1 +1,15 @@
-@import '~rsuite/dist/rsuite.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+$base-color: #B5CFD5;
+
+html{
+    background-color: $base-color;
+}
+
+h1 {
+    background-color: $base-color;
+}
+
+div {
+    background-color: $base-color;
+}

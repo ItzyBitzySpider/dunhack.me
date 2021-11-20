@@ -21,8 +21,6 @@ services:
       - '3000:3000'
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/.next
 
 volumes: #define our mysql volume used above
   mysql:

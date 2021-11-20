@@ -17,11 +17,6 @@ services:
     build: ./webApp
     container_name: webApp
     restart: always
-    environment:
-      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/db"
-      EMAIL_SERVER: "smtp://EMAIL:PASSWORD@smtp.gmail.com:587"
-      EMAIL_FROM: "Itzy Yuna<noreply@example.com>"
-      NEXTAUTH_URL: "http://localhost:3000"
     ports:
       - '3000:3000'
     volumes:

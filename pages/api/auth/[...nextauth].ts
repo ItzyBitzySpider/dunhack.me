@@ -26,22 +26,22 @@ export default NextAuth({
 		async signIn({ user, account, profile, email, credentials }) {
 			let isAllowedToSignIn = false;
 			// user = {"email":"actual_email_addr"}
-			let user_email = JSON.parse(JSON.stringify(user)).email;
+			let userEmail = JSON.parse(JSON.stringify(user)).email;
 			if (process.env.EMAIL_WHITELIST) {
 				//search for user email with prisma
-				const email_whitelisted = await prisma.email_whitelist.findUnique({
+				const emailWhitelisted = await prisma.email_whitelist.findUnique({
 					where: {
-						email: user_email,
+						email: userEmail,
 					},
 				});
-				if (email_whitelisted) {
+				if (emailWhitelisted) {
 					isAllowedToSignIn = true;
 				}
 			} else if (process.env.EMAIL_REGEX) {
 				//regex comparison
 				const regex = process.env.EMAIL_REGEX;
-				const regex_check = new RegExp(regex);
-				if (regex_check.test(user_email)) {
+				const regexCheck = new RegExp(regex);
+				if (regexCheck.test(userEmail)) {
 					isAllowedToSignIn = true;
 				}
 			} else {

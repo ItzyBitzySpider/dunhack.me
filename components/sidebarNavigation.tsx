@@ -27,9 +27,18 @@ export default function SidebarNavigation() {
 							</Link>
 						</li>
 						{session && (
-							<Link href='profile'>
-								<a>Profile</a>
-							</Link>
+							<>
+								<li>
+									<Link href='profile'>
+										<a>Profile</a>
+									</Link>
+								</li>
+								<li>
+									<Link href='logout'>
+										<a>Logout</a>
+									</Link>
+								</li>
+							</>
 						)}
 						{!session && (
 							<li>

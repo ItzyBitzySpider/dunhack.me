@@ -104,8 +104,8 @@ model announcements {
 }
 
 model email_whitelist {
-  id                 Int      @id @default(autoincrement())
-  email              String?   @unique
+  id                 Int       @id @default(autoincrement())
+  email              String    @unique
 }
 
 model submissions {

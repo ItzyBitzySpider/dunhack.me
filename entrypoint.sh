@@ -2,5 +2,5 @@
 
 #sleep for 10 seconds to wait for db to be ready for connections
 sleep 10
-npx prisma migrate dev
+npx prisma migrate deploy
 npm run dev

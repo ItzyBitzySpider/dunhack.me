@@ -1,7 +1,22 @@
-import { getCsrfToken, getProviders, signIn } from 'next-auth/react';
+import {
+	getCsrfToken,
+	getProviders,
+	signIn,
+	ClientSafeProvider,
+	LiteralUnion,
+} from 'next-auth/react';
+import { BuiltInProviderType } from 'next-auth/providers';
 
-export default function Login({ providers, csrfToken }) {
-	console.log(providers)
+export default function Login({
+	providers,
+	csrfToken,
+}: {
+	providers: Record<
+		LiteralUnion<BuiltInProviderType, string>,
+		ClientSafeProvider
+	>;
+	csrfToken: string;
+}) {
 	return (
 		<>
 			{Object.values(providers).map((provider) => (

@@ -36,7 +36,7 @@ export default NextAuth({
 				//regex comparison
 				const regex = process.env.EMAIL_REGEX
 				const regex_check = new RegExp(regex)
-				if(regex_check.test(email)){
+				if(regex_check.test(user_email)){
 					isAllowedToSignIn = true
 				}
 			} else {

@@ -4,24 +4,24 @@ CTF Platform built with [Next.js](https://nextjs.org/) React Framework.
 
 ## File Structure
 
-### `webApp/public`
+### `/public/`
 
 Contains assets that are publically accessible used throughout the application.
 
-### `webApp/pages`
+### `/pages/`
 
 Contains typescript files, each file representing a unique web page. 
 
-### `webApp/components`
+### `/components/`
 
 Contains React Components.
 
-### `webApp/styles`
+### `/styles/`
 
 Contains Sass stylesheets. 
 
 
-### `webApp/prisma`
+### `/prisma/`
 
 Contains prisma files used to set up a working database used to login to the platform. 
 
@@ -48,7 +48,6 @@ $ npm -v
 ### Install dependencies
 
 ``` 
-$ cd webApp/
 $ npm install
 ```
 

@@ -6,7 +6,6 @@ export default function Login() {
     const {data: session, status} = useSession();
 	return (
 		<>
-			<SidebarNavigation />
 			{!session && <button onClick={()=>signIn()}>Sign In</button>}
 		</>
 	);

@@ -1,3 +1,10 @@
-export default function BaseLayout(){
-    return (<></>)
+import SidebarNavigation from './sidebarNavigation';
+
+export default function Layout({ children }) {
+	return (
+		<>
+			<SidebarNavigation />
+			<main>{children}</main>
+		</>
+	);
 }

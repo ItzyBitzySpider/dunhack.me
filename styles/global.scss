@@ -1,15 +1,9 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'styles/_variables.scss';
 
-$base-color: #E5E5E5;
-
-html{
-    background-color: $base-color;
+body,
+html {
+	height: 100%;
 }
 
-h1 {
-    background-color: $base-color;
-}
-
-div {
-    background-color: $base-color;
-}
+// Bootstrap and its default variables
+@import '../node_modules/bootstrap/scss/bootstrap';

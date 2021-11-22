@@ -7,7 +7,7 @@ import {
 	useSession,
 } from 'next-auth/react';
 import { BuiltInProviderType } from 'next-auth/providers';
-import { Card } from 'react-bootstrap';
+import { Button, Card, FormGroup } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 
 export default function Login({
@@ -28,36 +28,49 @@ export default function Login({
 	} else {
 		return (
 			<>
-				<Card>
-					{Object.values(providers).map((provider) => (
-						<>
-							{provider.name === 'Email' && (
-								<form method='post' action='/api/auth/signin/email'>
+				{Object.values(providers).map((provider) => (
+					<>
+						{provider.name === 'Email' && (
+							<form
+								className='login-form'
+								method='post'
+								action='/api/auth/signin/email'>
+								<input
+									name='csrfToken'
+									type='hidden'
+									defaultValue={csrfToken}
+								/>
+								<FormGroup>
+									<label>Email address</label>
 									<input
-										name='csrfToken'
-										type='hidden'
-										defaultValue={csrfToken}
+										type='email'
+										id='email'
+										name='email'
+										placeholder='Email Address'
 									/>
-									<label>
-										Email address
-										<input type='email' id='email' name='email' />
-									</label>
-									<button type='submit'>Sign in with Email</button>
-								</form>
-							)}
-							{provider.name !== 'Email' && (
-								<div key={provider.name}>
-									<button
-										className={provider.name + 'button'}
-										onClick={() => signIn(provider.id)}>
-										Sign in with {provider.name}
-									</button>
-								</div>
-							)}
-						</>
-					))}
-				</Card>
-				<style jsx>{``}</style>
+								</FormGroup>
+								<Button variant='secondary' type='submit'>
+									Sign in with Email
+								</Button>
+							</form>
+						)}
+						{provider.name !== 'Email' && (
+							<div key={provider.name}>
+								<Button
+									className={'btn-' + provider.name}
+									onClick={() => signIn(provider.id)}>
+									Sign in with {provider.name}
+								</Button>
+							</div>
+						)}
+					</>
+				))}
+				<style>{`
+					.login-form{
+						display:block;
+						// margin-top: 10%;
+					}
+				`}</style>
 			</>
 		);
 	}

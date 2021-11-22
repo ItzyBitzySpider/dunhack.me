@@ -1,0 +1,9 @@
+$body-bg: #ebebeb;
+$primary: #14213d;
+$secondary: #ffda33;
+
+:export{
+    base: $body-bg;
+    primary: $primary;
+    secondary: $secondary;
+}

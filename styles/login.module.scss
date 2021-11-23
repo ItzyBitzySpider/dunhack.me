@@ -1,0 +1,28 @@
+@import 'styles/_variables.scss';
+
+.wrapper {
+	// display: flex;
+	// justify-content: center;
+	// position: relative;
+	// align-items: center;
+	// height: 100%;
+}
+
+.loginArea{
+    height:100px;
+}
+
+.inputField{
+}
+
+.btnGithub {
+	border-radius: 5px;
+	padding: 0;
+}
+
+.btnGoogle {
+}
+
+.providerIcon{
+	margin-right: 10px;
+}

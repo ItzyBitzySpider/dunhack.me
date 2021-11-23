@@ -1,28 +1,22 @@
 @import 'styles/_variables.scss';
 
-.wrapper {
-	// display: flex;
-	// justify-content: center;
-	// position: relative;
-	// align-items: center;
-	// height: 100%;
+.inputField {
+	padding: 0;
+	margin-right: 5px;
 }
 
-.loginArea{
-    height:100px;
+.submit {
+	width: 100%;
+	height: 100%;
+	margin-right: 5px;
 }
 
-.inputField{
-}
-
-.btnGithub {
-	border-radius: 5px;
+.btnProvider {
+	// border-radius: 1rem;
+	width: 100%;
 	padding: 0;
 }
 
-.btnGoogle {
-}
-
-.providerIcon{
+.providerIcon {
 	margin-right: 10px;
 }

@@ -22,5 +22,4 @@ services:
       - /app/node_modules
             
 volumes: #define our mysql volume used above
-  node_modules:
   mysql:

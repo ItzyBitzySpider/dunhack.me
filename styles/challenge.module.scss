@@ -1,13 +1,24 @@
 @import 'styles/_variables.scss';
 
 .btnCard{
-	height: max-content;
+	height: 8rem;
 	width: max-content;
-	padding:0;
+	margin: 10px;
+	background-color: white;
+	border:none;
+	border-radius: 5px;
 }
+
+.btnCard:hover{
+	box-shadow: 4px 4px 4px 4px rgba($primary, 0.2);
+  	transition: 0.3s;
+}
+
 
 .card{
 	color: black;
+	background-color: inherit;
+	border: none;
 }
 
 .inputField {

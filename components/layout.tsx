@@ -8,7 +8,7 @@ export default function Layout({ children }) {
 					<div className='col-md-2 col-sm-12'>
 						<SidebarNavigation />
 					</div>
-					<main className='col-md-10 col-sm-12 h-100'>
+					<main className='col-md-10 col-sm-12 h-100 p-5'>
 						{children}
 					</main>
 				</div>

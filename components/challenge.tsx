@@ -18,14 +18,14 @@ export default function Challenge({ chal }: { chal: any }) {
 	const handleShow = () => setShow(true);
 	return (
 		<>
-			<Button className={styles.btnCard} as={Card} onClick={handleShow}>
-				<Card className={styles.card} style={{ width: '18rem' }}>
+			<button className={styles.btnCard} onClick={handleShow}>
+				<Card className={styles.card} style={{ width: '21rem' }}>
 					<Card.Body>
 						<Card.Title>{title}</Card.Title>
 						<Card.Text>{points}</Card.Text>
 					</Card.Body>
 				</Card>
-			</Button>
+			</button>
 			<Modal show={show} onHide={handleClose} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>{title}</Modal.Title>
@@ -37,8 +37,7 @@ export default function Challenge({ chal }: { chal: any }) {
 						<Row className='g-1'>
 							<Col md={10}>
 								<Form.Control
-									name='email'
-									type='email'
+									name='flag'
 									placeholder='CTF{Your_Flag_Here}'
 								/>
 							</Col>

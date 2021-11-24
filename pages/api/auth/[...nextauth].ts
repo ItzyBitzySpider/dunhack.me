@@ -6,18 +6,23 @@ import { signIn } from 'next-auth/react';
 import GithubProvider from 'next-auth/providers/github';
 
 const prisma = new PrismaClient();
+import fs from 'fs';
+import jsyaml from 'js-yaml';
+const config = jsyaml.load(
+	fs.readFileSync(__dirname + '/../../../../../config.yml', 'utf8')
+);
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
 	providers: [
 		EmailProvider({
-			server: process.env.EMAIL_SERVER,
-			from: process.env.EMAIL_FROM
+			server: config['EMAIL_SERVER'],
+			from: config['EMAIL_FROM'],
 		}),
 		GithubProvider({
-			clientId: process.env.GITHUB_CLIENT_ID,
-			clientSecret: process.env.GITHUB_CLIENT_SECRET
-		})
+			clientId: config['GITHUB_CLIENT_ID'],
+			clientSecret: config['GITHUB_CLIENT_SECRET'],
+		}),
 	],
 	pages: {
 		signIn: 'login',

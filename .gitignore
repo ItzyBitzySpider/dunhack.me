@@ -118,3 +118,6 @@ dist
 .pnp.*
 
 #prisma
+
+#config
+config.yml

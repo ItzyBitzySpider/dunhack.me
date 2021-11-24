@@ -41,7 +41,7 @@ export default function Login({
 				<Col md={6}>
 					<h1>Sign in with</h1>
 					<br />
-					<Form method='post' action='/api/auth/signin/email' id='test'>
+					<Form method='post' action='/api/auth/signin/email'>
 						<Row className='g-0'>
 							<Col md={10} className='h-100 g-0'>
 								<Form.Group controlId='csrfToken'>
@@ -95,7 +95,7 @@ export default function Login({
 					<Row className='justify-content-center g-0'>
 						<Button
 							className={styles.btnProvider}
-							onClick={() => signIn(providers.github.id)}>
+							onClick={() => signIn('github')}>
 							<GoMarkGithub size='1.2rem' className={styles.providerIcon} />
 							<GoLogoGithub size='3.5rem' />
 						</Button>
@@ -110,6 +110,7 @@ export default function Login({
 export async function getServerSideProps(context) {
 	const providers = await getProviders();
 	const csrfToken = await getCsrfToken(context);
+	console.log(providers.github);
 	return {
 		props: { providers, csrfToken },
 	};

@@ -1,0 +1,9 @@
+DATABASE_URL: mysql://root:root@database:3306/db
+
+EMAIL_SERVER: smtp://
+EMAIL_FROM: Itzy Yuna<noreply@example.com>
+
+GITHUB_CLIENT_ID: abcdefghijklmnopqrst
+GITHUB_CLIENT_SECRET: abcdefghijklmnopqrstuvwxyz1234567890!@#$
+
+NEXTAUTH_URL: http://localhost:3000

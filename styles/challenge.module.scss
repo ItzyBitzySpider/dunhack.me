@@ -1,0 +1,48 @@
+@import 'styles/_variables.scss';
+
+.btnCard{
+	height: 8rem;
+	width: max-content;
+	margin: 10px;
+	background-color: white;
+	border:none;
+	border-radius: 5px;
+}
+
+.btnCard:hover{
+	box-shadow: 4px 4px 4px 4px rgba($primary, 0.2);
+  	transition: 0.3s;
+}
+
+
+.card{
+	color: black;
+	background-color: inherit;
+	border: none;
+}
+
+.inputField {
+	padding: 0;
+}
+
+.submit {
+	width: 100%;
+	height: 100%;
+	background-color: rgba($primary,0.8);
+	border-color: rgba($primary,0.8);
+}
+
+.hint{
+	width: fit-content;
+	margin-left: 10px;
+	background: none;
+	word-spacing: 0.5rem;
+	border: none;
+	align-items: center;
+}
+
+.hint:hover{
+	background: none;
+	border: none;
+	font-weight: bold;
+}

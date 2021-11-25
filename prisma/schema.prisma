@@ -45,9 +45,14 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  points        Int       @default(0)
   enabled       Boolean   @default(true)
-  competing     Boolean   @default(true)    
+  competing     Boolean   @default(true)  
+  role          Role      @default(USER)  
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model VerificationToken {
@@ -58,42 +63,75 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model categories {
-  id                 Int      @id @default(autoincrement())
-  added              DateTime
-  added_by           String
-  title              String   @db.VarChar(255)
-  description        String   @db.Text
-  exposed            Boolean  @default(true)
+model category {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String
+  challenges  challenges[]
+}
+
+model ctfList {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String
+  challenges  challenges[]
 }
 
 model challenges {
-  id                            Int      @id @default(autoincrement())
-  added                         DateTime
-  added_by                      String
-  title                         String   @db.VarChar(255)
-  category                      Int      @db.UnsignedSmallInt
-  description                   String   @db.Text
-  exposed                       Boolean  @default(true)
-  available_from                DateTime 
-  available_until               DateTime
-  flag                          String   @db.Text
-  case_insensitive              Boolean  @default(false)
-  automark                      Boolean  @default(true)
+  id                            Int         @id @default(autoincrement())
+  title                         String      @db.VarChar(255)
+  category                      category    @relation(fields: [categoryId], references: [id])
+  categoryId                    Int         @db.Int
+  ctfList                       ctfList     @relation(fields: [ctfListId], references: [id])
+  ctfListId                     Int         @db.Int
+  description                   String      @db.Text
+  hint                          hints[]
+  files                         files[]
+  writeups                      writeups[]
+  exposed                       Boolean     @default(true)
+  flag                          String      @db.Text
+  case_insensitive              Boolean     @default(true)
   points                        Int      
-  solves                        Int      @db.UnsignedInt @default(0)
-  num_attempts_allowed          Int      @db.UnsignedTinyInt @default(0)
-  min_seconds_btwn_submissions  Int      @db.UnsignedSmallInt @default(5)
-  relies_on                     Int      @db.UnsignedInt
+  solves                        Int         @db.UnsignedInt @default(0)
+  min_seconds_btwn_submissions  Int         @db.UnsignedSmallInt @default(5)
 }
 
 model hints {
-  id                 Int      @id @default(autoincrement())
-  challenge          Int      @db.UnsignedInt
-  added              DateTime
-  added_by           String
-  visible            Boolean  @default(false)
-  body               String   @db.Text
+  id                 Int             @id @default(autoincrement())
+  challenge          challenges      @relation(fields: [challengeId], references: [id])
+  challengeId        Int
+  body               String          @db.Text
+}
+
+model files {
+  id                 Int             @id @default(autoincrement())
+  challenge          challenges      @relation(fields: [challengeId], references: [id])
+  challengeId        Int
+  url                String          @db.Text
+}
+
+model writeups {
+  id                 Int             @id @default(autoincrement())
+  challenge          challenges      @relation(fields: [challengeId], references: [id])
+  challengeId        Int
+  link               String          @db.Text
+}
+
+model submissions {
+  id                            Int      @id @default(autoincrement())
+  added                         DateTime
+  challengeId                   Int      @db.UnsignedInt
+  userId                        Int      @db.UnsignedInt
+  flag                          String   @db.Text
+  correct                       Boolean  @default(false)
+}
+
+model manual_transactions {
+  id                            Int      @id @default(autoincrement())
+  added                         DateTime
+  userId                        Int      @db.UnsignedInt
+  points                        Int      
+  description                   String   @db.Text
 }
 
 model announcements {
@@ -107,14 +145,4 @@ model announcements {
 model email_whitelist {
   id                 Int       @id @default(autoincrement())
   email              String    @unique
-}
-
-model submissions {
-  id                            Int      @id @default(autoincrement())
-  added                         DateTime
-  challenge                     Int      @db.UnsignedInt
-  user_id                       Int      @db.UnsignedInt
-  flag                          String   @db.Text
-  correct                       Boolean  @default(false)
-  marked                        Boolean  @default(false)
 }

@@ -38,7 +38,7 @@ export default function Login({
 	} else {
 		return (
 			<Row className='justify-content-center align-items-center h-100 g-0'>
-				<Col md={6}>
+				<Col lg={6}>
 					<h1>Sign in with</h1>
 					<br />
 					<Form method='post' action='/api/auth/signin/email'>

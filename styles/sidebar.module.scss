@@ -1,34 +1,48 @@
 @import 'styles/_variables.scss';
 
-.sidebar {
-    background-color: $primary;
-    display: flex;
-    height:100%;
-    align-items: center;
+@media screen and (max-width: 1000px) {
+	.sidebar {
+		background-color: $primary;
+		display: flex;
+		height: 100%;
+		width: 100%;
+		align-items: center;
+		// position: fixed;
+	}
+}
+@media screen and (min-width: 1000px) {
+	.sidebar {
+		background-color: $primary;
+		display: flex;
+		height: 100%;
+		width: 17%;
+		align-items: center;
+		position: fixed;
+	}
 }
 
 .nav {
-    position: relative;
-    font-size: 20px;
-    list-style: none;
+	position: relative;
+	font-size: 20px;
+	list-style: none;
 }
 
 .text {
-    color: rgba($secondary, 0.8);
-    letter-spacing: 0.1em;
-    margin-top: 20px;
-    font-size: 1em;
-    display: block;
-    transition: all ease-out 300ms;
-    text-decoration: none;
+	color: rgba($secondary, 0.8);
+	letter-spacing: 0.1em;
+	margin-top: 20px;
+	font-size: 1em;
+	display: block;
+	transition: all ease-out 300ms;
+	text-decoration: none;
 }
 
 .text:hover {
-    color: $secondary;
-    font-weight: bold;
+	color: $secondary;
+	font-weight: bold;
 }
 
 .text:active {
-    color: white;
-    font-weight: bold;
+	color: white;
+	font-weight: bold;
 }

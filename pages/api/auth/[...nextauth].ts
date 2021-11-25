@@ -4,9 +4,13 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import EmailProvider from 'next-auth/providers/email';
 import { signIn } from 'next-auth/react';
 import GithubProvider from 'next-auth/providers/github';
-import { default as config } from "../../../server/config";
 
 const prisma = new PrismaClient();
+import fs from 'fs';
+import jsyaml from 'js-yaml';
+const config = jsyaml.load(
+	fs.readFileSync(__dirname + '/../../../../../config.yml', 'utf8')
+);
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),

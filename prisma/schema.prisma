@@ -67,23 +67,19 @@ model category {
   id          Int    @id @default(autoincrement())
   name        String @unique
   description String
-  challenges  challenges[]
 }
 
 model ctfList {
   id          Int    @id @default(autoincrement())
   name        String @unique
   description String
-  challenges  challenges[]
 }
 
 model challenges {
   id                            Int         @id @default(autoincrement())
   title                         String      @db.VarChar(255)
-  category                      category    @relation(fields: [categoryId], references: [id])
-  categoryId                    Int         @db.Int
-  ctfList                       ctfList     @relation(fields: [ctfListId], references: [id])
-  ctfListId                     Int         @db.Int
+  categoryId                    Int         @db.UnsignedInt
+  ctfId                         Int         @db.UnsignedInt
   description                   String      @db.Text
   hint                          hints[]
   files                         files[]

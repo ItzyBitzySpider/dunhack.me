@@ -25,7 +25,7 @@ export default function Home() {
 				<li>None</li>
 			</ul><br/>
 			<h2>Sponsors</h2>
-			<a>ACSI School Funds</a>
+			<a>River's Big CTF Prize Stash</a>
 			<br/><br/>
 		</>
 	);

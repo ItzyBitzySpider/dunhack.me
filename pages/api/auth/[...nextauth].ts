@@ -28,7 +28,7 @@ export default NextAuth({
 			let isAllowedToSignIn = false;
 			// user = {"email":"actual_email_addr"}
 			let userEmail = JSON.parse(JSON.stringify(user)).email;
-			if (process.env.EMAIL_WHITELIST) {
+			if (config['EMAIL_WHITELIST']) {
 				//search for user email with prisma
 				const emailWhitelisted = await prisma.email_whitelist.findUnique({
 					where: {
@@ -36,13 +36,6 @@ export default NextAuth({
 					},
 				});
 				if (emailWhitelisted) {
-					isAllowedToSignIn = true;
-				}
-			} else if (process.env.EMAIL_REGEX) {
-				//regex comparison
-				const regex = process.env.EMAIL_REGEX;
-				const regexCheck = new RegExp(regex);
-				if (regexCheck.test(userEmail)) {
 					isAllowedToSignIn = true;
 				}
 			} else {

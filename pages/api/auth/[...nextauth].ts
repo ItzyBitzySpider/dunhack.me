@@ -2,8 +2,9 @@ import NextAuth from 'next-auth';
 import { PrismaClient } from '@prisma/client';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import EmailProvider from 'next-auth/providers/email';
-import { signIn } from 'next-auth/react';
 import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import { signIn } from 'next-auth/react';
 
 const prisma = new PrismaClient();
 import fs from 'fs';
@@ -23,6 +24,10 @@ export default NextAuth({
 			clientId: config['GITHUB_CLIENT_ID'],
 			clientSecret: config['GITHUB_CLIENT_SECRET'],
 		}),
+		GoogleProvider({
+			clientId: config['GOOGLE_CLIENT_ID'],
+			clientSecret: config['GOOGLE_CLIENT_SECRET']
+		})
 	],
 	pages: {
 		signIn: 'login',
@@ -48,7 +53,7 @@ export default NextAuth({
 				const regexCheck = new RegExp(regex);
 				if (regexCheck.test(userEmail)) {
 					isAllowedToSignIn = true;
-				}
+				}	
 			} else {
 				//email whitelist disabled, allow all users to register and login
 				isAllowedToSignIn = true;

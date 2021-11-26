@@ -18,6 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { GoMarkGithub, GoLogoGithub } from 'react-icons/go';
+import {FcGoogle} from 'react-icons/fc';
 import styles from '../styles/login.module.scss';
 
 export default function Login({
@@ -94,10 +95,19 @@ export default function Login({
 					<br />
 					<Row className='justify-content-center g-0'>
 						<Button
-							className={styles.btnProvider}
+							className={styles.btnGithub}
 							onClick={() => signIn('github')}>
 							<GoMarkGithub size='1.2rem' className={styles.providerIcon} />
-							<GoLogoGithub size='3.5rem' />
+							Sign in with GitHub
+						</Button>
+					</Row>
+					<br/>
+					<Row className='justify-content-center g-0'>
+						<Button
+							className={styles.btnGoogle}
+							onClick={() => signIn('google')}>
+							<FcGoogle size='1.2rem' className={styles.providerIcon} />
+							Sign in with Google
 						</Button>
 					</Row>
 				</Col>

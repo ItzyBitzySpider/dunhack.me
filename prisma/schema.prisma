@@ -67,23 +67,19 @@ model category {
   id          Int    @id @default(autoincrement())
   name        String @unique
   description String
-  challenges  challenges[]
 }
 
 model ctfList {
   id          Int    @id @default(autoincrement())
   name        String @unique
   description String
-  challenges  challenges[]
 }
 
 model challenges {
   id                            Int         @id @default(autoincrement())
   title                         String      @db.VarChar(255)
-  category                      category    @relation(fields: [categoryId], references: [id])
-  categoryId                    Int         @db.Int
-  ctfList                       ctfList     @relation(fields: [ctfListId], references: [id])
-  ctfListId                     Int         @db.Int
+  categoryId                    Int         @db.UnsignedInt
+  ctfId                         Int         @db.UnsignedInt
   description                   String      @db.Text
   hint                          hints[]
   files                         files[]
@@ -107,6 +103,10 @@ model files {
   id                 Int             @id @default(autoincrement())
   challenge          challenges      @relation(fields: [challengeId], references: [id])
   challengeId        Int
+  title              String          @db.VarChar(255)
+  size               Int             @db.UnsignedInt @default(0)
+  md5                String          @db.VarChar(255) @default("")
+  downloadKey        String          @db.VarChar(255) @default("")
   url                String          @db.Text
 }
 
@@ -146,3 +146,18 @@ model email_whitelist {
   id                 Int       @id @default(autoincrement())
   email              String    @unique
 }
+
+model exceptions {
+  id                 Int       @id @default(autoincrement())
+  added              DateTime
+  added_by           String
+  message            String    @db.Text
+  code               String    @db.VarChar(255)
+  trace              String    @db.Text
+  file               String    @db.VarChar(255)
+  line               Int       @db.UnsignedInt
+  user_ip            String    @db.VarChar(255)
+  user_agent         String    @db.VarChar(255)
+}
+
+

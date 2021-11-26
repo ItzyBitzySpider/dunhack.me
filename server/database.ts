@@ -270,3 +270,71 @@ export async function ChallengeSearch(CTFName, categoryName) {
     }
 }
 
+function dynamicScoringFormula(solves) {
+    let lb = parseInt(process.env.LOWER_BOUND)
+    let ub = parseInt(process.env.UPPER_BOUND)
+    let total = parseInt(process.env.TOTAL_PARTICIPANTS)
+	let x = solves / total;
+    let initial = parseInt(process.env.CHALLENGE_MAX_POINTS)
+    let min = parseInt(process.env.CHALLENGE_MIN_POINTS)
+	if (x <= lb) {
+		return initial;
+	} else if (x >= ub) {
+		return min;
+	} else {
+		return initial - Math.ceil((initial - min) / (ub - lb)) * (x - lb);
+	}
+}
+
+export async function submitFlag(challengeId, userId, flagSubmission) {
+    try {
+        let challenge = await prisma.challenges.findOne({
+            where: {
+                id: challengeId,
+            },
+            select: {
+                solves: true,
+                flag: true,
+                points: true,
+                case_insensitive: true,
+            },
+        });
+        let correct = false;
+        if (challenge['case_insensitive']) {
+            correct = Boolean(challenge["flag"].localeCompare(flagSubmission));
+        } else {
+            correct = challenge["flag"] === flagSubmission;
+        }
+        await prisma.submissions.create({
+            data: {
+                added: new Date(),
+                challengeId: challengeId,
+                userId: userId,
+                flag: flagSubmission,
+                correct: correct,
+            },
+        });
+        if (correct) {
+            await prisma.challenges.update({
+                where: {
+                    id: challengeId,
+                },
+                data: {
+                    solves: challenge["solves"] + 1 ,
+                    points: dynamicScoringFormula(challenge["solves"]),
+                },
+            }); 
+        }       
+        return true;
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+    finally{
+        async () => {
+            await prisma.$disconnect();
+        }
+    }
+}
+

@@ -41,6 +41,7 @@ export default function Login({
 			<Row className='justify-content-center align-items-center h-100 g-0'>
 				<Col lg={6}>
 					<h1>Sign in with</h1>
+					<h6>Email login requires manual verification. Please register for an account here. </h6>
 					<br />
 					<Form method='post' action='/api/auth/signin/email'>
 						<Row className='g-0'>

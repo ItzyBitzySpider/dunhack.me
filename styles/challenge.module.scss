@@ -1,21 +1,26 @@
 @import 'styles/_variables.scss';
 
-.btnCard{
+.btnCard {
 	height: 8rem;
 	width: max-content;
 	margin: 10px;
 	background-color: white;
-	border:none;
+	border: none;
 	border-radius: 5px;
 }
 
-.btnCard:hover{
+.btnCard:hover {
 	box-shadow: 4px 4px 4px 4px rgba($primary, 0.2);
-  	transition: 0.3s;
+	transition: 0.3s;
 }
 
-
-.card{
+@media screen and (min-width: 1000px) {
+	.modal {
+		width: 40vw;
+		max-width: 40%;
+	}
+}
+.card {
 	color: black;
 	background-color: inherit;
 	border: none;
@@ -28,11 +33,11 @@
 .submit {
 	width: 100%;
 	height: 100%;
-	background-color: rgba($primary,0.8);
-	border-color: rgba($primary,0.8);
+	background-color: rgba($primary, 0.8);
+	border-color: rgba($primary, 0.8);
 }
 
-.hint{
+.hint {
 	width: fit-content;
 	margin-left: 10px;
 	background: none;
@@ -41,7 +46,7 @@
 	align-items: center;
 }
 
-.hint:hover{
+.hint:hover {
 	background: none;
 	border: none;
 	font-weight: bold;

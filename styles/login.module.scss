@@ -19,6 +19,10 @@
 	align-items: center;
 }
 
+.btnGithub:hover, .btnGithub:active, .btnGithub:focus {
+	box-shadow: 2px 2px 2px 2px rgba($primary, 0.7);
+}
+
 .btnGoogle {
 	// border-radius: 1rem;
 	background-color: white;
@@ -27,6 +31,19 @@
 	padding: 0;
 	height: 3.5rem;
 	align-items: center;
+	border: none;
+}
+
+.btnGoogle:hover, .btnGoogle:focus, .btnGoogle:active  {
+	// border-radius: 1rem;
+	background-color: white;
+	color: black;
+	width: 100%;
+	padding: 0;
+	height: 3.5rem;
+	align-items: center;
+	border: none;
+	box-shadow: 2px 2px 2px 2px rgba($primary, 0.2);
 }
 
 .providerIcon {

@@ -44,13 +44,13 @@ $ npm -v
 8.1.0
 ```
 
-Configuring authentication
-1. Github
-Go to github, set up OAuth app, add client id and secret to config file
-2. Google
-Go to google cloud developer console, set up new OAuth Client ID in Services > Credentials. If you haven't configured OAuth client page, do so. Specify redirect URI as https://<yourdomain>/api/auth/callback/google. Add clientID, and secret to config file. 
+#### Configuring authentication
 
-3. Google
+- Github
+Go to github, set up OAuth app, add client id and secret to config file
+
+- Google
+Go to google cloud developer console, set up new OAuth Client ID in Services > Credentials. If you haven't configured OAuth client page, do so. Specify redirect URI as https://<yourdomain>/api/auth/callback/google. Add clientID, and secret to config file. 
 
 ### Install dependencies
 

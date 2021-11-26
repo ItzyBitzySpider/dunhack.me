@@ -33,25 +33,28 @@ export default NextAuth({
 		signIn: 'login',
 	},
 	callbacks: {
-		async signIn({ user, account, profile, email, credentials }) {
-			let isAllowedToSignIn = false;
-			// user = {"email":"actual_email_addr"}
-			let userEmail = JSON.parse(JSON.stringify(user)).email;
+		async signIn({ account, profile }) {
+		  if (account.provider === "google") {
+			return profile.email_verified
+		  } else if (account.provider === "github") {
+			return true
+		  } else {
 			if (config['EMAIL_WHITELIST']) {
-				//search for user email with prisma
 				const emailWhitelisted = await prisma.email_whitelist.findUnique({
 					where: {
-						email: userEmail,
+						email: profile.email,
 					},
 				});
 				if (emailWhitelisted) {
-					isAllowedToSignIn = true;
+					return true
 				}
-			} else {
-				//email whitelist disabled, allow all users to register and login
-				isAllowedToSignIn = true;
 			}
-			return isAllowedToSignIn;
+			else {
+				return true
+			}
+		  }
+		  return false
 		},
-	},
+	  }
 });
+

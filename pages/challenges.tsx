@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import Challenge from '../components/challenge';
-import { getChallengeByCategory, runner } from '../server/database';
+import { getAllChallenges, getChallengeByCategory, getChallengeByCTF, runner } from '../server/database';
 
 export default function Challenges({ categories }) {
 	const { data: session, status } = useSession();
@@ -35,7 +35,17 @@ export default function Challenges({ categories }) {
 
 // Get challenges
 export async function getServerSideProps(context) {
-	runner("test1")
+
+
+	let data = await getAllChallenges();
+	if (data != null) {
+		console.log(JSON.stringify(data))
+	}
+	else {
+		console.log("WTF. Error Occured Somewhere. ")
+	}
+
+
 	const categories = [
 		{
 			name: 'Web',

@@ -2,56 +2,259 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export function runner(param) {
-    getChallengeByCategory(param)
-        .catch((err) => {
-            console.log(err);
-        })
-        .finally(async () => {
+export async function getChallengeByCategory(categoryName) {
+    try {
+        //@ts-ignore
+        return await prisma.challenges.findMany({
+            orderBy: [
+                {
+                    ctfName: {
+                        name: 'asc',
+                    }
+                },
+                {points: 'asc',},
+            ],
+            where: {
+                exposed: true,
+                category: {
+                    //@ts-ignore
+                    name: categoryName,
+                },
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                //@ts-ignore
+                ctfName: {
+                    select: {
+                        name: true,
+                    },
+                },
+                category: {
+                    select: {
+                        name: true,
+                    },
+                },
+                hints: {
+                    select: {
+                        body: true,
+                    },
+                },
+                files: {
+                    select: {
+                        title: true,
+                        size: true,
+                        md5: true,
+                        downloadKey: true,
+                        url: true,
+                    },
+                },
+                points: true,
+                solves: true,
+            }
+        }); 
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+    finally{
+        async () => {
             await prisma.$disconnect();
-        });
+        }
+    }
 }
 
-async function getChallengeByCategory(categoryName) {
-    //@ts-ignore
-    let output = await prisma.challenges.findMany({
-        orderBy: {
-            points: 'asc',
-        },
-        where: {
-            exposed: true,
-            category: {
+export async function getChallengeByCTF(CTFName) {
+    try {
+        //@ts-ignore
+        return await prisma.challenges.findMany({
+            orderBy: [
+                {
+                    category: {
+                        name: 'asc',
+                    },
+                },
+                {points: 'asc',},
+            ],
+            where: {
+                exposed: true,
+                ctfName: {
+                    //@ts-ignore
+                    name: CTFName,
+                },
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
                 //@ts-ignore
-                name: categoryName,
-            },
-        },
-        select: {
-            id: true,
-            title: true,
-            description: true,
-            //@ts-ignore
-            ctfName: {
-                select: {
-                    name: true,
+                ctfName: {
+                    select: {
+                        name: true,
+                    },
                 },
-            },
-            hints: {
-                select: {
-                    body: true,
+                category: {
+                    select: {
+                        name: true,
+                    },
                 },
-            },
-            files: {
-                select: {
-                    title: true,
-                    size: true,
-                    md5: true,
-                    downloadKey: true,
-                    url: true,
+                hints: {
+                    select: {
+                        body: true,
+                    },
                 },
-            },
-            points: true,
-            solves: true,
+                files: {
+                    select: {
+                        title: true,
+                        size: true,
+                        md5: true,
+                        downloadKey: true,
+                        url: true,
+                    },
+                },
+                points: true,
+                solves: true,
+            }
+        }); 
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+    finally{
+        async () => {
+            await prisma.$disconnect();
         }
-    }); 
-    console.log(JSON.stringify(output));
+    }
 }
+
+export async function getAllChallenges() {
+    try {
+        //@ts-ignore
+        return await prisma.challenges.findMany({
+            orderBy: [
+                {
+                    category: {
+                        name: 'asc',
+                    },
+                },
+                {
+                    ctfName: {
+                        name: 'asc',
+                    }
+                },
+                {points: 'asc',},
+            ],
+            where: {
+                exposed: true,
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                //@ts-ignore
+                ctfName: {
+                    select: {
+                        name: true,
+                    },
+                },
+                category: {
+                    select: {
+                        name: true,
+                    },
+                },
+                hints: {
+                    select: {
+                        body: true,
+                    },
+                },
+                files: {
+                    select: {
+                        title: true,
+                        size: true,
+                        md5: true,
+                        downloadKey: true,
+                        url: true,
+                    },
+                },
+                points: true,
+                solves: true,
+            }
+        }); 
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+    finally{
+        async () => {
+            await prisma.$disconnect();
+        }
+    }
+}
+
+export async function ChallengeSearch(CTFName, categoryName) {
+    try {
+        //@ts-ignore
+        return await prisma.challenges.findMany({
+            orderBy: [
+                {points: 'asc',},
+            ],
+            where: {
+                exposed: true,
+                ctfName: {
+                    //@ts-ignore
+                    name: CTFName,
+                },
+                category: {
+                    //@ts-ignore
+                    name: categoryName,
+                },
+            },
+            select: {
+                id: true,
+                title: true,
+                description: true,
+                //@ts-ignore
+                ctfName: {
+                    select: {
+                        name: true,
+                    },
+                },
+                category: {
+                    select: {
+                        name: true,
+                    },
+                },
+                hints: {
+                    select: {
+                        body: true,
+                    },
+                },
+                files: {
+                    select: {
+                        title: true,
+                        size: true,
+                        md5: true,
+                        downloadKey: true,
+                        url: true,
+                    },
+                },
+                points: true,
+                solves: true,
+            }
+        }); 
+    }
+    catch (err) {
+        console.log(err);
+        return null;
+    }
+    finally{
+        async () => {
+            await prisma.$disconnect();
+        }
+    }
+}
+

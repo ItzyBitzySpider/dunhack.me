@@ -26,7 +26,7 @@ export default function Challenge({ chal }: { chal: any }) {
 					</Card.Body>
 				</Card>
 			</button>
-			<Modal show={show} onHide={handleClose} centered>
+			<Modal dialogClassName={styles.modal} show={show} onHide={handleClose} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>{title}</Modal.Title>
 				</Modal.Header>

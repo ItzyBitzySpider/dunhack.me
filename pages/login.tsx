@@ -120,7 +120,6 @@ export default function Login({
 export async function getServerSideProps(context) {
 	const providers = await getProviders();
 	const csrfToken = await getCsrfToken(context);
-	console.log(providers.github);
 	return {
 		props: { providers, csrfToken },
 	};

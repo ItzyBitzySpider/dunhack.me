@@ -20,7 +20,6 @@ Contains React Components.
 
 Contains Sass stylesheets. 
 
-
 ### `/prisma/`
 
 Contains prisma files used to set up a working database used to login to the platform. 
@@ -44,6 +43,14 @@ v16.13.0
 $ npm -v
 8.1.0
 ```
+
+Configuring authentication
+1. Github
+Go to github, set up OAuth app, add client id and secret to config file
+2. Google
+Go to google cloud developer console, set up new OAuth Client ID in Services > Credentials. If you haven't configured OAuth client page, do so. Specify redirect URI as https://<yourdomain>/api/auth/callback/google. Add clientID, and secret to config file. 
+
+3. Google
 
 ### Install dependencies
 

@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import Challenge from '../components/challenge';
+import { getChallengeByCategory, runner } from '../server/database';
 
 export default function Challenges({ categories }) {
 	const { data: session, status } = useSession();
@@ -34,6 +35,7 @@ export default function Challenges({ categories }) {
 
 // Get challenges
 export async function getServerSideProps(context) {
+	runner("test1")
 	const categories = [
 		{
 			name: 'Web',

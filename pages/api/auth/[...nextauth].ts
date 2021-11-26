@@ -7,39 +7,35 @@ import GoogleProvider from 'next-auth/providers/google';
 import { signIn } from 'next-auth/react';
 
 const prisma = new PrismaClient();
-import fs from 'fs';
-import jsyaml from 'js-yaml';
-const config = jsyaml.load(
-	fs.readFileSync(__dirname + '/../../../../../config.yml', 'utf8')
-);
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
 	providers: [
 		EmailProvider({
-			server: config['EMAIL_SERVER'],
-			from: config['EMAIL_FROM'],
+			server: process.env.EMAIL_SERVER,
+			from: process.env.EMAIL_FROM,
 		}),
 		GithubProvider({
-			clientId: config['GITHUB_CLIENT_ID'],
-			clientSecret: config['GITHUB_CLIENT_SECRET'],
+			clientId: process.env.GITHUB_CLIENT_ID,
+			clientSecret: process.env.GITHUB_CLIENT_SECRET,
 		}),
 		GoogleProvider({
-			clientId: config['GOOGLE_CLIENT_ID'],
-			clientSecret: config['GOOGLE_CLIENT_SECRET']
+			clientId: process.env.GOOGLE_CLIENT_ID,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		})
 	],
 	pages: {
 		signIn: 'login',
 	},
 	callbacks: {
+		//@ts-ignore (The code below is according to next-auth docs)
 		async signIn({ account, profile }) {
 		  if (account.provider === "google") {
 			return profile.email_verified
 		  } else if (account.provider === "github") {
 			return true
 		  } else {
-			if (config['EMAIL_WHITELIST']) {
+			if (process.env.EMAIL_VERIFICATION === "true") {
 				const emailWhitelisted = await prisma.email_whitelist.findUnique({
 					where: {
 						email: profile.email,

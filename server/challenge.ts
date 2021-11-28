@@ -1,6 +1,11 @@
 import prisma from './database';
 import { logError } from './logging';
 
+/**
+ * Gets Challenges By Category Name
+ * @param categoryName 
+ * @returns challenge object
+ */
 export async function getChallengeByCategory(categoryName) {
     try {
         //@ts-ignore
@@ -65,6 +70,11 @@ export async function getChallengeByCategory(categoryName) {
     }
 }
 
+/**
+ * Gets Challenges by CTF Name
+ * @param CTFName 
+ * @returns challenge object
+ */
 export async function getChallengeByCTF(CTFName) {
     try {
         //@ts-ignore
@@ -129,6 +139,10 @@ export async function getChallengeByCTF(CTFName) {
     }
 }
 
+/**
+ * Gets All Challenges
+ * @returns all challenges
+ */
 export async function getAllChallenges() {
     let categories = await prisma.categories.findMany({
         select: {
@@ -143,6 +157,12 @@ export async function getAllChallenges() {
     return challenges;    
 }
 
+/**
+ * Searches for Challenge by CTF Name and Category Name
+ * @param CTFName 
+ * @param categoryName 
+ * @returns Challenge object
+ */
 export async function ChallengeSearch(CTFName, categoryName) {
     try {
         //@ts-ignore
@@ -206,6 +226,13 @@ export async function ChallengeSearch(CTFName, categoryName) {
     }
 }
 
+/**
+ * Submits Flag, Creates new record in Submissions, returns status of function
+ * @param challengeId 
+ * @param userId 
+ * @param flagSubmission 
+ * @returns status of DB Update
+ */
 export async function submitFlag(challengeId, userId, flagSubmission) {
     try {
         //@ts-ignore
@@ -241,7 +268,7 @@ export async function submitFlag(challengeId, userId, flagSubmission) {
     }
     catch (err) {
         logError(err);
-        return null;
+        return false;
     }
     finally{
         async () => {
@@ -250,6 +277,10 @@ export async function submitFlag(challengeId, userId, flagSubmission) {
     }
 }
 
+/**
+ * Updates Challenge Solve and Points
+ * @param challenge object
+ */
 async function ChallengeSolve(challenge){
     try {
         await prisma.challenges.update({
@@ -272,6 +303,11 @@ async function ChallengeSolve(challenge){
     }
 }
 
+/**
+ * Dynamic Scoring Formula
+ * @param solves 
+ * @returns new Score
+ */
 function dynamicScoringFormula(solves) {
     let lb = parseInt(process.env.LOWER_BOUND)
     let ub = parseInt(process.env.UPPER_BOUND)

@@ -36,16 +36,6 @@ export default function Challenges({ categories }) {
 // Get challenges
 export async function getServerSideProps(context) {
 
-
-	let data = await getAllChallenges();
-	if (data != null) {
-		console.log(JSON.stringify(data))
-	}
-	else {
-		console.log("WTF. Error Occured Somewhere. ")
-	}
-
-
 	const categories = [
 		{
 			name: 'Web',

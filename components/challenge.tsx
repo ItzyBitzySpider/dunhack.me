@@ -40,6 +40,14 @@ export default function Challenge({ chal }: { chal: any }) {
 									name='flag'
 									placeholder='CTF{Your_Flag_Here}'
 								/>
+								<Form.Control
+									name='challengeId'
+									value={chal.id}
+								/>
+								<Form.Control
+									name='userId'
+									value={session?.userId}
+								/>
 							</Col>
 
 							<Col md={2}>

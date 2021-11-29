@@ -272,6 +272,7 @@ export async function getSubmissions(userId,challengeId) {
 		});
 	} catch (err) {
 		logError(err);
+		console.log(err);
 		return null;
 	} finally {
 		async () => {

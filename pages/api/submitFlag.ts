@@ -7,36 +7,40 @@ export default async (req, res) => {
 		const session = await getSession({ req })
   		if (session) {
     		// Signed in
-			let userId = req.userId;
-			let challengeId = req.challengeId;
-			let flag = req.flag.trim();
+			let userId = req.body.userId;
+			let challengeId = req.body.challengeId;
+			let flag = req.body.flag.trim();
 
 			//validate Challenge ID
 			validateId(challengeId);
-
+			
 			//time between submissions check
 			let latestSubmission = 0;
 			let submissions = await getSubmissions(userId, challengeId);
-			if (submissions !== 'null') {
+			if (submissions !== null) {
 				for (const submission of submissions) {
 					latestSubmission = Math.max(submission["added"], latestSubmission);
 					if (submission["correct"]){
 						res.status(400).json({ error: 'You may only submit a correct flag once' });
+						return;
 					}
 				}
 			}
 			let challenge = await getChallengeByID(challengeId);
-			if (challenge === 'null') {
+			if (challenge === null) {
 				res.status(400).json({ error: 'Challenge does not exist' });
+				return;
 			}
 			let secondsSinceSubmission = new Date().getTime() - latestSubmission;
 			if (secondsSinceSubmission < challenge["min_seconds_btwn_submissions"]) {
 				res.status(400).json({ error: 'You must wait ' + (challenge["min_seconds_btwn_submissions"] - secondsSinceSubmission) + ' seconds before submitting again' });
+				return;
 			}
 
 			//Ensure flag is not null or empty before submitting
 			if (flag === '' || flag === null) {
 				res.status(400).json({ error: 'Flag cannot be empty' });
+				return;
 			}
 
 			//Submit Flag

@@ -125,7 +125,7 @@ model submissions {
   id                            Int      @id @default(autoincrement())
   added                         DateTime
   challengeId                   Int      @db.UnsignedInt
-  userId                        Int      @db.UnsignedInt
+  userId                        String
   flag                          String   @db.Text
   correct                       Boolean  @default(false)
 }
@@ -133,7 +133,7 @@ model submissions {
 model manual_transactions {
   id                            Int      @id @default(autoincrement())
   added                         DateTime
-  userId                        Int      @db.UnsignedInt
+  userId                        String
   points                        Int      
   description                   String   @db.Text
 }

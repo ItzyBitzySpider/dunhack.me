@@ -6,7 +6,6 @@ import { getAllChallenges, getChallengeByCategory, getChallengeByCTF } from '../
 
 export default function Challenges({ categories }) {
 	const { data: session, status } = useSession();
-	const [modalShow, setModalShow] = useState(false);
 	if (session) {
 		return (
 			<>

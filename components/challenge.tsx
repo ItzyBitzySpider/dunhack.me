@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import {
 	Button,
@@ -6,12 +7,11 @@ import {
 	Modal,
 	Row,
 	Col,
-	FloatingLabel,
 } from 'react-bootstrap';
 import styles from '../styles/challenge.module.scss';
-import { MdKeyboardArrowRight, MdOutlineLightbulb } from 'react-icons/md';
 
 export default function Challenge({ chal }: { chal: any }) {
+	const { data: session, status } = useSession();
 	const { title, description, hint, files, points } = chal;
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
@@ -33,7 +33,7 @@ export default function Challenge({ chal }: { chal: any }) {
 				<Modal.Body>{description}</Modal.Body>
 				<button className={styles.hint}>&gt; Hint</button>
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
-					<Form method='post' action=''>
+					<Form method='post' action='/api/submitFlag'>
 						<Row className='g-1'>
 							<Col md={10}>
 								<Form.Control

@@ -143,16 +143,18 @@ export async function getChallengeByCTF(CTFName) {
  * Gets All Challenges
  * @returns all challenges
  */
-export async function getAllChallenges() {
-    let categories = await prisma.categories.findMany({
+ export async function getAllChallenges() {
+    let categories = await prisma.category.findMany({
         select: {
             name: true,
         },
     });
     let challenges = [];
     for (const category of categories) {
-        challenges["category"] = category;
-        challenges["category"]["challenges"] = await getChallengeByCategory(category);
+        const obj= {};
+        obj['name'] = category['name'];
+        obj['challenges'] = await getChallengeByCategory(String(category['name']));
+        challenges.push(obj);
     }
     return challenges;    
 }
@@ -168,7 +170,7 @@ export async function ChallengeSearch(CTFName, categoryName) {
         //@ts-ignore
         return await prisma.challenges.findMany({
             orderBy: [
-                {points: 'asc',},
+                {points: 'asc'},
             ],
             where: {
                 exposed: true,

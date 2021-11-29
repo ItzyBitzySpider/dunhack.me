@@ -229,7 +229,7 @@ export async function ChallengeSearch(CTFName, categoryName) {
 export async function getChallengeByID(id) {
 	try {
 		//@ts-ignore
-		return await prisma.challenges.findOne({
+		return await prisma.challenges.findFirst({
 			where: {
 				id: id,
 				exposed: true,
@@ -237,7 +237,7 @@ export async function getChallengeByID(id) {
 			select: {
 				id: true,
 				flag: true,
-				min_seconds_between_submissions: true,
+				min_seconds_btwn_submissions: true,
 				case_insensitive: true,
 			},
 		});
@@ -272,7 +272,6 @@ export async function getSubmissions(userId,challengeId) {
 		});
 	} catch (err) {
 		logError(err);
-		console.log(err);
 		return null;
 	} finally {
 		async () => {
@@ -293,7 +292,7 @@ export async function submitFlag(challenge, userId, flagSubmission) {
 		//mark flag
 		let correct = false;
 		if (challenge['case_insensitive']) {
-			correct = Boolean(challenge['flag'].localeCompare(flagSubmission));
+			correct = challenge['flag'].toUpperCase() === flagSubmission.toUpperCase();
 		} else {
 			correct = challenge['flag'] === flagSubmission;
 		}

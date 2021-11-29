@@ -16,7 +16,7 @@ export default async (req, res) => {
 			
 			//time between submissions check
 			let latestSubmission = 0;
-			let submissions = await getSubmissions(userId, challengeId);
+			let submissions = await getSubmissions(userId, parseInt(challengeId));
 			if (submissions !== null) {
 				for (const submission of submissions) {
 					latestSubmission = Math.max(submission["added"], latestSubmission);
@@ -26,7 +26,7 @@ export default async (req, res) => {
 					}
 				}
 			}
-			let challenge = await getChallengeByID(challengeId);
+			let challenge = await getChallengeByID(parseInt(challengeId));
 			if (challenge === null) {
 				res.status(400).json({ error: 'Challenge does not exist' });
 				return;

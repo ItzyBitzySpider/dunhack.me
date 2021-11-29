@@ -1,4 +1,4 @@
-import prisma from './database';
+import prisma from './databaseFunctions';
 import { logError } from './logging';
 
 /**
@@ -9,7 +9,7 @@ import { logError } from './logging';
 export async function getChallengeByCategory(categoryName) {
     try {
         //@ts-ignore
-        return await prisma.challenges.findMany({
+        const test= await prisma.challenges.findMany({
             orderBy: [
                 {
                     ctfName: {
@@ -58,6 +58,7 @@ export async function getChallengeByCategory(categoryName) {
                 solves: true,
             }
         }); 
+        return test;
     }
     catch (err) {
         logError(err);
@@ -158,6 +159,7 @@ export async function getChallengeByCTF(CTFName) {
     }
     return challenges;    
 }
+
 
 /**
  * Searches for Challenge by CTF Name and Category Name

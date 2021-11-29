@@ -1,4 +1,4 @@
-import prisma from "./database";
+import prisma from "./databaseFunctions";
 
 /**
  * Logs Errors and Adds to Database Exceptions Tab;e

@@ -118,6 +118,7 @@ dist
 .pnp.*
 
 #prisma
+Prisma-Studio.AppImage
 
 #config
 config.yml

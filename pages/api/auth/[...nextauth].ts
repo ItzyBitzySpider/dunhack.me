@@ -28,6 +28,10 @@ export default NextAuth({
 		signIn: 'login',
 	},
 	callbacks: {
+		session: async ({session, user}) => {
+			session.userId = user.id;    
+			return Promise.resolve(session);
+		},
 		//@ts-ignore (The code below is according to next-auth docs)
 		async signIn({ account, profile }) {
 		  if (account.provider === "google") {

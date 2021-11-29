@@ -266,6 +266,7 @@ export async function getSubmissions(userId,challengeId) {
 				challengeId: challengeId,
 			},
 			select: {
+				id: true,
 				added: true,
 				correct: true,
 			},
@@ -285,10 +286,10 @@ export async function getSubmissions(userId,challengeId) {
  * @param challenge
  * @param userId
  * @param flagSubmission
- * @param firstTime
+ * @param Submission
  * @returns correct/wrong flag submission
  */
-export async function submitFlag(challenge, userId, flagSubmission, firstTime) {
+export async function submitFlag(challenge, userId, flagSubmission, submission) {
 	try {
 		//mark flag
 		let correct = false;
@@ -297,7 +298,7 @@ export async function submitFlag(challenge, userId, flagSubmission, firstTime) {
 		} else {
 			correct = challenge['flag'] === flagSubmission;
 		}
-		if (firstTime) {
+		if (submission === null) {
 			await prisma.submissions.create({
 				data: {
 					added: new Date(),
@@ -310,8 +311,7 @@ export async function submitFlag(challenge, userId, flagSubmission, firstTime) {
 		} else {
 			await prisma.submissions.update({
 				where: {
-					userId: userId,
-					challengeId: challenge['id'],
+					id: submission['id'],
 				},
 				data: {
 					added: new Date(),
@@ -327,6 +327,7 @@ export async function submitFlag(challenge, userId, flagSubmission, firstTime) {
 
 		return correct;
 	} catch (err) {
+		console.log(err);
 		logError(err);
 		return null;
 	} finally {

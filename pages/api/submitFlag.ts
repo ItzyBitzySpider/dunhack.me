@@ -16,11 +16,9 @@ export default async (req, res) => {
 			
 			//time between submissions check
 			let latestSubmission = 0;
-			let firstTime = true;
 			let submission = await getSubmissions(userId, parseInt(challengeId));
 			if (submission !== null) {
 				latestSubmission = submission["added"];
-				firstTime = false;
 				if (submission["correct"]){
 					res.status(400).json({ error: 'You may only submit a correct flag once' });
 					return;
@@ -45,7 +43,7 @@ export default async (req, res) => {
 			}
 
 			//Submit Flag
-			let result = await submitFlag(challenge, userId, flag, firstTime);
+			let result = await submitFlag(challenge, userId, flag, submission);
 			res.status(200).json({ result: result });
   		} else {
     		// Not Signed in

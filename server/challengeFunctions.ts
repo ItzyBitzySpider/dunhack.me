@@ -260,7 +260,7 @@ export async function getChallengeByID(id) {
 export async function getSubmissions(userId,challengeId) {
 	try {
 		//@ts-ignore
-		return await prisma.submissions.findMany({
+		return await prisma.submissions.findFirst({
 			where: {
 				userId: userId,
 				challengeId: challengeId,
@@ -285,9 +285,10 @@ export async function getSubmissions(userId,challengeId) {
  * @param challenge
  * @param userId
  * @param flagSubmission
+ * @param firstTime
  * @returns correct/wrong flag submission
  */
-export async function submitFlag(challenge, userId, flagSubmission) {
+export async function submitFlag(challenge, userId, flagSubmission, firstTime) {
 	try {
 		//mark flag
 		let correct = false;
@@ -296,16 +297,29 @@ export async function submitFlag(challenge, userId, flagSubmission) {
 		} else {
 			correct = challenge['flag'] === flagSubmission;
 		}
-
-		await prisma.submissions.create({
-			data: {
-				added: new Date(),
-				challengeId: challenge['id'],
-				userId: userId,
-				flag: flagSubmission,
-				correct: correct,
-			},
-		});
+		if (firstTime) {
+			await prisma.submissions.create({
+				data: {
+					added: new Date(),
+					challengeId: challenge['id'],
+					userId: userId,
+					flag: flagSubmission,
+					correct: correct,
+				},
+			});
+		} else {
+			await prisma.submissions.update({
+				where: {
+					userId: userId,
+					challengeId: challenge['id'],
+				},
+				data: {
+					added: new Date(),
+					flag: flagSubmission,
+					correct: correct,
+				},
+			});
+		}
 
 		if (correct) {
 			await ChallengeSolve(challenge);

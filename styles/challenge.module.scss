@@ -26,8 +26,14 @@
 	border: none;
 }
 
-.inputField {
-	padding: 0;
+.inputField, .inputField:focus {
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+	outline-color: rgba($primary, 0.4);
+	border-radius: 5px;
+	border: none;
+	background-color: #dfdfdf;
 }
 
 .submit {

@@ -2,15 +2,14 @@ import { getSession } from "next-auth/react"
 import { getChallengeByID, getSubmissions, submitFlag } from '../../server/challengeFunctions';
 import { validateId } from "../../server/util";
 
-export default async (req, res) => {
+export default async function submit(req, res) {
 	if (req.method === 'POST') {
 		const session = await getSession({ req })
   		if (session) {
     		// Signed in
-			let userId = req.body.userId;
+			let userId = session.userId;
 			let challengeId = req.body.challengeId;
 			let flag = req.body.flag.trim();
-
 			//validate Challenge ID
 			validateId(challengeId);
 			

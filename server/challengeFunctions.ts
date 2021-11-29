@@ -222,53 +222,99 @@ export async function ChallengeSearch(CTFName, categoryName) {
 }
 
 /**
- * Submits Flag, Creates new record in Submissions, returns status of function
- * @param challengeId
- * @param userId
- * @param flagSubmission
- * @returns status of DB Update
+ * Get Challenge by ID
+ * @param id 
+ * @returns challenge object
  */
-export async function submitFlag(
-	challengeId: Number,
-	userId: String,
-	flagSubmission: String
-) {
+export async function getChallengeByID(id) {
 	try {
 		//@ts-ignore
-		let challenge = await prisma.challenges.findOne({
+		return await prisma.challenges.findOne({
 			where: {
-				id: challengeId,
+				id: id,
+				exposed: true,
 			},
 			select: {
-				solves: true,
+				id: true,
 				flag: true,
-				points: true,
+				min_seconds_between_submissions: true,
 				case_insensitive: true,
 			},
 		});
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
+ * Get all user submissions for challenge
+ * @param userId 
+ * @param challengeId 
+ * @returns Submission object
+ */
+export async function getSubmissions(userId,challengeId) {
+	try {
+		//@ts-ignore
+		return await prisma.submissions.findMany({
+			where: {
+				userId: userId,
+				challengeId: challengeId,
+			},
+			select: {
+				added: true,
+				correct: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
+ * Submits Flag, Creates new record in Submissions, returns submission status
+ * @param challenge
+ * @param userId
+ * @param flagSubmission
+ * @returns correct/wrong flag submission
+ */
+export async function submitFlag(challenge, userId, flagSubmission) {
+	try {
+		//mark flag
+		let correct = false;
 		if (challenge['case_insensitive']) {
-			challenge['correct'] = Boolean(
-				challenge['flag'].localeCompare(flagSubmission)
-			);
+			correct = Boolean(challenge['flag'].localeCompare(flagSubmission));
 		} else {
-			challenge['correct'] = challenge['flag'] === flagSubmission;
+			correct = challenge['flag'] === flagSubmission;
 		}
+
 		await prisma.submissions.create({
 			data: {
 				added: new Date(),
-				challengeId: challengeId,
+				challengeId: challenge['id'],
 				userId: userId,
 				flag: flagSubmission,
-				correct: challenge['correct'],
+				correct: correct,
 			},
 		});
-		if (challenge['correct'] === true) {
+
+		if (correct) {
 			await ChallengeSolve(challenge);
 		}
-		return true;
+
+		return correct;
 	} catch (err) {
 		logError(err);
-		return false;
+		return null;
 	} finally {
 		async () => {
 			await prisma.$disconnect();

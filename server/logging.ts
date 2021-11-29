@@ -16,3 +16,4 @@ export async function logError(error: Error) {
         },
     });
 }
+

@@ -1,10 +1,14 @@
 import prisma from "./databaseFunctions";
 import { logError } from "./logging";
 
+/**
+ * Gets Scores of all Users and sorts by score and tiebreaker (time)
+ * @returns scoreboard object
+ */
 export async function getScoreboard() {
 	try {
 		//raw query since Prisma currently cannot handle such quries
-        return await prisma.$queryRaw`
+        let scores = await prisma.$queryRaw`
         SELECT 
             u.id AS user_id, 
             u.name, 
@@ -18,9 +22,17 @@ export async function getScoreboard() {
         GROUP BY u.id
         ORDER BY score DESC, lastCorrectSubmission ASC;
         `;
+        let scoreboard = [];
+        for (let i = 0; i < scores.length; i++) {
+            const obj = {};
+            obj['position'] = i + 1;
+            obj['username'] = scores[i].name;
+            obj['score'] = parseInt(scores[i].score? scores[i].score : 0);
+            scoreboard.push(obj);
+        }
+        return scoreboard;
 	} catch (err) {
 		logError(err);
-        console.log(err);
 		return null;
 	} finally {
 		async () => {

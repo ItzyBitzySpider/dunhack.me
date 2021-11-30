@@ -15,3 +15,10 @@ interface challenge_type {
 	points: number;
     solves: number;
 }
+
+interface player_type {
+    rank: number;
+    id: String;
+    username: String;
+    points: number;
+}

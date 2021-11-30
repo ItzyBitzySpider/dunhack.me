@@ -130,14 +130,6 @@ model submissions {
   correct                       Boolean  @default(false)
 }
 
-model manual_transactions {
-  id                            Int      @id @default(autoincrement())
-  added                         DateTime
-  userId                        String
-  points                        Int      
-  description                   String   @db.Text
-}
-
 model announcements {
   id                 Int      @id @default(autoincrement())
   added              DateTime

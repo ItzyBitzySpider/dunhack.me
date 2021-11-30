@@ -8,7 +8,6 @@ import { logError } from './logging';
  */
 export async function getChallengeByCategory(categoryName) {
 	try {
-		//@ts-ignore
 		const test = await prisma.challenges.findMany({
 			orderBy: [
 				{
@@ -21,7 +20,6 @@ export async function getChallengeByCategory(categoryName) {
 			where: {
 				exposed: true,
 				category: {
-					//@ts-ignore
 					name: categoryName,
 				},
 			},
@@ -29,7 +27,6 @@ export async function getChallengeByCategory(categoryName) {
 				id: true,
 				title: true,
 				description: true,
-				//@ts-ignore
 				ctfName: {
 					select: {
 						name: true,
@@ -76,7 +73,6 @@ export async function getChallengeByCategory(categoryName) {
  */
 export async function getChallengeByCTF(CTFName) {
 	try {
-		//@ts-ignore
 		return await prisma.challenges.findMany({
 			orderBy: [
 				{
@@ -89,7 +85,6 @@ export async function getChallengeByCTF(CTFName) {
 			where: {
 				exposed: true,
 				ctfName: {
-					//@ts-ignore
 					name: CTFName,
 				},
 			},
@@ -97,7 +92,6 @@ export async function getChallengeByCTF(CTFName) {
 				id: true,
 				title: true,
 				description: true,
-				//@ts-ignore
 				ctfName: {
 					select: {
 						name: true,
@@ -164,17 +158,14 @@ export async function getAllChallenges() {
  */
 export async function ChallengeSearch(CTFName, categoryName) {
 	try {
-		//@ts-ignore
 		return await prisma.challenges.findMany({
 			orderBy: [{ points: 'asc' }],
 			where: {
 				exposed: true,
 				ctfName: {
-					//@ts-ignore
 					name: CTFName,
 				},
 				category: {
-					//@ts-ignore
 					name: categoryName,
 				},
 			},
@@ -182,7 +173,6 @@ export async function ChallengeSearch(CTFName, categoryName) {
 				id: true,
 				title: true,
 				description: true,
-				//@ts-ignore
 				ctfName: {
 					select: {
 						name: true,
@@ -228,7 +218,6 @@ export async function ChallengeSearch(CTFName, categoryName) {
  */
 export async function getChallengeByID(id) {
 	try {
-		//@ts-ignore
 		return await prisma.challenges.findFirst({
 			where: {
 				id: id,
@@ -259,7 +248,6 @@ export async function getChallengeByID(id) {
  */
 export async function getSubmissions(userId,challengeId) {
 	try {
-		//@ts-ignore
 		return await prisma.submissions.findFirst({
 			where: {
 				userId: userId,

@@ -43,17 +43,35 @@
 	border-color: rgba($primary, 0.8);
 }
 
-.hint {
+.btnHint {
 	width: fit-content;
-	margin-left: 10px;
 	background: none;
-	word-spacing: 0.5rem;
 	border: none;
-	align-items: center;
+	text-align: left;	
+	padding-left: 0.5rem;
 }
 
-.hint:hover {
+.btnHint:hover {
 	background: none;
 	border: none;
 	font-weight: bold;
+}
+
+.empty{
+	background-color: white;
+	background: transparent;
+	border:none;
+}
+
+.hintContent{
+	// margin-left: 10px;
+	color: $subtext;
+	padding-top: 0;
+}
+
+.solve{
+	font-size: 1rem;
+	font-weight:normal;
+	color: $subtext;
+	margin-bottom: 0;
 }

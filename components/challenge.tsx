@@ -1,10 +1,28 @@
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { Button, Card, Form, Modal, Row, Col } from 'react-bootstrap';
+import {
+	Button,
+	Card,
+	Modal,
+	Row,
+	Col,
+	Accordion,
+	useAccordionButton,
+} from 'react-bootstrap';
 import styles from '../styles/challenge.module.scss';
+import { challenge_type } from '../types/custom';
 
-export default function Challenge({ chal }: { chal: any }) {
-	const { title, description, hint, files, points } = chal;
+function HintToggle({ children, eventKey }) {
+	const reveal = useAccordionButton(eventKey);
+	return (
+		<button type='button' className={styles.btnHint} onClick={reveal}>
+			{children}
+		</button>
+	);
+}
+
+export default function Challenge({ chal }: { chal: challenge_type }) {
+	const { id, title, description, ctfName, hints, files, points, solves } =
+		chal;
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const handleClose = () => setShow(false);
@@ -12,10 +30,10 @@ export default function Challenge({ chal }: { chal: any }) {
 
 	const submit = async () => {
 		const data = {
-			challengeId: chal.id,
+			challengeId: id,
 			flag: flag,
 		};
-		console.log(JSON.stringify(data))
+		console.log(JSON.stringify(data));
 		const response = await fetch('/api/submitFlag', {
 			method: 'POST',
 			headers: {
@@ -32,7 +50,9 @@ export default function Challenge({ chal }: { chal: any }) {
 			<button className={styles.btnCard} onClick={handleShow}>
 				<Card className={styles.card} style={{ width: '21rem' }}>
 					<Card.Body>
-						<Card.Title>{title}</Card.Title>
+						<Card.Title>
+							[{ctfName.name}] {title}
+						</Card.Title>
 						<Card.Text>{points}</Card.Text>
 					</Card.Body>
 				</Card>
@@ -43,16 +63,36 @@ export default function Challenge({ chal }: { chal: any }) {
 				onHide={handleClose}
 				centered>
 				<Modal.Header closeButton>
-					<Modal.Title>{title}</Modal.Title>
+					<Row>
+						<Modal.Title>{title}</Modal.Title>
+						<div className={styles.solve}>Solves: {solves}</div>
+					</Row>
 				</Modal.Header>
 				<Modal.Body>{description}</Modal.Body>
-				<button className={styles.hint}>&gt; Hint</button>
+				{hints.map((content, index) => {
+					return (
+						<Accordion>
+							<Card className={styles.empty}>
+								<Card.Header className={styles.btnHint}>
+									<HintToggle eventKey={index.toString()}>Hint {index+1}</HintToggle>
+								</Card.Header>
+								<Accordion.Collapse eventKey={index.toString()}>
+									<Card.Body className={styles.hintContent}>{content.body}</Card.Body>
+								</Accordion.Collapse>
+							</Card>
+						</Accordion>
+					);
+				})}
+				
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
 					<Row className='g-1'>
 						<Col md={10}>
-							<input className={styles.inputField}
+							<input
+								className={styles.inputField}
 								value={flag}
-								onInput={(e) => setFlag((e.target as HTMLTextAreaElement).value)}
+								onInput={(e) =>
+									setFlag((e.target as HTMLTextAreaElement).value)
+								}
 								placeholder='CTF{Your_Flag_Here}'
 							/>
 						</Col>

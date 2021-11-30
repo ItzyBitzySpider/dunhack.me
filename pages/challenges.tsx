@@ -35,6 +35,7 @@ export default function Challenges({ categories }) {
 // Get challenges
 export async function getServerSideProps(context) {
 	const categories = await getAllChallenges();
+	console.log(JSON.stringify(categories));
 	return {
 		props: { categories },
 	};

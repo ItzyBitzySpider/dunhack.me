@@ -15,7 +15,7 @@ export default async function submit(req, res) {
 			
 			//time between submissions check
 			let latestSubmission = 0;
-			let submission = await getSubmissions(userId, parseInt(challengeId));
+			let submission = await getSubmissions(userId, challengeId);
 			if (submission !== null) {
 				latestSubmission = submission["added"];
 				if (submission["correct"]){
@@ -24,7 +24,7 @@ export default async function submit(req, res) {
 				}
 			}
 
-			let challenge = await getChallengeByID(parseInt(challengeId));
+			let challenge = await getChallengeByID(challengeId);
 			if (challenge === null) {
 				res.status(400).json({ error: 'Challenge does not exist' });
 				return;

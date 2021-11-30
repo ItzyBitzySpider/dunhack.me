@@ -320,14 +320,11 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
 				},
 			});
 		}
-
 		if (correct) {
 			await ChallengeSolve(challenge);
 		}
-
 		return correct;
 	} catch (err) {
-		console.log(err);
 		logError(err);
 		return null;
 	} finally {

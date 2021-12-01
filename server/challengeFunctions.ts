@@ -220,6 +220,7 @@ export async function getChallengeByID(id) {
 				min_seconds_btwn_submissions: true,
 				case_insensitive: true,
 				points: true,
+				solves: true,
 			},
 		});
 	} catch (err) {
@@ -349,6 +350,7 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
  */
 async function ChallengeSolve(challenge) {
 	try {
+		console.log(challenge['solves'])
 		await prisma.challenges.update({
 			where: {
 				id: challenge['id'],
@@ -360,6 +362,7 @@ async function ChallengeSolve(challenge) {
 		});
 	} catch (err) {
 		logError(err);
+		console.log(err);
 	} finally {
 		async () => {
 			await prisma.$disconnect();

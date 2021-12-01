@@ -219,6 +219,7 @@ export async function getChallengeByID(id) {
 				flag: true,
 				min_seconds_btwn_submissions: true,
 				case_insensitive: true,
+				points: true,
 			},
 		});
 	} catch (err) {

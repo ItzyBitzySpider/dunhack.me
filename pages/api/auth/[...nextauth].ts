@@ -44,10 +44,6 @@ export default NextAuth({
 					else return false;
 				}
 				else {
-					if (account.provider === 'github') {
-						//TODO, prompt to add email (if we still using github)
-						return false;
-					}
 					return false
 				}
 			} else {

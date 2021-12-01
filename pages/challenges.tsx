@@ -1,8 +1,12 @@
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import Challenge from '../components/challenge';
-import { getAllChallenges, getChallengeByCategory, getChallengeByCTF } from '../server/challengeFunctions';
+import {
+	getAllChallenges,
+	getChallengeByCategory,
+	getChallengeByCTF,
+} from '../server/challengeFunctions';
 
 export default function Challenges({ categories }) {
 	const { data: session, status } = useSession();
@@ -17,9 +21,16 @@ export default function Challenges({ categories }) {
 							<h2 key={category.name}>{category.name}</h2>
 							<br />
 							<Row>
-							{category.challenges.map((challenge) => {
-								return <Challenge key={challenge.id} chal={challenge} />;
-							})}
+								{category.challenges.map((challenge) => {
+									//TODO replace solved conditional with map checking stuff
+									return (
+										<Challenge
+											key={challenge.id}
+											chal={challenge}
+											solved={challenge.id === 1}
+										/>
+									);
+								})}
 							</Row>
 							<br />
 						</>

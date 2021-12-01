@@ -14,16 +14,32 @@
 	transition: 0.3s;
 }
 
+.card {
+	color: black;
+	background-color: inherit;
+	border: none;
+}
+
+.btnCardSolved {
+	height: 8rem;
+	width: max-content;
+	margin: 10px;
+	background-color: #dee0e4;
+	border: none;
+	border-radius: 5px;
+}
+
+.cardSolved {
+	color: grey;
+	background-color: inherit;
+	border: none;
+}
+
 @media screen and (min-width: 1000px) {
 	.modal {
 		width: 40vw;
 		max-width: 40%;
 	}
-}
-.card {
-	color: black;
-	background-color: inherit;
-	border: none;
 }
 
 .inputField, .inputField:focus {
@@ -33,7 +49,7 @@
 	outline-color: rgba($primary, 0.4);
 	border-radius: 5px;
 	border: none;
-	background-color: #dfdfdf;
+	background-color: #eaeeef;
 }
 
 .submit {

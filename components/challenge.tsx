@@ -20,12 +20,17 @@ function HintToggle({ children, eventKey }) {
 	);
 }
 
-export default function Challenge({ chal }: { chal: challenge_type }) {
+export default function Challenge({ chal, solved }: { chal: challenge_type; solved: Boolean }) {
 	const { id, title, description, ctfName, hints, files, points, solves } =
 		chal;
+	const [error, setError] = useState('');
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
-	const handleClose = () => setShow(false);
+	const [solve, showSolve] = useState(solved);
+	const handleClose = () => {
+		setShow(false);
+		setError('');
+	};
 	const handleShow = () => setShow(true);
 
 	const submit = async () => {
@@ -40,12 +45,28 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 			},
 			body: JSON.stringify(data),
 		});
-		let result = await response.text();
+		let res = await response.json();
+		// Flag is correct
+		console.log(res.result);
+		if (res.result !== undefined) {
+			if (res.result === true) {
+				showSolve(true);
+				// handleClose();
+				return;
+			} else {
+				// Display error to user
+				setError('Flag is incorrect');
+				return;
+			}
+		} else {
+			setError(res.error);
+			return;
+		}
 	};
 
 	return (
 		<>
-			<button className={styles.btnCard} onClick={handleShow}>
+			{!solve && <button className={styles.btnCard} onClick={handleShow}>
 				<Card className={styles.card} style={{ width: '21rem' }}>
 					<Card.Body>
 						<Card.Title>
@@ -54,7 +75,17 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 						<Card.Text>{points}</Card.Text>
 					</Card.Body>
 				</Card>
-			</button>
+			</button>}
+			{solve && <button className={styles.btnCardSolved} onClick={handleShow}>
+				<Card className={styles.cardSolved} style={{ width: '21rem' }}>
+					<Card.Body>
+						<Card.Title>
+							[{ctfName.name}] {title}
+						</Card.Title>
+						<Card.Text>{points}</Card.Text>
+					</Card.Body>
+				</Card>
+			</button>}
 			<Modal
 				dialogClassName={styles.modal}
 				show={show}
@@ -71,7 +102,9 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 				{files[0] && (
 					<>
 						<Modal.Body>
-							<div style={{ fontWeight : '500', fontSize: '1rem' }}>Challenge Files</div>
+							<div style={{ fontWeight: '500', fontSize: '1rem' }}>
+								Challenge Files
+							</div>
 							<Row className='mt-2'>
 								{files.map((file) => {
 									return (
@@ -110,23 +143,38 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 				})}
 
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
-					<Row className='g-1'>
-						<Col md={10}>
-							<input
-								className={styles.inputField}
-								value={flag}
-								onInput={(e) =>
-									setFlag((e.target as HTMLTextAreaElement).value)
-								}
-								placeholder='CTF{Your_Flag_Here}'
-							/>
-						</Col>
-						<Col md={2}>
-							<Button className={styles.submit} variant='outline-primary' onClick={submit}>
-								Submit
-							</Button>
-						</Col>
-					</Row>
+					{!solve && (
+						<>
+							<Row className='g-1'>
+								<Col md={10}>
+									<input
+										className={styles.inputField}
+										value={flag}
+										onInput={(e) =>
+											setFlag((e.target as HTMLTextAreaElement).value)
+										}
+										placeholder='CTF{Your_Flag_Here}'
+									/>
+								</Col>
+								<Col md={2}>
+									<Button
+										className={styles.submit}
+										variant='outline-primary'
+										onClick={submit}>
+										Submit
+									</Button>
+								</Col>
+							</Row>
+							<Row className='g-1 mb-0 mt-0'>
+								<div style={{ color: 'red' }}>{error}</div>
+							</Row>
+						</>
+					)}
+					{solve && (
+						<>
+							<Row className='g-1 justify-content-center'>Challenge Solved</Row>
+						</>
+					)}
 				</Modal.Footer>
 			</Modal>
 		</>

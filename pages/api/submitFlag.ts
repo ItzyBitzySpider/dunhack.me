@@ -19,7 +19,7 @@ export default async function submit(req, res) {
 			if (submission !== null) {
 				latestSubmission = submission["added"];
 				if (submission["correct"]){
-					res.status(400).json({ error: 'You may only submit a correct flag once' });
+					res.status(400).json({ error: 'Challenge was previously solved' });
 					return;
 				}
 			}

@@ -2,7 +2,7 @@
 
 @media screen and (max-width: 1000px) {
 	.sidebar {
-		background-color: $primary;
+		background-color: $primary-dark;
 		display: flex;
 		height: 100%;
 		width: 100%;
@@ -12,7 +12,7 @@
 }
 @media screen and (min-width: 1000px) {
 	.sidebar {
-		background-color: $primary;
+		background-color: $primary-dark;
 		display: flex;
 		height: 100%;
 		width: 17%;
@@ -28,7 +28,7 @@
 }
 
 .text {
-	color: rgba($secondary, 0.8);
+	color: $secondary-dark;
 	letter-spacing: 0.1em;
 	margin-top: 20px;
 	font-size: 1em;

@@ -354,7 +354,7 @@ async function ChallengeSolve(challenge) {
 			},
 			data: {
 				solves: challenge['solves'] + 1,
-				points: process.env.DYNAMIC_SCORING ? dynamicScoringFormula(challenge['solves'] + 1) : challenge['points'],
+				points: process.env.DYNAMIC_SCORING === 'false' ? dynamicScoringFormula(challenge['solves'] + 1) : challenge['points'],
 			},
 		});
 	} catch (err) {

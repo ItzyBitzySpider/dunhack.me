@@ -67,21 +67,48 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 					</Row>
 				</Modal.Header>
 				<Modal.Body>{description}</Modal.Body>
+
+				{files[0] && (
+					<>
+						<Modal.Body>
+							<div style={{ fontWeight : '500', fontSize: '1rem' }}>Challenge Files</div>
+							<Row className='mt-2'>
+								{files.map((file) => {
+									return (
+										<Col>
+											<Button
+												target='_blank'
+												href={file.url}
+												variant='secondary'>
+												{file.title}
+											</Button>
+										</Col>
+									);
+								})}
+							</Row>
+						</Modal.Body>
+					</>
+				)}
+
 				{hints.map((content, index) => {
 					return (
 						<Accordion>
 							<Card className={styles.empty}>
 								<Card.Header className={styles.btnHint}>
-									<HintToggle eventKey={index.toString()}>Hint {index+1}</HintToggle>
+									<HintToggle eventKey={index.toString()}>
+										Hint {index + 1}
+									</HintToggle>
 								</Card.Header>
 								<Accordion.Collapse eventKey={index.toString()}>
-									<Card.Body className={styles.hintContent}>{content.body}</Card.Body>
+									<Card.Body className={styles.hintContent}>
+										{content.body}
+									</Card.Body>
 								</Accordion.Collapse>
 							</Card>
 						</Accordion>
 					);
 				})}
-				
+
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
 					<Row className='g-1'>
 						<Col md={10}>
@@ -95,7 +122,7 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 							/>
 						</Col>
 						<Col md={2}>
-							<Button className={styles.submit} onClick={submit}>
+							<Button className={styles.submit} variant='outline-primary' onClick={submit}>
 								Submit
 							</Button>
 						</Col>

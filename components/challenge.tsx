@@ -78,7 +78,7 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 										<Col>
 											<Button
 												target='_blank'
-												href={file.url}
+												href={file.url.toString()}
 												variant='secondary'>
 												{file.title}
 											</Button>

@@ -33,7 +33,6 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 			challengeId: id,
 			flag: flag,
 		};
-		console.log(JSON.stringify(data));
 		const response = await fetch('/api/submitFlag', {
 			method: 'POST',
 			headers: {
@@ -42,7 +41,6 @@ export default function Challenge({ chal }: { chal: challenge_type }) {
 			body: JSON.stringify(data),
 		});
 		let result = await response.text();
-		console.log(result);
 	};
 
 	return (

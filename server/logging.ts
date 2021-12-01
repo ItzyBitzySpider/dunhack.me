@@ -6,7 +6,6 @@ import prisma from "./databaseFunctions";
  */
 
 export async function logError(error: Error) {
-    //@ts-ignore
     await prisma.exceptions.create({
         data: {
             added: new Date(),

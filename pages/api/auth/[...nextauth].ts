@@ -21,39 +21,38 @@ export default NextAuth({
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-		})
+		}),
 	],
 	pages: {
 		signIn: 'login',
+		error: '/login'
 	},
 	callbacks: {
-		session: async ({session, user}) => {
-			session.userId = user.id;    
+		session: async ({ session, user }) => {
+			session.userId = user.id;
 			return Promise.resolve(session);
 		},
 		//@ts-ignore (The code below is according to next-auth docs)
 		async signIn({ account, profile }) {
-		  if (account.provider === "google") {
-			return profile.email_verified
-		  } else if (account.provider === "github") {
-			return true
-		  } else {
-			if (process.env.EMAIL_VERIFICATION === "true") {
-				const emailWhitelisted = await prisma.email_whitelist.findUnique({
-					where: {
-						email: profile.email,
-					},
-				});
-				if (emailWhitelisted) {
-					return true
+			if (account.provider === 'google') {
+				return profile.email_verified;
+			} else if (account.provider === 'github') {
+				return true;
+			} else {
+				if (process.env.EMAIL_VERIFICATION === 'true') {
+					const emailWhitelisted = await prisma.email_whitelist.findUnique({
+						where: {
+							email: profile.email,
+						},
+					});
+					if (emailWhitelisted) {
+						return true;
+					}
+				} else {
+					return true;
 				}
 			}
-			else {
-				return true
-			}
-		  }
-		  return false
+			return false;
 		},
-	  }
+	},
 });
-

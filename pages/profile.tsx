@@ -1,5 +1,4 @@
 import { signOut, useSession } from 'next-auth/react';
-import { getChallengeByCategory } from '../server/databaseFunctions';
 
 export default function Profile() {
 	const { data: session, status } = useSession();

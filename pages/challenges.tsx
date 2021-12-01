@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Row } from 'react-bootstrap';
 import Challenge from '../components/challenge';
@@ -6,9 +6,10 @@ import {
 	getAllChallenges,
 	getChallengeByCategory,
 	getChallengeByCTF,
+	getChallengeSolved,
 } from '../server/challengeFunctions';
 
-export default function Challenges({ categories }) {
+export default function Challenges({ categories, solvedIDs }) {
 	const { data: session, status } = useSession();
 	if (session) {
 		return (
@@ -27,7 +28,7 @@ export default function Challenges({ categories }) {
 										<Challenge
 											key={challenge.id}
 											chal={challenge}
-											solved={challenge.id === 1}
+											solved={solvedIDs.includes(challenge.id)}
 										/>
 									);
 								})}
@@ -45,8 +46,14 @@ export default function Challenges({ categories }) {
 
 // Get challenges
 export async function getServerSideProps(context) {
+	const session = await getSession(context);
 	const categories = await getAllChallenges();
+	const userSolved = await getChallengeSolved(session['userId']);
+	const solvedIDs = [];
+	for (const solved of userSolved){
+		solvedIDs.push(solved.challengeId);
+	}
 	return {
-		props: { categories },
+		props: { categories, solvedIDs },
 	};
 }

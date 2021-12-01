@@ -262,6 +262,11 @@ export async function getSubmissions(userId,challengeId) {
 	}
 }
 
+/**
+ * Gets all Challenges solved by user
+ * @param userId 
+ * @returns Challenges object
+ */
 export async function getChallengeSolved(userId){
 	try {
 		return await prisma.$queryRaw`
@@ -350,7 +355,6 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
  */
 async function ChallengeSolve(challenge) {
 	try {
-		console.log(challenge['solves'])
 		await prisma.challenges.update({
 			where: {
 				id: challenge['id'],
@@ -362,7 +366,6 @@ async function ChallengeSolve(challenge) {
 		});
 	} catch (err) {
 		logError(err);
-		console.log(err);
 	} finally {
 		async () => {
 			await prisma.$disconnect();

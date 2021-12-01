@@ -45,9 +45,6 @@ export async function getChallengeByCategory(categoryName) {
 				files: {
 					select: {
 						title: true,
-						size: true,
-						md5: true,
-						downloadKey: true,
 						url: true,
 					},
 				},
@@ -110,9 +107,6 @@ export async function getChallengeByCTF(CTFName) {
 				files: {
 					select: {
 						title: true,
-						size: true,
-						md5: true,
-						downloadKey: true,
 						url: true,
 					},
 				},
@@ -191,9 +185,6 @@ export async function ChallengeSearch(CTFName, categoryName) {
 				files: {
 					select: {
 						title: true,
-						size: true,
-						md5: true,
-						downloadKey: true,
 						url: true,
 					},
 				},

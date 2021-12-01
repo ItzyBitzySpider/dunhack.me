@@ -260,6 +260,35 @@ export async function getSubmissions(userId,challengeId) {
 	}
 }
 
+export async function getChallengeSolved(userId){
+	try {
+		return await prisma.$queryRaw`
+		SELECT
+           s.added,
+           ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challengeId=s.challengeId)+1) AS pos,
+           ch.id AS challengeId,
+           ch.title,
+           ch.points,
+           ca.name AS categoryName
+        FROM submissions AS s
+        LEFT JOIN challenges AS ch ON ch.id = s.challengeId
+        LEFT JOIN category AS ca ON ca.id = ch.categoryId
+        WHERE
+           s.correct = true AND
+           s.userId = ${userId} AND
+           ch.exposed = 1
+        ORDER BY s.added DESC;
+		`;
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
 /**
  * Submits Flag, Creates new record in Submissions, returns submission status
  * @param challenge

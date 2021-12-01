@@ -11,7 +11,10 @@ interface challenge_type {
 		name: String;
 	};
 	hints: Array<Record<String>>;
-	files: Array<String>;
+	files: Array<{
+		title: String;
+		url: String;
+	}>;
 	points: number;
     solves: number;
 }

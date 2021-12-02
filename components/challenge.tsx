@@ -23,10 +23,11 @@ function HintToggle({ children, eventKey }) {
 export default function Challenge({ chal, solved }: { chal: challenge_type; solved: Boolean }) {
 	const { id, title, description, ctfName, hints, files, points, solves } =
 		chal;
+	const [solveCount, setCount] = useState(solves);
 	const [error, setError] = useState('');
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
-	const [solve, showSolve] = useState(solved);
+	const [userSolved, showSolve] = useState(solved);
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -50,6 +51,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 		console.log(res.result);
 		if (res.result !== undefined) {
 			if (res.result === true) {
+				setCount(solves+1);
 				showSolve(true);
 				// handleClose();
 				return;
@@ -66,7 +68,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 
 	return (
 		<>
-			{!solve && <button className={styles.btnCard} onClick={handleShow}>
+			{!userSolved && <button className={styles.btnCard} onClick={handleShow}>
 				<Card className={styles.card} style={{ width: '21rem' }}>
 					<Card.Body>
 						<Card.Title>
@@ -76,7 +78,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 					</Card.Body>
 				</Card>
 			</button>}
-			{solve && <button className={styles.btnCardSolved} onClick={handleShow}>
+			{userSolved && <button className={styles.btnCardSolved} onClick={handleShow}>
 				<Card className={styles.cardSolved} style={{ width: '21rem' }}>
 					<Card.Body>
 						<Card.Title>
@@ -94,7 +96,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 				<Modal.Header closeButton>
 					<Row>
 						<Modal.Title>{title}</Modal.Title>
-						<div className={styles.solve}>Solves: {solves}</div>
+						<div className={styles.solve}>Solves: {solveCount}</div>
 					</Row>
 				</Modal.Header>
 				<Modal.Body>{description}</Modal.Body>
@@ -143,7 +145,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 				})}
 
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
-					{!solve && (
+					{!userSolved && (
 						<>
 							<Row className='g-1'>
 								<Col md={10}>
@@ -170,7 +172,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 							</Row>
 						</>
 					)}
-					{solve && (
+					{userSolved && (
 						<>
 							<Row className='g-1 justify-content-center'>Challenge Solved</Row>
 						</>

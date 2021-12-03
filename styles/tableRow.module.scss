@@ -1,0 +1,25 @@
+@import 'variables';
+
+.even{
+    // background-color: $secondary-light;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.odd{
+    background-color: $primary-light;
+    color: black;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.header{
+    background-color: $primary-dark;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.center{
+    text-align: center;
+}

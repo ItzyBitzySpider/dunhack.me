@@ -16,8 +16,8 @@ import { useRouter } from 'next/router';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { GoMarkGithub } from 'react-icons/go';
 import { FcGoogle } from 'react-icons/fc';
+import { FaDiscord } from 'react-icons/fa';
 import styles from '../styles/login.module.scss';
-import signInError from '../components/signInError';
 import SignInError from '../components/signInError';
 
 export default function Login({ csrfToken }: { csrfToken: string }) {
@@ -75,22 +75,21 @@ export default function Login({ csrfToken }: { csrfToken: string }) {
 						<br />
 						<Row className='justify-content-center'>
 							<span> &nbsp; &nbsp; &nbsp; Or&nbsp; &nbsp; &nbsp; </span>
-
-							<style>{`
-						span{
-							display: flex;
-							flex-direction: row;
-							color: #aaa;
-							font-size: 1rem;
-						}
-						span:before,
-						span:after {
-							content: "";
-							flex: 1 1;
-							border-bottom: 2px solid #aaa;
-							margin: auto;
-						}
-						`}</style>
+							<style>
+								{`span{
+										display: flex;
+										flex-direction: row;
+										color: #aaa;
+										font-size: 1rem;
+								}
+								span:before,
+								span:after {
+									content: "";
+									flex: 1 1;
+									border-bottom: 2px solid #aaa;
+									margin: auto;
+								}`}
+							</style>
 						</Row>
 						<br />
 						<Row className='justify-content-center g-0'>
@@ -99,6 +98,15 @@ export default function Login({ csrfToken }: { csrfToken: string }) {
 								onClick={() => signIn('github')}>
 								<GoMarkGithub size='1.2rem' className={styles.providerIcon} />
 								Sign in with GitHub
+							</Button>
+						</Row>{' '}
+						<br />
+						<Row className='justify-content-center g-0'>
+							<Button
+								className={styles.btnDiscord}
+								onClick={() => signIn('discord')}>
+								<FaDiscord size='1.2rem' className={styles.providerIcon} />
+								Sign in with Discord
 							</Button>
 						</Row>
 						<br />

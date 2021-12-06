@@ -7,7 +7,7 @@ export default async function submit(req, res) {
 		const session = await getSession({ req })
   		if (session) {
     		// Signed in
-			let userId = session.userId;
+			let userId = session.user.id;
 			let challengeId = req.body.challengeId;
 			let flag = req.body.flag.trim();
 			//validate Challenge ID

@@ -46,3 +46,12 @@
 	color: white;
 	font-weight: bold;
 }
+
+.btnSignout{
+	background-color: $primary-dark;
+	color: white;
+	z-index: 9999999;
+	position: absolute;
+	border: none;
+	bottom: 0;
+}

@@ -25,3 +25,13 @@ interface player_type {
     username: String;
     points: number;
 }
+
+interface Session extends Record<string, unknown> {
+    user?: {
+		id?: string | null;
+        name?: string | null;
+        email?: string | null;
+        image?: string | null;
+    };
+    expires: ISODateString;
+}

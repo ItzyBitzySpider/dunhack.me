@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import styles from '../styles/sidebar.module.scss';
 
 export default function SidebarNavigation() {
@@ -31,6 +31,11 @@ export default function SidebarNavigation() {
 							<Link href='profile'>
 								<a className={styles.text}>Profile</a>
 							</Link>
+						</li>
+					)}
+					{session && (
+						<li>
+							<a onClick={() => signOut({ callbackUrl: `${window.location.origin}`})} className={styles.text}>Sign Out</a>
 						</li>
 					)}
 					{!session && (

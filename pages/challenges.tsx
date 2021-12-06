@@ -9,6 +9,7 @@ import {
 
 export default function Challenges({ categories, solvedIDs }) {
 	const { data: session, status } = useSession();
+	console.log(status);
 	if (session) {
 		return (
 			<>
@@ -21,7 +22,6 @@ export default function Challenges({ categories, solvedIDs }) {
 							<br />
 							<Row>
 								{category.challenges.map((challenge) => {
-									//TODO replace solved conditional with map checking stuff
 									return (
 										<Challenge
 											key={challenge.id}
@@ -45,9 +45,10 @@ export default function Challenges({ categories, solvedIDs }) {
 // Get challenges
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
+	console.log(JSON.stringify(session));
 	if(!session) return {props:{}};
 	const categories = await getAllChallenges();
-	const userSolved = await getChallengeSolved(session['userId']);
+	const userSolved = await getChallengeSolved(session.user.id);
 	const solvedIDs = [];
 	for (const solved of userSolved){
 		solvedIDs.push(solved.challengeId);

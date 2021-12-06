@@ -39,7 +39,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String?   @unique
+  username      String?   @unique @default(dbgenerated("CONCAT('randomUser',SUBSTRING(UUID(),1,4))"))
   email         String?   @unique
   emailVerified DateTime?
   image         String?

@@ -47,13 +47,13 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 			body: JSON.stringify(data),
 		});
 		let res = await response.json();
-		// Flag is correct
-		console.log(res.result);
-		if (res.result !== undefined) {
+	
+		if (res.result !== undefined) {	
+			// Flag is correct
 			if (res.result === true) {
 				setCount(solves+1);
 				showSolve(true);
-				// handleClose();
+				handleClose();
 				return;
 			} else {
 				// Display error to user
@@ -113,7 +113,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 										<Col>
 											<Button
 												target='_blank'
-												href={file.url.toString()}
+												href={file.url}
 												variant='secondary'>
 												{file.title}
 											</Button>

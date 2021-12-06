@@ -9,7 +9,6 @@ import {
 
 export default function Challenges({ categories, solvedIDs }) {
 	const { data: session, status } = useSession();
-	console.log(status);
 	if (session) {
 		return (
 			<>
@@ -45,7 +44,6 @@ export default function Challenges({ categories, solvedIDs }) {
 // Get challenges
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	console.log(JSON.stringify(session));
 	if(!session) return {props:{}};
 	const categories = await getAllChallenges();
 	const userSolved = await getChallengeSolved(session.user.id);

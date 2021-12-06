@@ -7,10 +7,10 @@ export default function TableRow({
 	right,
 	variant,
 }: {
-	left: String;
-	middle: String;
-	right: String;
-	variant: String;
+	left: string;
+	middle: string;
+	right: string;
+	variant: string;
 }) {
 	return (
 		<>

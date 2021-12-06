@@ -2,18 +2,18 @@ import { category } from '@prisma/client';
 
 interface challenge_type {
 	id: number;
-	title: String;
-	description: String;
+	title: string;
+	description: string;
 	ctfName: {
-		name: String;
+		name: string;
 	};
 	category: {
-		name: String;
+		name: string;
 	};
 	hints: Array<Record<String>>;
 	files: Array<{
-		title: String;
-		url: String;
+		title: string;
+		url: string;
 	}>;
 	points: number;
     solves: number;
@@ -21,8 +21,8 @@ interface challenge_type {
 
 interface player_type {
     rank: number;
-    id: String;
-    username: String;
+    id: string;
+    username: string;
     points: number;
 }
 

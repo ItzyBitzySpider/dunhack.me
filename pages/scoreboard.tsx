@@ -17,7 +17,6 @@ export default function Scoreboard({ scores }) {
 							variant='header'
 						/>
 						{scores.map((entry, index) => {
-							console.log(entry);
 							return (
 								<TableRow
 									left={entry.pos.toString()}

@@ -10,10 +10,6 @@ import {signOut} from 'next-auth/react'
  */
  export async function changeUsername(userId, username) {
     try {
-        const user = await prisma.User.findOne({id: userId});
-        if (!user) {
-            throw new Error('User not found');
-        }
         await prisma.User.update({
             where: {id: userId},
             data: {username: username}
@@ -31,10 +27,6 @@ import {signOut} from 'next-auth/react'
 
 export async function deleteAccount(userId){
     try {
-        const user = await prisma.User.findOne({id: userId});
-        if (!user) {
-            throw new Error('User not found');
-        }
         await prisma.User.delete({
             where: {id: userId}
         });

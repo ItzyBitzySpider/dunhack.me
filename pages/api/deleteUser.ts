@@ -1,22 +1,22 @@
 import { getSession } from 'next-auth/react';
-import { changeUsername } from '../../server/userFunctions';
+import { deleteAccount } from '../../server/userFunctions';
 
-export default async function submitUsername(req, res) {
+export default async function deleteUser(req, res) {
 	if (req.method === 'POST') {
 		const session = await getSession({ req });
 		if (session) {
 			// Signed in
 			let userId = session.user.id;
-			let username = req.body.username.trim();
+			let reqId = req.body.userId;
 
 			//Ensure username is not null or empty before submitting
-			if (username === '' || username === null) {
-				res.status(400).json({ error: 'Username cannot be empty' });
+			if (userId !== reqId) {
+				res.status(401).json({ error: 'Unauthorized' });
 				return;
 			}
 
-			//Change Username
-			let result = await changeUsername(userId, username);
+			//Delete user
+			let result = await deleteAccount(userId);
 			console.log('result is ');
 			console.log(result);
 			res.status(200).json({ result: result });

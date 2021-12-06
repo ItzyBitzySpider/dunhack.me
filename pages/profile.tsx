@@ -23,7 +23,7 @@ export default function Profile({ userData }) {
 			body: JSON.stringify(data),
 		});
 		let res = await response.json();
-		
+
 		if (res.result !== undefined) {
 			// Username change successful
 			if (res.result === true) {
@@ -40,20 +40,67 @@ export default function Profile({ userData }) {
 			return;
 		}
 	};
+
+	const delAccount = async (confirmation, close) => {
+		//Check user delete is intended
+		if (confirmation !== session.user.username) {
+			setError('Confirmation invalid');
+			return;
+		}
+		const data = {
+			userId: session.user.id,
+		};
+		const response = await fetch('/api/deleteUser', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+		let res = await response.json();
+
+		if (res.result !== undefined) {
+			// Account delete successful
+			if (res.result === true) {
+				close();
+				Router.push('/');
+				return;
+			} else {
+				// Display error to user
+				setError('Something went wrong. Please contact admin.');
+				return;
+			}
+		} else {
+			setError(res.error);
+			return;
+		}
+	};
 	if (session) {
 		return (
 			<>
 				<Row>
 					<Col className={styles.container}>
 						<h1>{session.user.username}</h1>
-						<ModalForm
-							title='Change Username'
-							content='Enter new username'
-							placeholder='Username'
-							callback={nameChange}
-							error={error}
-							variant='secondary'
-						/>
+						<div>
+							<ModalForm
+								title='Change Username'
+								content='Enter new username'
+								placeholder='Username'
+								callback={nameChange}
+								error={error}
+								variant='secondary'
+							/>
+						</div>
+						<div className='pt-2'>
+							<ModalForm
+								title='Delete Account'
+								content="You're about to permanently delete this account. This action is not reversible. To confirm, please enter your username."
+								placeholder={session.user.username}
+								callback={delAccount}
+								error={error}
+								variant='danger'
+							/>
+						</div>
 					</Col>
 					<Col>
 						<img className={styles.imageContainer} src={session.user.image} />

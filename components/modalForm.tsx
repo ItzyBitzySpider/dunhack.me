@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import styles from '../styles/modalForm.module.scss';
-import { changeUsername } from '../server/userFunctions';
 export default function ModalForm({
 	title,
 	content,

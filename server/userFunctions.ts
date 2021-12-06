@@ -31,9 +31,10 @@ export async function deleteAccount(userId) {
 			where: { id: userId },
 		});
 		signOut();
+		return true;
 	} catch (err) {
 		logError(err);
-		return err;
+		return false;
 	} finally {
 		async () => {
 			await prisma.$disconnect();

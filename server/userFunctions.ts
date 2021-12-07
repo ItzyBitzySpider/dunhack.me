@@ -79,6 +79,6 @@ export async function userEnabled(userId:string): Promise<boolean | null> {
 		return user['enabled'];
 	}catch (err){
 		logError(err);
-		return false;
+		return null;
 	}
 }

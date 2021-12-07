@@ -73,6 +73,12 @@ interface announcement {
 	body: string;
 }
 
+interface userData {
+	id: string;
+	username: string;
+	image: string;
+}
+
 interface Session extends Record<string, unknown> {
     user?: {
 		id?: string | null;

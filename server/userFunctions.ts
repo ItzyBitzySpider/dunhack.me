@@ -1,7 +1,8 @@
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 import { signOut } from 'next-auth/react';
-import { userList } from '../types/custom';
+import { userData, userList } from '../types/custom';
+import { Interface } from 'readline';
 
 export async function changeUsername(
 	userId: string,
@@ -40,7 +41,7 @@ export async function deleteAccount(userId: string): Promise<boolean> {
 	}
 }
 
-export async function getUserInfo(username: string) {
+export async function getUserInfo(username: string): Promise<userData | null> {
 	try {
 		return await prisma.user.findUnique({
 			where: {

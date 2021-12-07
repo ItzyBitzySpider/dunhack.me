@@ -65,3 +65,20 @@ export async function getAllEligibleUsers() {
 		return null;
 	}
 }
+
+export async function userEnabled(userId) {
+	try{
+		let user = await prisma.user.findFirst({
+			where: {
+				id: userId
+			},
+			select:{
+				enabled: true
+			}
+		})
+		return user['enabled'];
+	}catch (err){
+		logError(err);
+		return null;
+	}
+}

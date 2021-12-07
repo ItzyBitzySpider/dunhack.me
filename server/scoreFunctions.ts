@@ -19,6 +19,8 @@ export async function getScoreboard() {
         LEFT JOIN challenges AS c ON c.id = s.challengeId
         WHERE 
             u.competing = true
+            u.enabled = true
+            u.role = 'USER'
         GROUP BY u.id
         ORDER BY score DESC, lastCorrectSubmission ASC;
         `;

@@ -233,12 +233,12 @@ export async function getChallengeByID(id) {
 }
 
 /**
- * Get all user submissions for challenge
+ * Get Last User Submission for Challenge
  * @param userId 
  * @param challengeId 
  * @returns Submission object
  */
-export async function getSubmissions(userId,challengeId) {
+export async function getLastSubmission(userId,challengeId) {
 	try {
 		return await prisma.submissions.findFirst({
 			where: {

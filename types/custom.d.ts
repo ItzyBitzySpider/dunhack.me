@@ -65,6 +65,12 @@ interface userRanking {
 	score: number;
 }
 
+interface userData {
+	id: string;
+	username: string;
+	image: string;
+}
+
 interface Session extends Record<string, unknown> {
     user?: {
 		id?: string | null;

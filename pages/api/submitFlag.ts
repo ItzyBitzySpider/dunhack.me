@@ -28,11 +28,8 @@ export default async function submit(req, res) {
 			if (enabled === false) {
 				res.status(400).json({ error: 'User is not enabled' });
 				return;
-			} else if (enabled === null) {
-				res.status(400).json({ error: 'User does not exist' });
-				return;
-			}
-
+			} 
+			
 			//time between submissions check
 			let latestSubmission = 0;
 			let submission = await getLastSubmission(userId, challengeId);

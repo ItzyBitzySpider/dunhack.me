@@ -2,7 +2,7 @@ import prisma from './databaseFunctions';
 import { logError } from './logging';
 import { signOut } from 'next-auth/react';
 
-export async function changeUsername(userId, username) {
+export async function changeUsername(userId:string, username:string): Promise<boolean> {
 	try {
 		await prisma.user.update({
 			where: { id: userId },
@@ -19,7 +19,7 @@ export async function changeUsername(userId, username) {
 	}
 }
 
-export async function deleteAccount(userId) {
+export async function deleteAccount(userId:string): Promise<boolean> {
 	try {
 		await prisma.user.delete({
 			where: { id: userId },
@@ -36,7 +36,7 @@ export async function deleteAccount(userId) {
 	}
 }
 
-export async function getAllUsers(){
+export async function getAllUsers(): Promise<any> {
 	try{
 		return await prisma.user.findMany({
 			select:{
@@ -49,7 +49,7 @@ export async function getAllUsers(){
 	}
 }
 
-export async function getAllEligibleUsers() {
+export async function getAllEligibleUsers(): Promise<any> {
 	try{
 		return await prisma.user.findMany({
 			where: {
@@ -66,7 +66,7 @@ export async function getAllEligibleUsers() {
 	}
 }
 
-export async function userEnabled(userId) {
+export async function userEnabled(userId:string): Promise<boolean | null> {
 	try{
 		let user = await prisma.user.findFirst({
 			where: {
@@ -79,6 +79,6 @@ export async function userEnabled(userId) {
 		return user['enabled'];
 	}catch (err){
 		logError(err);
-		return null;
+		return false;
 	}
 }

@@ -5,7 +5,7 @@ import prisma from "./databaseFunctions";
  * @param error 
  */
 
-export async function logError(error: Error) {
+export async function logError(error: Error): Promise<void> {
     await prisma.exceptions.create({
         data: {
             added: new Date(),

@@ -5,7 +5,7 @@ import { logError } from "./logging";
  * Gets Scores of all Users and sorts by score and tiebreaker (time)
  * @returns scoreboard object
  */
-export async function getScoreboard() {
+export async function getScoreboard(): Promise<any> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
         let scores = await prisma.$queryRaw`

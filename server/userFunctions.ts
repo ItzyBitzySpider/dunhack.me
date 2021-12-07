@@ -41,3 +41,17 @@ export async function deleteAccount(userId) {
 		};
 	}
 }
+
+export async function getAllUsers(){
+	try{
+		const users = await prisma.user.findMany({
+			select:{
+				username: true
+			}
+		})
+		return users;
+	}catch (err){
+		logError(err);
+		return false;
+	}
+}

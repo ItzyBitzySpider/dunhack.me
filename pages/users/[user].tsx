@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import TableRow from '../../components/tableRow';
+import { getAllUsers } from '../../server/userFunctions';
 
 export default function userProfile({ userData }) {
 	const { data: session, status } = useSession();
@@ -34,7 +35,9 @@ export default function userProfile({ userData }) {
 }
 
 export async function getStaticPaths() {
-	return;
+	const users = await getAllUsers();
+	console.log(users);
+	return users;
 }
 
 export async function getStaticProps({ paramas }) {

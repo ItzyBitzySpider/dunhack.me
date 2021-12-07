@@ -1,6 +1,7 @@
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 import { signOut } from 'next-auth/react';
+import { userList } from '../types/custom';
 
 export async function changeUsername(userId:string, username:string): Promise<boolean> {
 	try {
@@ -36,7 +37,7 @@ export async function deleteAccount(userId:string): Promise<boolean> {
 	}
 }
 
-export async function getAllUsers(): Promise<any> {
+export async function getAllUsers(): Promise<Array<userList> | null> {
 	try{
 		return await prisma.user.findMany({
 			select:{
@@ -49,7 +50,7 @@ export async function getAllUsers(): Promise<any> {
 	}
 }
 
-export async function getAllEligibleUsers(): Promise<any> {
+export async function getAllEligibleUsers(): Promise<Array<userList> | null> {
 	try{
 		return await prisma.user.findMany({
 			where: {

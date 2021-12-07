@@ -1,4 +1,4 @@
-import { challenge_type } from '../types/custom';
+import { challengeDetails, challengesByCategory, challengesSolved, challenge_type, lastSubmission } from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 
@@ -128,7 +128,7 @@ export async function getChallengeByCTF(CTFName: string): Promise<challenge_type
  * Gets All Challenges
  * @returns all challenges
  */
-export async function getAllChallenges(): Promise<any> {
+export async function getAllChallenges(): Promise<Array<challengesByCategory>> {
 	let categories = await prisma.category.findMany({
 		select: {
 			name: true,
@@ -207,7 +207,7 @@ export async function ChallengeSearch(CTFName: string, categoryName: string): Pr
  * @param id 
  * @returns challenge object
  */
-export async function getChallengeByID(id: number): Promise<any> {
+export async function getChallengeByID(id: number): Promise<challengeDetails | null> {
 	try {
 		return await prisma.challenges.findFirst({
 			where: {
@@ -239,7 +239,7 @@ export async function getChallengeByID(id: number): Promise<any> {
  * @param challengeId 
  * @returns Submission object
  */
-export async function getLastSubmission(userId: string,challengeId: number): Promise<any> {
+export async function getLastSubmission(userId: string,challengeId: number): Promise<lastSubmission | null> {
 	try {
 		return await prisma.submissions.findFirst({
 			where: {
@@ -267,7 +267,7 @@ export async function getLastSubmission(userId: string,challengeId: number): Pro
  * @param userId 
  * @returns Challenges object
  */
-export async function getChallengeSolved(userId: string): Promise<any> {
+export async function getChallengeSolved(userId: string): Promise<challengesSolved | null> {
 	try {
 		return await prisma.$queryRaw`
 		SELECT

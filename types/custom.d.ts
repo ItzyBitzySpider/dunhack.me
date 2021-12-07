@@ -19,11 +19,50 @@ interface challenge_type {
     solves: number;
 }
 
+interface challengesByCategory extends Array<challenge_type> {
+	name: string;
+	challenges: Array<challenge_type>;
+}
+
+interface challengeDetails {
+	id: number;
+	flag: string;
+	min_seconds_btwn_submissions: number;
+	case_insensitive: boolean;
+	points: number;
+	solves: number;
+}
+
+interface lastSubmission {
+	id: number;
+	added: Date;
+	correct: boolean;
+}
+
+interface challengesSolved {
+	added: Date;
+	pos: number;
+	challengeId: number;
+	title: string;
+	points: number;
+	categoryName: string;
+}
+
 interface player_type {
     rank: number;
     id: string;
     username: string;
     points: number;
+}
+
+interface userList {
+	username: string;
+}
+
+interface userRanking {
+	position: number;
+	username: string;
+	score: number;
 }
 
 interface Session extends Record<string, unknown> {

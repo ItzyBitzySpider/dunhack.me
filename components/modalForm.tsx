@@ -19,7 +19,7 @@ export default function ModalForm({
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
-	const [formValue, setValue] = useState(null);
+	const [formValue, setValue] = useState('');
 	return (
 		<>
 			<Button variant={variant} onClick={handleShow}>

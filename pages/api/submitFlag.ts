@@ -57,7 +57,12 @@ export default async function submit(req, res) {
 
 			//Submit Flag
 			let result = await submitFlag(challenge, userId, flag, submission);
-			res.status(200).json({ result: result });
+			if (result === null) {
+				res.status(400).json({ error: 'Something went wrong, Please try again Later' });
+				return;
+			} else {
+				res.status(200).json({ result: result });
+			}
   		} else {
     		// Not Signed in
     		res.status(401).end('Not signed in')

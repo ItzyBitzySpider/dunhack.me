@@ -34,7 +34,8 @@ export default NextAuth({
 	},
 	callbacks: {
 		session: async ({ session, user }) => {
-			session.userId = user.id;
+			session.user.id = user.id;
+			session.user.username = user.username;
 			return Promise.resolve(session);
 		},
 		async signIn({ account, profile }) {

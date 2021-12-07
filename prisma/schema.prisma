@@ -39,10 +39,10 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String?   @unique
+  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING(UUID(),1,4))"))
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  image         String    @default("https://s.gravatar.com/avatar/d59b5e94d8190c84c1efe5d9863743ae?s=200")
   accounts      Account[]
   sessions      Session[]
   enabled       Boolean   @default(true)

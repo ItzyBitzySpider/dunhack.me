@@ -1,3 +1,4 @@
+import { challengeDetails, challengesByCategory, challengesSolved, challenge_type, lastSubmission } from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 
@@ -6,9 +7,9 @@ import { logError } from './logging';
  * @param categoryName
  * @returns challenge object
  */
-export async function getChallengeByCategory(categoryName) {
+export async function getChallengeByCategory(categoryName: string): Promise<challenge_type | null> {
 	try {
-		const test = await prisma.challenges.findMany({
+		return await prisma.challenges.findMany({
 			orderBy: [
 				{
 					ctfName: {
@@ -52,7 +53,6 @@ export async function getChallengeByCategory(categoryName) {
 				solves: true,
 			},
 		});
-		return test;
 	} catch (err) {
 		logError(err);
 		return null;
@@ -68,7 +68,7 @@ export async function getChallengeByCategory(categoryName) {
  * @param CTFName
  * @returns challenge object
  */
-export async function getChallengeByCTF(CTFName) {
+export async function getChallengeByCTF(CTFName: string): Promise<challenge_type | null> {
 	try {
 		return await prisma.challenges.findMany({
 			orderBy: [
@@ -128,7 +128,7 @@ export async function getChallengeByCTF(CTFName) {
  * Gets All Challenges
  * @returns all challenges
  */
-export async function getAllChallenges() {
+export async function getAllChallenges(): Promise<Array<challengesByCategory>> {
 	let categories = await prisma.category.findMany({
 		select: {
 			name: true,
@@ -150,7 +150,7 @@ export async function getAllChallenges() {
  * @param categoryName
  * @returns Challenge object
  */
-export async function ChallengeSearch(CTFName, categoryName) {
+export async function ChallengeSearch(CTFName: string, categoryName: string): Promise<challenge_type | null> {
 	try {
 		return await prisma.challenges.findMany({
 			orderBy: [{ points: 'asc' }],
@@ -203,11 +203,11 @@ export async function ChallengeSearch(CTFName, categoryName) {
 }
 
 /**
- * Get Challenge by ID
+ * Get Challenge Details by ID (For Solving)
  * @param id 
  * @returns challenge object
  */
-export async function getChallengeByID(id) {
+export async function getChallengeByID(id: number): Promise<challengeDetails | null> {
 	try {
 		return await prisma.challenges.findFirst({
 			where: {
@@ -234,12 +234,12 @@ export async function getChallengeByID(id) {
 }
 
 /**
- * Get all user submissions for challenge
+ * Get Last User Submission for Challenge
  * @param userId 
  * @param challengeId 
  * @returns Submission object
  */
-export async function getSubmissions(userId,challengeId) {
+export async function getLastSubmission(userId: string,challengeId: number): Promise<lastSubmission | null> {
 	try {
 		return await prisma.submissions.findFirst({
 			where: {
@@ -267,7 +267,7 @@ export async function getSubmissions(userId,challengeId) {
  * @param userId 
  * @returns Challenges object
  */
-export async function getChallengeSolved(userId){
+export async function getChallengeSolved(userId: string): Promise<challengesSolved | null> {
 	try {
 		return await prisma.$queryRaw`
 		SELECT
@@ -304,7 +304,7 @@ export async function getChallengeSolved(userId){
  * @param Submission
  * @returns correct/wrong flag submission
  */
-export async function submitFlag(challenge, userId, flagSubmission, submission) {
+export async function submitFlag(challenge: object, userId: string, flagSubmission: string, submission: object): Promise<boolean | null> {
 	try {
 		//mark flag
 		let correct = false;
@@ -336,7 +336,8 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
 			});
 		}
 		if (correct) {
-			await ChallengeSolve(challenge);
+			let succeed = await ChallengeSolve(challenge);
+			if (!succeed) throw new Error('Challenge solve failed');
 		}
 		return correct;
 	} catch (err) {
@@ -352,8 +353,9 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
 /**
  * Updates Challenge Solve and Points
  * @param challenge object
- */
-async function ChallengeSolve(challenge) {
+ * @returns Status
+ */ 
+async function ChallengeSolve(challenge: object): Promise<boolean> {
 	try {
 		await prisma.challenges.update({
 			where: {
@@ -364,8 +366,10 @@ async function ChallengeSolve(challenge) {
 				points: process.env.DYNAMIC_SCORING === 'false' ? dynamicScoringFormula(challenge['solves'] + 1) : challenge['points'],
 			},
 		});
+		return true
 	} catch (err) {
 		logError(err);
+		return false;
 	} finally {
 		async () => {
 			await prisma.$disconnect();
@@ -378,7 +382,7 @@ async function ChallengeSolve(challenge) {
  * @param solves
  * @returns new Score
  */
-function dynamicScoringFormula(solves) {
+function dynamicScoringFormula(solves: number): number {
 	let lb = parseInt(process.env.LOWER_BOUND);
 	let ub = parseInt(process.env.UPPER_BOUND);
 	let total = parseInt(process.env.TOTAL_PARTICIPANTS);

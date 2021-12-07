@@ -1,3 +1,4 @@
+import { userRanking } from "../types/custom";
 import prisma from "./databaseFunctions";
 import { logError } from "./logging";
 
@@ -5,7 +6,7 @@ import { logError } from "./logging";
  * Gets Scores of all Users and sorts by score and tiebreaker (time)
  * @returns scoreboard object
  */
-export async function getScoreboard() {
+export async function getScoreboard(): Promise<Array<userRanking> | null> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
         let scores = await prisma.$queryRaw`
@@ -18,7 +19,7 @@ export async function getScoreboard() {
         LEFT JOIN submissions AS s ON u.id = s.userId AND s.correct = true
         LEFT JOIN challenges AS c ON c.id = s.challengeId
         WHERE 
-            u.competing = true
+            u.competing = true AND u.enabled = true AND u.role = 'USER'
         GROUP BY u.id
         ORDER BY score DESC, lastCorrectSubmission ASC;
         `;

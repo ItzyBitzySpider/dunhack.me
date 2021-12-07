@@ -8,7 +8,7 @@ import { logError } from './logging';
  */
 export async function getChallengeByCategory(categoryName) {
 	try {
-		const test = await prisma.challenges.findMany({
+		return await prisma.challenges.findMany({
 			orderBy: [
 				{
 					ctfName: {
@@ -52,7 +52,6 @@ export async function getChallengeByCategory(categoryName) {
 				solves: true,
 			},
 		});
-		return test;
 	} catch (err) {
 		logError(err);
 		return null;
@@ -336,7 +335,8 @@ export async function submitFlag(challenge, userId, flagSubmission, submission) 
 			});
 		}
 		if (correct) {
-			await ChallengeSolve(challenge);
+			let succeed = await ChallengeSolve(challenge);
+			if (!succeed) throw new Error('Challenge solve failed');
 		}
 		return correct;
 	} catch (err) {
@@ -364,8 +364,10 @@ async function ChallengeSolve(challenge) {
 				points: process.env.DYNAMIC_SCORING === 'false' ? dynamicScoringFormula(challenge['solves'] + 1) : challenge['points'],
 			},
 		});
+		return true
 	} catch (err) {
 		logError(err);
+		return false;
 	} finally {
 		async () => {
 			await prisma.$disconnect();

@@ -2,12 +2,6 @@ import prisma from './databaseFunctions';
 import { logError } from './logging';
 import { signOut } from 'next-auth/react';
 
-/**
- * Changes Username of User
- * @param userId
- * @param username
- * @returns boolean
- */
 export async function changeUsername(userId, username) {
 	try {
 		await prisma.user.update({
@@ -44,14 +38,30 @@ export async function deleteAccount(userId) {
 
 export async function getAllUsers(){
 	try{
-		const users = await prisma.user.findMany({
+		return await prisma.user.findMany({
 			select:{
 				username: true
 			}
 		})
-		return users;
 	}catch (err){
 		logError(err);
-		return false;
+		return null;
+	}
+}
+
+export async function getAllEligibleUsers() {
+	try{
+		return await prisma.user.findMany({
+			where: {
+				enabled: true,
+				competing: true
+			},
+			select:{
+				username: true
+			}
+		})
+	}catch (err){
+		logError(err);
+		return null;
 	}
 }

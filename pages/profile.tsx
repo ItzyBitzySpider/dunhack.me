@@ -13,6 +13,7 @@ export default function Profile({ userData }) {
 
 	const nameChange = async (newUsername, close) => {
 		const data = {
+			userId: session.user.id,
 			username: newUsername,
 		};
 		const response = await fetch('/api/changeUsername', {

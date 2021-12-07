@@ -9,7 +9,7 @@ export default async function deleteUser(req, res) {
 			let userId = session.user.id;
 			let reqId = req.body.userId;
 
-			//Ensure username is not null or empty before submitting
+			//Ensure user is deleting their own account
 			if (userId !== reqId) {
 				res.status(401).json({ error: 'Unauthorized' });
 				return;

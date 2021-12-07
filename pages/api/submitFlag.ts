@@ -23,9 +23,13 @@ export default async function submit(req, res) {
 				return;
 			}	
 
-			//Ensure User is Enabled
-			if (await userEnabled(userId) === false) {
+			//Ensure User is Enabled/Valid
+			let enabled = await userEnabled(userId);
+			if (enabled === false) {
 				res.status(400).json({ error: 'User is not enabled' });
+				return;
+			} else if (enabled === null) {
+				res.status(400).json({ error: 'User does not exist' });
 				return;
 			}
 

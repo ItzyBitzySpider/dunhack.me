@@ -1,4 +1,4 @@
-import { signOut, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';
@@ -6,8 +6,9 @@ import TableRow from '../components/tableRow';
 import { changeUsername } from '../server/userFunctions';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
+import { getChallengeSolved } from '../server/challengeFunctions';
 
-export default function Profile({ userData }) {
+export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
 	const [error, setError] = useState(null);
 
@@ -115,13 +116,13 @@ export default function Profile({ userData }) {
 						middle='Challenge'
 						right='Submission Time'
 					/>
-					{userData.solved.map((challenge, index) => {
+					{challengeSolved.map((challenge, index) => {
 						return (
 							<TableRow
 								key={index}
-								left={index}
-								middle={challenge.name}
-								right={challenge.submission}
+								left={index+1}
+								middle={challenge.title}
+								right={challenge.added}
 								variant={index % 2 === 0 ? 'dark' : 'light'}
 							/>
 						);
@@ -134,17 +135,12 @@ export default function Profile({ userData }) {
 	}
 }
 
-export async function getServerSideProps() {
-	const userData = {
-		user: {
-			name: '',
-			image: '',
-		},
-		solved: [{}],
-	};
+export async function getServerSideProps(context) {
+	const session = await getSession(context);
+	const challengeSolved = await getChallengeSolved(session.user.id);
 	return {
 		props: {
-			userData,
+			challengeSolved,
 		},
 	};
 }

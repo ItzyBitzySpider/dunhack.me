@@ -3,7 +3,10 @@ import { logError } from './logging';
 import { signOut } from 'next-auth/react';
 import { userList } from '../types/custom';
 
-export async function changeUsername(userId:string, username:string): Promise<boolean> {
+export async function changeUsername(
+	userId: string,
+	username: string
+): Promise<boolean> {
 	try {
 		await prisma.user.update({
 			where: { id: userId },
@@ -20,7 +23,7 @@ export async function changeUsername(userId:string, username:string): Promise<bo
 	}
 }
 
-export async function deleteAccount(userId:string): Promise<boolean> {
+export async function deleteAccount(userId: string): Promise<boolean> {
 	try {
 		await prisma.user.delete({
 			where: { id: userId },
@@ -37,48 +40,66 @@ export async function deleteAccount(userId:string): Promise<boolean> {
 	}
 }
 
+export async function getUserInfo(username: string) {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				username: username,
+			},
+			select: {
+				id: true,
+				username: true,
+				image: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return null;
+	}
+}
+
 export async function getAllUsers(): Promise<Array<userList> | null> {
-	try{
+	try {
 		return await prisma.user.findMany({
-			select:{
-				username: true
-			}
-		})
-	}catch (err){
+			select: {
+				username: true,
+			},
+		});
+	} catch (err) {
 		logError(err);
 		return null;
 	}
 }
 
 export async function getAllEligibleUsers(): Promise<Array<userList> | null> {
-	try{
+	try {
 		return await prisma.user.findMany({
 			where: {
 				enabled: true,
-				competing: true
+				competing: true,
 			},
-			select:{
-				username: true
-			}
-		})
-	}catch (err){
+			select: {
+				username: true,
+			},
+		});
+	} catch (err) {
 		logError(err);
 		return null;
 	}
 }
 
-export async function userEnabled(userId:string): Promise<boolean | null> {
-	try{
+export async function userEnabled(userId: string): Promise<boolean | null> {
+	try {
 		let user = await prisma.user.findFirst({
 			where: {
-				id: userId
+				id: userId,
 			},
-			select:{
-				enabled: true
-			}
-		})
+			select: {
+				enabled: true,
+			},
+		});
 		return user['enabled'];
-	}catch (err){
+	} catch (err) {
 		logError(err);
 		return null;
 	}

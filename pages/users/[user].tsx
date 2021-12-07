@@ -1,56 +1,77 @@
 import { useSession } from 'next-auth/react';
+import Router  from 'next/router';
+import { Row, Col } from 'react-bootstrap';
 import TableRow from '../../components/tableRow';
-import { getAllUsers } from '../../server/userFunctions';
+import { getChallengeSolved } from '../../server/challengeFunctions';
+import { getAllUsers, getUserInfo } from '../../server/userFunctions';
+import styles from '../../styles/profile.module.scss';
 
-export default function userProfile({ userData }) {
+export default function userProfile({ userData, challengeSolved }) {
 	const { data: session, status } = useSession();
 	if (session) {
-		if (session.user.name === userData.user.name)
-			return { redirect: { destination: '/profile' } };
+		//TODO: fix
+		// if (session.user.username === userData.username) {
+		// 	return  Router.push('/profile');
+		// }
 		return (
 			<>
-				<h1>{userData.user.name}</h1>
+				<Row>
+					<Col className={styles.container}>
+						<h1>{userData.username}</h1>
+					</Col>
+					<Col>
+						<img className={styles.imageContainer} src={userData.image} />
+					</Col>
+				</Row>
 				<br />
-				<img src={userData.user.image}></img>
-				<br />
-				<TableRow
-					variant='header'
-					left='S/N'
-					middle='Challenge'
-					right='Submission Time'
-				/>
-				{userData.solved.map((challenge, index) => {
-					return (
-						<TableRow
-							left={index}
-							middle={challenge.name}
-							right={challenge.submission}
-							variant={index % 2 === 0 ? 'dark' : 'light'}
-						/>
-					);
-				})}
+				<Row className='justify-content-center g-1'>
+					<TableRow
+						variant='header'
+						left='S/N'
+						middle='Challenge'
+						right='Submission Time'
+					/>
+					{challengeSolved.map((challenge, index) => {
+						return (
+							<TableRow
+								key={index}
+								left={index + 1}
+								middle={challenge.title}
+								right={challenge.added}
+								variant={index % 2 === 0 ? 'dark' : 'light'}
+							/>
+						);
+					})}
+				</Row>
 			</>
 		);
+	} else {
+		return <h1>Unauthorized</h1>;
 	}
 }
 
 export async function getStaticPaths() {
 	const users = await getAllUsers();
-	console.log(users);
-	return users;
+	const paths = users.map((user) => {
+		return {
+			params: {
+				user: user.username,
+			},
+		};
+	});
+	return {
+		paths,
+		fallback: false,
+	};
 }
 
-export async function getStaticProps({ paramas }) {
-	const userData = {
-        user: {
-            name: '',
-            image: '',
-        },
-        solved: [{}]
-    };
+export async function getStaticProps(pathData) {
+	const userData = await getUserInfo(pathData.params.user);
+	const challengeSolved = await getChallengeSolved(userData.id);
 	return {
 		props: {
 			userData,
+			challengeSolved,
 		},
 	};
 }

@@ -16,19 +16,19 @@ export default function SidebarNavigation() {
 					</li>
 
 					<li>
-						<Link href='challenges'>
+						<Link href='/challenges'>
 							<a className={styles.text}>Challenges</a>
 						</Link>
 					</li>
 
 					<li>
-						<Link href='scoreboard'>
+						<Link href='/scoreboard'>
 							<a className={styles.text}>Scoreboard</a>
 						</Link>
 					</li>
 					{session && (
 						<li>
-							<Link href='profile'>
+							<Link href='/profile'>
 								<a className={styles.text}>Profile</a>
 							</Link>
 						</li>
@@ -40,7 +40,7 @@ export default function SidebarNavigation() {
 					)}
 					{!session && (
 						<li>
-							<Link href='login'>
+							<Link href='/login'>
 								<a className={styles.text}>Login</a>
 							</Link>
 						</li>

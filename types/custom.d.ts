@@ -35,11 +35,11 @@ interface challengeDetails {
 
 interface lastSubmission {
 	id: number;
-	added: Date;
+	added: number;
 	correct: boolean;
 }
 
-interface challengesSolved {
+interface solvedChallenge {
 	added: Date;
 	pos: number;
 	challengeId: number;

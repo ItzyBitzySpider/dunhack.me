@@ -27,7 +27,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
         for (let i = 0; i < scores.length; i++) {
             const obj = {};
             obj['position'] = i + 1;
-            obj['username'] = scores[i].name;
+            obj['username'] = scores[i].username;
             obj['score'] = parseInt(scores[i].score? scores[i].score : 0);
             scoreboard.push(obj);
         }

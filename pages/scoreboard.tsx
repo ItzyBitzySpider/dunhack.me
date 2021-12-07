@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import { Col, Row } from 'react-bootstrap';
 import TableRow from '../components/tableRow';
+import { getScoreboard } from '../server/scoreFunctions';
 
 export default function Scoreboard({ scores }) {
 	const { data: session, status } = useSession();
@@ -19,7 +20,7 @@ export default function Scoreboard({ scores }) {
 						{scores.map((entry, index) => {
 							return (
 								<TableRow
-									left={entry.pos.toString()}
+									left={entry.position.toString()}
 									middle={entry.username} //TODO make username clickable
 									right={entry.score}
 									variant={index % 2 === 0 ? 'dark' : 'light'}
@@ -36,83 +37,8 @@ export default function Scoreboard({ scores }) {
 }
 
 export async function getServerSideProps(context) {
-	const scores = [
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 1, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 2, username: 'dbsqewrty123', score: -1337 },
-		{ pos: 3, username: 'dbsqewrty123', score: -1337 },
-	];
+	const scores = await getScoreboard();
+	console.log(scores);
 	return {
 		props: { scores },
 	};

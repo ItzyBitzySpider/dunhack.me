@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 export default function SidebarNavigation() {
 	const { data: session, status } = useSession();
 	const { asPath, pathname } = useRouter();
-	const path = asPath.split('/');
+	const path = pathname.split('/');
 	const [active, setActive] = useState(path[1]);
 	return (
 		<>
@@ -27,7 +27,9 @@ export default function SidebarNavigation() {
 						<Link href='/challenges'>
 							<a
 								onClick={() => setActive('challenges')}
-								className={active === 'challenges' ? styles.selected : styles.text}>
+								className={
+									active === 'challenges' ? styles.selected : styles.text
+								}>
 								Challenges
 							</a>
 						</Link>
@@ -37,7 +39,9 @@ export default function SidebarNavigation() {
 						<Link href='/scoreboard'>
 							<a
 								onClick={() => setActive('scoreboard')}
-								className={active === 'scoreboard' ? styles.selected : styles.text}>
+								className={
+									active === 'scoreboard' ? styles.selected : styles.text
+								}>
 								Scoreboard
 							</a>
 						</Link>
@@ -47,7 +51,11 @@ export default function SidebarNavigation() {
 							<Link href='/profile'>
 								<a
 									onClick={() => setActive('profile')}
-									className={active === 'profile' ? styles.selected : styles.text}>
+									className={
+										active === 'profile' || active === 'login'
+											? styles.selected
+											: styles.text
+									}>
 									Profile
 								</a>
 							</Link>
@@ -56,10 +64,13 @@ export default function SidebarNavigation() {
 					{session && (
 						<li>
 							<a
-								onClick={() =>
-									signOut({ callbackUrl: `${window.location.origin}` })
-								}
-								className={styles.text}>
+								onClick={() => {
+									setActive('signout');
+									signOut({ callbackUrl: `${window.location.origin}` });
+								}}
+								className={
+									active === 'signout' ? styles.selected : styles.text
+								}>
 								Sign Out
 							</a>
 						</li>
@@ -69,7 +80,9 @@ export default function SidebarNavigation() {
 							<Link href='/login'>
 								<a
 									onClick={() => setActive('login')}
-									className={active === 'login' ? styles.selected : styles.text}>
+									className={
+										active === 'login' ? styles.selected : styles.text
+									}>
 									Login
 								</a>
 							</Link>

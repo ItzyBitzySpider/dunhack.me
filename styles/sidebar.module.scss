@@ -37,19 +37,25 @@
 	text-decoration: none;
 }
 
+.selected {
+	@extend .text;
+	font-weight: bold;
+	color: $secondary;
+}
+
 .text:hover {
 	color: $secondary;
 	font-weight: bold;
 }
 
 .text:active {
-	color: white;
+	color: $secondary;
 	font-weight: bold;
 }
 
-.btnSignout{
+.btnSignout {
 	background-color: $primary-dark;
-	color: white;
+	color: $secondary-dark;
 	z-index: 9999999;
 	position: absolute;
 	border: none;

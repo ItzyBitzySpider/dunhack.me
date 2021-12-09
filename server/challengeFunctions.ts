@@ -1,4 +1,4 @@
-import { challengeDetails, challengesByCategory, challengesSolved, challenge_type, lastSubmission } from '../types/custom';
+import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission } from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 
@@ -267,7 +267,7 @@ export async function getLastSubmission(userId: string,challengeId: number): Pro
  * @param userId 
  * @returns Challenges object
  */
-export async function getChallengeSolved(userId: string): Promise<challengesSolved | null> {
+export async function getChallengesSolved(userId: string): Promise<Array<solvedChallenge> | null> {
 	try {
 		return await prisma.$queryRaw`
 		SELECT

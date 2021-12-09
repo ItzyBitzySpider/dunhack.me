@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import Challenge from '../components/challenge';
 import {
 	getAllChallenges,
-	getChallengeSolved,
+	getChallengesSolved,
 } from '../server/challengeFunctions';
 
 export default function Challenges({ categories, solvedIDs }) {
@@ -46,7 +46,7 @@ export async function getServerSideProps(context) {
 	const session = await getSession(context);
 	if(!session) return {props:{}};
 	const categories = await getAllChallenges();
-	const userSolved = await getChallengeSolved(session.user.id);
+	const userSolved = await getChallengesSolved(session.user.id);
 	const solvedIDs = [];
 	for (const solved of userSolved){
 		solvedIDs.push(solved.challengeId);

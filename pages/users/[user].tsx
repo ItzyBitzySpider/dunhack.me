@@ -1,8 +1,8 @@
 import { useSession } from 'next-auth/react';
-import Router  from 'next/router';
+import Router from 'next/router';
 import { Row, Col } from 'react-bootstrap';
 import TableRow from '../../components/tableRow';
-import { getChallengeSolved } from '../../server/challengeFunctions';
+import { getChallengesSolved } from '../../server/challengeFunctions';
 import { getAllUsers, getUserInfo } from '../../server/userFunctions';
 import styles from '../../styles/profile.module.scss';
 
@@ -52,13 +52,16 @@ export default function userProfile({ userData, challengeSolved }) {
 
 export async function getStaticPaths() {
 	const users = await getAllUsers();
-	const paths = users.map((user) => {
-		return {
-			params: {
-				user: user.username,
-			},
-		};
-	});
+	let paths = [];
+	if (users) {
+		paths = users.map((user) => {
+			return {
+				params: {
+					user: user.username,
+				},
+			};
+		});
+	}
 	return {
 		paths,
 		fallback: false,
@@ -67,7 +70,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(pathData) {
 	const userData = await getUserInfo(pathData.params.user);
-	const challengeSolved = await getChallengeSolved(userData.id);
+	const challengeSolved = await getChallengesSolved(userData.id);
 	return {
 		props: {
 			userData,

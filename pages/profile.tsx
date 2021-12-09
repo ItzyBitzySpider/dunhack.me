@@ -6,7 +6,7 @@ import TableRow from '../components/tableRow';
 import { changeUsername } from '../server/userFunctions';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
-import { getChallengeSolved } from '../server/challengeFunctions';
+import { getChallengesSolved } from '../server/challengeFunctions';
 
 export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
@@ -137,7 +137,7 @@ export default function Profile({ challengeSolved }) {
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	const challengeSolved = await getChallengeSolved(session.user.id);
+	const challengeSolved = await getChallengesSolved(session.user.id);
 	return {
 		props: {
 			challengeSolved,

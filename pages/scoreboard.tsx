@@ -38,7 +38,6 @@ export default function Scoreboard({ scores }) {
 
 export async function getServerSideProps(context) {
 	const scores = await getScoreboard();
-	console.log(scores);
 	return {
 		props: { scores },
 	};

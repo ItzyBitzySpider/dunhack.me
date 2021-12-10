@@ -25,8 +25,6 @@ export default async function submitUsername(req, res) {
 
 			//Change Username
 			let result = await changeUsername(userId, username);
-			console.log('result is ');
-			console.log(result);
 			res.status(200).json({ result: result });
 		} else {
 			// Not Signed in

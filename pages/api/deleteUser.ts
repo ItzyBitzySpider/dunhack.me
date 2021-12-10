@@ -17,8 +17,6 @@ export default async function deleteUser(req, res) {
 
 			//Delete user
 			let result = await deleteAccount(userId);
-			console.log('result is ');
-			console.log(result);
 			res.status(200).json({ result: result });
 		} else {
 			// Not Signed in

@@ -9,12 +9,12 @@ import {
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
 
-export default function Challenges({ categories: challengeData, solvedIDs }) {
+export default function Challenges({ challengeData, solvedIDs }) {
 	const { data: session, status } = useSession();
+
+	// category filter
 	let catMap = {};
-	for (const category of challengeData) {
-		catMap[category.name] = true;
-	}
+	for (const category of challengeData) catMap[category.name] = true;
 	const [categoryFilter, setCategories] = useState(catMap);
 	const [catPlaceholder, setCatPlaceholder] = useState(
 		Object.keys(catMap).length + ' categories selected'
@@ -26,7 +26,6 @@ export default function Challenges({ categories: challengeData, solvedIDs }) {
 		setCategories(filteredMap);
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		setCatPlaceholder(num + ' categories selected');
-		console.log(catPlaceholder);
 	}
 
 	function catRemove(selectedList, selectedItem) {
@@ -36,6 +35,35 @@ export default function Challenges({ categories: challengeData, solvedIDs }) {
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		if (num === 0) setCatPlaceholder('Select Category');
 		else setCatPlaceholder(num + ' categories selected');
+	}
+
+	// ctf filter
+	let ctfMap = {};
+	for (const category of challengeData) {
+		for (const chall of category.challenges) {
+			ctfMap[chall.ctfName.name] = true;
+		}
+	}
+	const [ctfFilter, setCTF] = useState(ctfMap);
+	const [ctfPlaceholder, setCTFPlaceholder] = useState(
+		Object.keys(ctfMap).length + ' CTFs selected'
+	);
+
+	function ctfSelect(selectedList, selectedItem) {
+		let filteredMap = { ...ctfFilter };
+		filteredMap[selectedItem] = true;
+		setCTF(filteredMap);
+		const num = Object.values(filteredMap).filter((e) => e).length;
+		setCTFPlaceholder(num + ' CTFs selected');
+	}
+
+	function ctfRemove(selectedList, selectedItem) {
+		let filteredMap = { ...ctfFilter };
+		filteredMap[selectedItem] = false;
+		setCTF(filteredMap);
+		const num = Object.values(filteredMap).filter((e) => e).length;
+		if (num === 0) setCTFPlaceholder('Select CTF');
+		else setCTFPlaceholder(num + ' CTFs selected');
 	}
 
 	if (session) {
@@ -53,7 +81,14 @@ export default function Challenges({ categories: challengeData, solvedIDs }) {
 							placeholder={catPlaceholder}
 						/>
 					</Col>
-					<Col></Col>
+					<Col>
+						<Filter
+							options={Object.keys(ctfMap)}
+							onSelect={ctfSelect}
+							onRemove={ctfRemove}
+							placeholder={ctfPlaceholder}
+						/>
+					</Col>
 					<Col></Col>
 					<Col></Col>
 				</Row>
@@ -66,13 +101,15 @@ export default function Challenges({ categories: challengeData, solvedIDs }) {
 								<br />
 								<Row>
 									{category.challenges.map((challenge) => {
-										return (
-											<Challenge
-												key={challenge.id}
-												chal={challenge}
-												solved={solvedIDs.includes(challenge.id)}
-											/>
-										);
+										if (ctfFilter[challenge.ctfName.name]) {
+											return (
+												<Challenge
+													key={challenge.id}
+													chal={challenge}
+													solved={solvedIDs.includes(challenge.id)}
+												/>
+											);
+										}
 									})}
 								</Row>
 								<br />
@@ -98,6 +135,6 @@ export async function getServerSideProps(context) {
 		solvedIDs.push(solved.challengeId);
 	}
 	return {
-		props: { categories: challengeData, solvedIDs },
+		props: { challengeData, solvedIDs },
 	};
 }

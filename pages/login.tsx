@@ -35,8 +35,7 @@ export default function Login({ csrfToken }: { csrfToken: string }) {
 					<Col lg={6}>
 						<h1>Sign in with</h1>
 						<h6>
-							Email login requires manual verification. Please register for an
-							account here.{' '}
+							Email login requires manual verification. Please contact admin to register for an account.
 						</h6>
 						<br />
 						<Form method='post' action='/api/auth/signin/email'>

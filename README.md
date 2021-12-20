@@ -19,12 +19,8 @@ $ npm -v
 To get started, simply install dependencies with
 
 ```node
-$ npm i
+$ npm install --legacy-peer-deps
 ```
-
-### Database setup
-
-The platform uses a MySQL database. 
 
 ### Configuring environment variables
 
@@ -52,6 +48,15 @@ You will need to create a `.env` file in the project root. Refer to the [`env.ex
 
 4. **Next Auth URL**  
    When deploying to production, set the `NEXTAUTH_URL` environment variable to the canonical URL of your site.
+
+### Database setup
+
+If you are using the docker-compose file, you may skip this step. The platform uses a MySQL database. Prisma is used to initialize the database schema. After configuring the `DATABASE_URL` in your `.env` file, run
+
+```bash
+$ npx prisma generate
+$ npx prisma db push --accept-data-loss
+```
 
 ## Usage
 

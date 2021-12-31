@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import styles from '../styles/sidebar.module.scss';
+import { BsGrid } from 'react-icons/bs';
+import { CgProfile } from 'react-icons/cg';
+import { GoSignOut, GoSignIn } from 'react-icons/go';
+import { BiHome, BiCrown } from 'react-icons/bi';
 import { useRouter } from 'next/router';
 
 export default function SidebarNavigation() {
@@ -12,13 +16,15 @@ export default function SidebarNavigation() {
 	return (
 		<>
 			<nav className={styles.sidebar}>
+				<img src='/Logo.png' />
 				<ul className={styles.nav}>
 					<li>
 						<Link href='/'>
 							<a
 								onClick={() => setActive('')}
 								className={active === '' ? styles.selected : styles.text}>
-								Home
+								<BiHome size='24px' />
+								&emsp; &emsp;Home
 							</a>
 						</Link>
 					</li>
@@ -30,7 +36,7 @@ export default function SidebarNavigation() {
 								className={
 									active === 'challenges' ? styles.selected : styles.text
 								}>
-								Challenges
+								<BsGrid size='24px' /> &emsp; &emsp;Challenges
 							</a>
 						</Link>
 					</li>
@@ -42,7 +48,7 @@ export default function SidebarNavigation() {
 								className={
 									active === 'scoreboard' ? styles.selected : styles.text
 								}>
-								Scoreboard
+								<BiCrown size='24px' /> &emsp; &emsp;Scoreboard
 							</a>
 						</Link>
 					</li>
@@ -56,7 +62,7 @@ export default function SidebarNavigation() {
 											? styles.selected
 											: styles.text
 									}>
-									Profile
+									<CgProfile size='24px' /> &emsp; &emsp;Profile
 								</a>
 							</Link>
 						</li>
@@ -71,7 +77,7 @@ export default function SidebarNavigation() {
 								className={
 									active === 'signout' ? styles.selected : styles.text
 								}>
-								Sign Out
+								<GoSignOut size='24px' /> &emsp; &emsp;Sign Out
 							</a>
 						</li>
 					)}
@@ -83,7 +89,7 @@ export default function SidebarNavigation() {
 									className={
 										active === 'login' ? styles.selected : styles.text
 									}>
-									Login
+									<GoSignIn size='24px' /> &emsp; &emsp;Login
 								</a>
 							</Link>
 						</li>

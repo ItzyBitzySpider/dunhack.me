@@ -1,32 +1,54 @@
 import Head from 'next/head';
 import React from 'react';
+import styles from '../styles/home.module.scss';
+import { Col, Row } from 'react-bootstrap';
 
 export default function Home() {
 	return (
 		<>
-			<h1 className='txt-center'>Home</h1>
+			<br />
+			<div className={styles.banner}><img src='banner.png'/></div>
+			<br/>
+			<h5 className='txt-center'>CTF Training Platform</h5>
+			<h6 className='txt-center'>brought to you by ItzyBitzySpider</h6>
 			<br/><br/>
-			<h2>What is insert &lt;some name here&gt;? </h2>
-			<a>
+			<h2 className='txt-center'>Frequent Asked Questions</h2>
+			<br />
+			<br />
+			<h3>&gt;&emsp;What is dunhack.me?</h3>
+			<br />
+			<p>
 				It'z Different CTF is a CTF training platform. We host a collection of
 				challenges from past CTFs held in Singapore. This CTF will run
 				indefinitely.
-			</a>
-			<br/><br/><br/>
-			<h2>How does it work?</h2>
-			<a>If you are unfamiliar with CTFs, you may take a look at this </a>
-			<a href='https://www.youtube.com/watch?v=8ev9ZX9J45A'>video</a>
-			<a> and this </a>
-			<a href='https://trailofbits.github.io/ctf/'>guide</a>
-			<a> to find out more.</a>
-			<br/><br/><br/>
-			<h2>List of CTFs collated</h2>
+			</p>
+			<br />
+			<br />
+			<h3>&gt;&emsp;How does it work?</h3>
+			<br />
+			<p>
+				If you are unfamiliar with CTFs, you may take a look at this{' '}
+				<a href='https://www.youtube.com/watch?v=8ev9ZX9J45A'>video</a> and this{' '}
+				<a href='https://trailofbits.github.io/ctf/'>guide</a> to find out more.
+			</p>
+			<br />
+			<br />
+			<h3>&gt;&emsp;List of CTFs collated</h3>
 			<ul>
 				<li>None</li>
-			</ul><br/>
-			<h2>Sponsors</h2>
-			<a>River's Big CTF Prize Stash</a>
-			<br/><br/>
+			</ul>
+			<br />
+			<br />
+			<h2 className='txt-center'>Sponsors</h2>
+			<Row className='justify-content-center pt-5'>
+				<Row className={styles.sponsorBox}>
+					<Col><img/></Col>
+					<Col><img/></Col>
+					<Col><img/></Col>
+				</Row>
+			</Row>
+			<br />
+			<br />
 		</>
 	);
 }

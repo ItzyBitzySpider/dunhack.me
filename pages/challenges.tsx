@@ -9,6 +9,7 @@ import {
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
 import { assert } from 'console';
+import Unauthorized from '../components/unauthorized';
 
 export default function Challenges({ challengeData, solvedIDs }) {
 	const { data: session, status } = useSession();
@@ -121,7 +122,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 

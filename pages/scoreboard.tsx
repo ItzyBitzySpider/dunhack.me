@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import { Col, Row } from 'react-bootstrap';
 import TableRow from '../components/tableRow';
+import Unauthorized from '../components/unauthorized';
 import { getScoreboard } from '../server/scoreFunctions';
 
 export default function Scoreboard({ scores }) {
@@ -32,7 +33,7 @@ export default function Scoreboard({ scores }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 

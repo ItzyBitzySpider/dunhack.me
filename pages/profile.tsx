@@ -7,6 +7,7 @@ import { changeUsername } from '../server/userFunctions';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
 import { getChallengesSolved } from '../server/challengeFunctions';
+import Unauthorized from '../components/unauthorized';
 
 export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
@@ -137,12 +138,13 @@ export default function Profile({ challengeSolved }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
+	if (!session) return { props: { challengeSolved: []} };
 	const challengeSolved = await getChallengesSolved(session.user.id);
 	return {
 		props: {

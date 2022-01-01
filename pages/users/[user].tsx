@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import Router from 'next/router';
 import { Row, Col } from 'react-bootstrap';
 import TableRow from '../../components/tableRow';
+import Unauthorized from '../../components/unauthorized';
 import { getChallengesSolved } from '../../server/challengeFunctions';
 import { getAllUsers, getUserInfo } from '../../server/userFunctions';
 import styles from '../../styles/profile.module.scss';
@@ -16,16 +17,16 @@ export default function userProfile({ userData, challengeSolved }) {
 		return (
 			<>
 				<h1 className='txt-center'>{userData.username}'s Profile</h1>
-				<Row className = 'justify-content-center'>
-						<img className={styles.imageContainer} src={userData.image} />
+				<Row className='justify-content-center'>
+					<img className={styles.imageContainer} src={userData.image} />
 				</Row>
-				<br/>
+				<br />
 				<Row className={styles.border}>
 					<Col className='g-0'>
 						<h2>User Submissions</h2>
 					</Col>
 				</Row>
-				<br/>
+				<br />
 
 				<Row className='justify-content-center g-0'>
 					<TableRow
@@ -49,7 +50,7 @@ export default function userProfile({ userData, challengeSolved }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized />;
 	}
 }
 

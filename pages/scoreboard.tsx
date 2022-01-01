@@ -9,7 +9,7 @@ export default function Scoreboard({ scores }) {
 		return (
 			<>
 				<h1 className='txt-center'>Scoreboard</h1>
-				<Row>
+				<Row className = 'justify-content-center'>
 					<Col className='g-5'>
 						<TableRow
 							left='Rank'
@@ -23,7 +23,7 @@ export default function Scoreboard({ scores }) {
 									left={entry.position.toString()}
 									middle={entry.username} //TODO make username clickable
 									right={entry.score}
-									variant={index % 2 === 0 ? 'dark' : 'light'}
+									// variant={index % 2 === 0 ? 'dark' : 'light'}
 								/>
 							);
 						})}

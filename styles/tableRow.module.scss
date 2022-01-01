@@ -1,25 +1,22 @@
 @import 'variables';
 
-.even{
-    // background-color: $secondary-light;
-    font-size: 1.2rem;
-    padding: 10px;
-}
-
-.odd{
-    background-color: $primary-light;
-    color: black;
-    font-size: 1.2rem;
-    padding: 10px;
+.row{
+    color: $neutral-700;
+    font-size: 18px;
+    line-height: 24px;
+    padding: 14px 16px 14px 0px;
+    border-top: 1px solid $neutral-400;
 }
 
 .header{
-    background-color: $primary-dark;
-    color: white;
-    font-size: 1.2rem;
-    padding: 10px;
+    color: $neutral-800;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;
+    padding: 16px 16px 16px 0px;
+    border-bottom: 1px solid $neutral-400;
 }
 
-.center{
-    text-align: center;
+.container{
+    width: 1000px;
 }

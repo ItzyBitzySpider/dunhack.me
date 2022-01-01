@@ -15,16 +15,19 @@ export default function userProfile({ userData, challengeSolved }) {
 		// }
 		return (
 			<>
-				<Row>
-					<Col className={styles.container}>
-						<h1>{userData.username}</h1>
-					</Col>
-					<Col>
+				<h1 className='txt-center'>{userData.username}'s Profile</h1>
+				<Row className = 'justify-content-center'>
 						<img className={styles.imageContainer} src={userData.image} />
+				</Row>
+				<br/>
+				<Row className={styles.border}>
+					<Col className='g-0'>
+						<h2>User Submissions</h2>
 					</Col>
 				</Row>
-				<br />
-				<Row className='justify-content-center g-1'>
+				<br/>
+
+				<Row className='justify-content-center g-0'>
 					<TableRow
 						variant='header'
 						left='S/N'

@@ -8,12 +8,14 @@ import {
 	getChallengesSolved,
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
+import { assert } from 'console';
 
 export default function Challenges({ challengeData, solvedIDs }) {
 	const { data: session, status } = useSession();
 
 	// category filter
 	let catMap = {};
+	for (const category of challengeData) catMap[category.name] = true;
 	const [categoryFilter, setCategories] = useState(catMap);
 	const [catPlaceholder, setCatPlaceholder] = useState(
 		Object.keys(catMap).length + ' categories selected'
@@ -38,6 +40,11 @@ export default function Challenges({ challengeData, solvedIDs }) {
 
 	// ctf filter
 	let ctfMap = {};
+	for (const category of challengeData) {
+		for (const chall of category.challenges) {
+			ctfMap[chall.ctfName.name] = true;
+		}
+	}
 	const [ctfFilter, setCTF] = useState(ctfMap);
 	const [ctfPlaceholder, setCTFPlaceholder] = useState(
 		Object.keys(ctfMap).length + ' CTFs selected'
@@ -61,14 +68,6 @@ export default function Challenges({ challengeData, solvedIDs }) {
 	}
 
 	if (session) {
-		// initialize maps used for filters
-		for (const category of challengeData) catMap[category.name] = true;
-		for (const category of challengeData) {
-			for (const chall of category.challenges) {
-				ctfMap[chall.ctfName.name] = true;
-			}
-		}
-
 		return (
 			<>
 				<h1 className='txt-center'>Challenges</h1>
@@ -129,7 +128,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 // Get challenges
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	if (!session) return { props: {} };
+	if (!session) return { props: { challengeData: [], solvedIDs: [] } };
 	const challengeData = await getAllChallenges();
 	const userSolved = await getChallengesSolved(session.user.id);
 	const solvedIDs = [];

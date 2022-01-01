@@ -8,7 +8,7 @@ export default function Scoreboard({ scores }) {
 	if (session) {
 		return (
 			<>
-				<h1>Scoreboard</h1>
+				<h1 className='txt-center'>Scoreboard</h1>
 				<Row>
 					<Col className='g-5'>
 						<TableRow

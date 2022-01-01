@@ -14,7 +14,6 @@ export default function Challenges({ challengeData, solvedIDs }) {
 
 	// category filter
 	let catMap = {};
-	for (const category of challengeData) catMap[category.name] = true;
 	const [categoryFilter, setCategories] = useState(catMap);
 	const [catPlaceholder, setCatPlaceholder] = useState(
 		Object.keys(catMap).length + ' categories selected'
@@ -39,11 +38,6 @@ export default function Challenges({ challengeData, solvedIDs }) {
 
 	// ctf filter
 	let ctfMap = {};
-	for (const category of challengeData) {
-		for (const chall of category.challenges) {
-			ctfMap[chall.ctfName.name] = true;
-		}
-	}
 	const [ctfFilter, setCTF] = useState(ctfMap);
 	const [ctfPlaceholder, setCTFPlaceholder] = useState(
 		Object.keys(ctfMap).length + ' CTFs selected'
@@ -67,9 +61,17 @@ export default function Challenges({ challengeData, solvedIDs }) {
 	}
 
 	if (session) {
+		// initialize maps used for filters
+		for (const category of challengeData) catMap[category.name] = true;
+		for (const category of challengeData) {
+			for (const chall of category.challenges) {
+				ctfMap[chall.ctfName.name] = true;
+			}
+		}
+
 		return (
 			<>
-				<h1>Challenges</h1>
+				<h1 className='txt-center'>Challenges</h1>
 				<br />
 				<h4>Filters</h4>
 				<Row>

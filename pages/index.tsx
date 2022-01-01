@@ -4,7 +4,7 @@ import React from 'react';
 export default function Home() {
 	return (
 		<>
-			<h1>Home</h1>
+			<h1 className='txt-center'>Home</h1>
 			<br/><br/>
 			<h2>What is insert &lt;some name here&gt;? </h2>
 			<a>

@@ -16,9 +16,9 @@
 }
 
 .text {
-	color: $secondary-dark;
+	color: $secondary;
 	margin-top: 20px;
-	font-size: 1em;
+	font-weight: 300;
 	display: inline-flex;
 	transition: all ease-out 300ms;
 	align-items: center;
@@ -27,17 +27,17 @@
 
 .selected {
 	@extend .text;
-	font-weight: bold;
-	color: $secondary;
+	font-weight: 800;
+	color: $secondary-dark;
 }
 
 .text:hover {
-	color: $secondary;
+	color: $secondary-dark;
 	font-weight: bold;
 }
 
 .text:active {
-	color: $secondary;
+	color: $secondary-dark;
 	font-weight: bold;
 }
 

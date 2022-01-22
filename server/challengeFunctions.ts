@@ -1,6 +1,7 @@
 import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission } from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
+import { getTotalUsers } from './miscFunctions';
 
 /**
  * Gets Challenges By Category Name
@@ -220,6 +221,9 @@ export async function getChallengeByID(id: number): Promise<challengeDetails | n
 				min_seconds_btwn_submissions: true,
 				case_insensitive: true,
 				points: true,
+				minPoints: true,
+				initialPoints: true,
+				dynamicScoring: true,
 				solves: true,
 			},
 		});
@@ -363,7 +367,7 @@ async function ChallengeSolve(challenge: object): Promise<boolean> {
 			},
 			data: {
 				solves: challenge['solves'] + 1,
-				points: process.env.DYNAMIC_SCORING === 'false' ? dynamicScoringFormula(challenge['solves'] + 1) : challenge['points'],
+				points: challenge['dynamicScoring'] ? await dynamicScoringFormula(challenge, challenge['solves'] + 1) : challenge['points'],
 			},
 		});
 		return true
@@ -379,16 +383,16 @@ async function ChallengeSolve(challenge: object): Promise<boolean> {
 
 /**
  * Dynamic Scoring Formula
- * @param solves
+ * @param Challenge Solves
  * @returns new Score
  */
-function dynamicScoringFormula(solves: number): number {
+async function dynamicScoringFormula(challenge: object, solves: number): Promise<number> {
 	let lb = parseInt(process.env.LOWER_BOUND);
 	let ub = parseInt(process.env.UPPER_BOUND);
-	let total = parseInt(process.env.TOTAL_PARTICIPANTS);
+	let total = await getTotalUsers();
 	let x = solves / total;
-	let initial = parseInt(process.env.CHALLENGE_MAX_POINTS);
-	let min = parseInt(process.env.CHALLENGE_MIN_POINTS);
+	let initial = challenge['initialPoints'];
+	let min = challenge['minPoints'];
 	if (x <= lb) {
 		return initial;
 	} else if (x >= ub) {

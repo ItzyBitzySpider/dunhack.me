@@ -91,7 +91,10 @@ model challenges {
   exposed                       Boolean     @default(true)
   flag                          String      @db.Text
   case_insensitive              Boolean     @default(true)
-  points                        Int      
+  minPoints                     Int
+  initialPoints                 Int
+  points                        Int
+  dynamicScoring                Boolean      
   solves                        Int         @db.UnsignedInt @default(0)
   min_seconds_btwn_submissions  Int         @db.UnsignedSmallInt @default(5)
 }

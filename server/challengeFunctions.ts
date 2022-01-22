@@ -145,63 +145,6 @@ export async function getAllChallenges(): Promise<Array<challengesByCategory>> {
 	return challenges;
 }
 
-/**
- * Searches for Challenge by CTF Name and Category Name
- * @param CTFName
- * @param categoryName
- * @returns Challenge object
- */
-export async function ChallengeSearch(CTFName: string, categoryName: string): Promise<challenge_type | null> {
-	try {
-		return await prisma.challenges.findMany({
-			orderBy: [{ points: 'asc' }],
-			where: {
-				exposed: true,
-				ctfName: {
-					name: CTFName,
-				},
-				category: {
-					name: categoryName,
-				},
-			},
-			select: {
-				id: true,
-				title: true,
-				description: true,
-				ctfName: {
-					select: {
-						name: true,
-					},
-				},
-				category: {
-					select: {
-						name: true,
-					},
-				},
-				hints: {
-					select: {
-						body: true,
-					},
-				},
-				files: {
-					select: {
-						title: true,
-						url: true,
-					},
-				},
-				points: true,
-				solves: true,
-			},
-		});
-	} catch (err) {
-		logError(err);
-		return null;
-	} finally {
-		async () => {
-			await prisma.$disconnect();
-		};
-	}
-}
 
 /**
  * Get Challenge Details by ID (For Solving)

@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import { Col, Row } from 'react-bootstrap';
 import TableRow from '../components/tableRow';
+import Unauthorized from '../components/unauthorized';
 import { getScoreboard } from '../server/scoreFunctions';
 
 export default function Scoreboard({ scores }) {
@@ -8,8 +9,8 @@ export default function Scoreboard({ scores }) {
 	if (session) {
 		return (
 			<>
-				<h1>Scoreboard</h1>
-				<Row>
+				<h1 className='txt-center'>Scoreboard</h1>
+				<Row className = 'justify-content-center'>
 					<Col className='g-5'>
 						<TableRow
 							left='Rank'
@@ -23,7 +24,7 @@ export default function Scoreboard({ scores }) {
 									left={entry.position.toString()}
 									middle={entry.username} //TODO make username clickable
 									right={entry.score}
-									variant={index % 2 === 0 ? 'dark' : 'light'}
+									// variant={index % 2 === 0 ? 'dark' : 'light'}
 								/>
 							);
 						})}
@@ -32,7 +33,7 @@ export default function Scoreboard({ scores }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 

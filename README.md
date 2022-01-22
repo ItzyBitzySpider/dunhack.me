@@ -55,7 +55,7 @@ If you are using the docker-compose file, you may skip this step. The platform u
 
 ```bash
 $ npx prisma generate
-$ npx prisma db push 
+$ npx prisma db push
 ```
 
 ## Usage

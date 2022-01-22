@@ -18,7 +18,7 @@ export default async function submitUsername(req, res) {
 
 			//Ensure username is not null or empty or malicious before submitting
 			//https://stackoverflow.com/questions/12018245/regular-expression-to-validate-username
-			if (username === '' || username === null || !RegExp(/^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/).test(username)) {
+			if (username === '' || username === null || !RegExp(/^(?=.{2,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/).test(username)) {
 				res.status(400).json({ error: 'Username is Invalid' });
 				return;
 			}

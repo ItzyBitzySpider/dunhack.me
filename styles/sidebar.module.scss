@@ -1,24 +1,12 @@
 @import 'styles/_variables.scss';
 
-@media screen and (max-width: 1000px) {
-	.sidebar {
-		background-color: $primary-dark;
-		display: flex;
-		height: 100%;
-		width: 100%;
-		align-items: center;
-		// position: fixed;
-	}
-}
-@media screen and (min-width: 1000px) {
-	.sidebar {
-		background-color: $primary-dark;
-		display: flex;
-		height: 100%;
-		width: 17%;
-		align-items: center;
-		position: fixed;
-	}
+.sidebar {
+	background-color: $primary-dark;
+	display: flex;
+	height: 100%;
+	width: 17%;
+	flex-direction: column;
+	position: fixed;
 }
 
 .nav {
@@ -28,28 +16,28 @@
 }
 
 .text {
-	color: $secondary-dark;
-	letter-spacing: 0.1em;
+	color: $secondary;
 	margin-top: 20px;
-	font-size: 1em;
-	display: block;
+	font-weight: 300;
+	display: inline-flex;
 	transition: all ease-out 300ms;
+	align-items: center;
 	text-decoration: none;
 }
 
 .selected {
 	@extend .text;
-	font-weight: bold;
-	color: $secondary;
+	font-weight: 800;
+	color: $secondary-dark;
 }
 
 .text:hover {
-	color: $secondary;
+	color: $secondary-dark;
 	font-weight: bold;
 }
 
 .text:active {
-	color: $secondary;
+	color: $secondary-dark;
 	font-weight: bold;
 }
 

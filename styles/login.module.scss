@@ -14,6 +14,8 @@ $google : #FFFFFF;
 	width: 100%;
 	height: 100%;
 	margin-right: 5px;
+	color: $neutral-800;
+	font-size: 18px;
 }
 
 .btnGithub {
@@ -43,7 +45,7 @@ $google : #FFFFFF;
 .btnGoogle:hover, .btnGoogle:focus, .btnGoogle:active  {
 	background-color: $google;
 	color: black;
-	box-shadow: 2px 2px 2px 2px rgba(black, 0.2);
+	box-shadow: 2px 2px 2px 2px $neutral-400;
 }
 
 .btnDiscord {

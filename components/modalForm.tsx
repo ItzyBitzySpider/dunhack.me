@@ -8,6 +8,7 @@ export default function ModalForm({
 	error,
 	placeholder,
 	variant,
+	style,
 }: {
 	title: string;
 	content: string;
@@ -15,6 +16,7 @@ export default function ModalForm({
 	error?: string;
 	placeholder: string;
 	variant: string;
+	style?: string;
 }) {
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
@@ -22,7 +24,7 @@ export default function ModalForm({
 	const [formValue, setValue] = useState('');
 	return (
 		<>
-			<Button variant={variant} onClick={handleShow}>
+			<Button variant={variant} onClick={handleShow} className={style}>
 				{title}
 			</Button>
 			<Modal

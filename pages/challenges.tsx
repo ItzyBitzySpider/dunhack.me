@@ -8,6 +8,8 @@ import {
 	getChallengesSolved,
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
+import { assert } from 'console';
+import Unauthorized from '../components/unauthorized';
 
 export default function Challenges({ challengeData, solvedIDs }) {
 	const { data: session, status } = useSession();
@@ -69,7 +71,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 	if (session) {
 		return (
 			<>
-				<h1>Challenges</h1>
+				<h1 className='txt-center'>Challenges</h1>
 				<br />
 				<h4>Filters</h4>
 				<Row>
@@ -120,14 +122,14 @@ export default function Challenges({ challengeData, solvedIDs }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 
 // Get challenges
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	if (!session) return { props: {} };
+	if (!session) return { props: { challengeData: [], solvedIDs: [] } };
 	const challengeData = await getAllChallenges();
 	const userSolved = await getChallengesSolved(session.user.id);
 	const solvedIDs = [];

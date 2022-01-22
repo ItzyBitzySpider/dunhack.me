@@ -39,6 +39,15 @@ interface lastSubmission {
 	correct: boolean;
 }
 
+interface singleSubmission {
+	id: number;
+	added: number;
+	challengeId: number;
+	userId: string;
+	flag: string;
+	correct: boolean;
+}
+
 interface solvedChallenge {
 	added: Date;
 	pos: number;

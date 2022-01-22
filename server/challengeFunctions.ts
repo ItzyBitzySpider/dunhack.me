@@ -1,4 +1,4 @@
-import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission } from '../types/custom';
+import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission, singleSubmission} from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
 import { getTotalUsers } from './miscFunctions';
@@ -151,7 +151,7 @@ export async function getAllChallenges(): Promise<Array<challengesByCategory>> {
  * @param id 
  * @returns challenge object
  */
-export async function getChallengeByID(id: number): Promise<challengeDetails | null> {
+export async function getChallengeById(id: number): Promise<challengeDetails | null> {
 	try {
 		return await prisma.challenges.findFirst({
 			where: {
@@ -196,6 +196,36 @@ export async function getLastSubmission(userId: string,challengeId: number): Pro
 			select: {
 				id: true,
 				added: true,
+				correct: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
+ * Get Submission by Submission ID
+ * @param submissionId 
+ * @returns 
+ */
+export async function getSubmissionById(submissionId: number): Promise<singleSubmission | null> {
+	try {
+		return await prisma.submissions.findFirst({
+			where: {
+				id: submissionId,
+			},
+			select: {
+				id: true,
+				added: true,
+				challengeId: true,
+				userId: true,
+				flag: true,
 				correct: true,
 			},
 		});
@@ -299,7 +329,7 @@ export async function submitFlag(challenge: object, userId: string, flagSubmissi
 
 /**
  * Updates Challenge Solve and Points
- * @param challenge object
+ * @param challenge
  * @returns Status
  */ 
 async function ChallengeSolve(challenge: object): Promise<boolean> {
@@ -325,8 +355,36 @@ async function ChallengeSolve(challenge: object): Promise<boolean> {
 }
 
 /**
+ * Unsolves a Challenge
+ * @param challenge 
+ * @returns Status
+ */
+ async function ChallengeUnsolve(challenge: object): Promise<boolean> {
+	try {
+		await prisma.challenges.update({
+			where: {
+				id: challenge['id'],
+			},
+			data: {
+				solves: challenge['solves'] - 1,
+				points: challenge['dynamicScoring'] ? await dynamicScoringFormula(challenge, challenge['solves'] - 1) : challenge['points'],
+			},
+		});
+		return true
+	} catch (err) {
+		logError(err);
+		return false;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
  * Dynamic Scoring Formula
- * @param Challenge Solves
+ * @param Challenge 
+ * @param solves
  * @returns new Score
  */
 async function dynamicScoringFormula(challenge: object, solves: number): Promise<number> {
@@ -344,3 +402,45 @@ async function dynamicScoringFormula(challenge: object, solves: number): Promise
 		return initial - Math.ceil((initial - min) / (ub - lb)) * (x - lb);
 	}
 }
+
+/**
+ * Admin Panel Manual Marking of Submissions
+ * @param submissionId 
+ * @param correct 
+ * @returns Status
+ */
+export async function markSubmission(submissionId: number, correct: boolean): Promise<boolean> {
+	try {
+		let submission = await getSubmissionById(submissionId);
+		if (submission === null) throw new Error('Submission not found');
+
+		await prisma.submissions.update({
+			where: {
+				id: submissionId,
+			},
+			data: {
+				correct: correct,
+			},
+		});
+
+		let challenge = await getChallengeById(submission['challengeId']);
+
+		if (correct) {
+			let succeed = await ChallengeSolve(challenge);
+			if (!succeed) throw new Error('Challenge solve failed');
+		} else {
+			let succeed = await ChallengeUnsolve(challenge);
+			if (!succeed) throw new Error('Challenge unsolve failed');
+		}
+
+		return true;
+	} catch (err) {
+		logError(err);
+		return false;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+

@@ -1,7 +1,8 @@
-import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission, singleSubmission} from '../types/custom';
+import { submissions } from '@prisma/client';
+import { challengeDetails, challengesByCategory, solvedChallenge, challenge_type, lastSubmission, singleSubmission, Submission} from '../types/custom';
 import prisma from './databaseFunctions';
 import { logError } from './logging';
-import { getTotalUsers } from './miscFunctions';
+import { getTotalEligibleUsers } from './userFunctions';
 
 /**
  * Gets Challenges By Category Name
@@ -239,6 +240,34 @@ export async function getSubmissionById(submissionId: number): Promise<singleSub
 	}
 }
 
+export async function getAllSubmissions(): Promise<Array<Submission>> {
+	try {
+		return await prisma.$queryRaw`
+			SELECT
+				submissions.id,
+				submissions.added,
+				submissions.correct,
+				submissions.flag,
+				submissions.challengeId,
+				submissions.userId,
+				user.username,
+				challenges.title
+			FROM submissions
+			INNER JOIN user ON submissions.userId = users.id
+			INNER JOIN challenges ON submissions.challengeId = challenges.id
+			ORDER BY submissions.added DESC
+		`;
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+
 /**
  * Gets all Challenges solved by user
  * @param userId 
@@ -390,7 +419,7 @@ async function ChallengeSolve(challenge: object): Promise<boolean> {
 async function dynamicScoringFormula(challenge: object, solves: number): Promise<number> {
 	let lb = parseInt(process.env.LOWER_BOUND);
 	let ub = parseInt(process.env.UPPER_BOUND);
-	let total = await getTotalUsers();
+	let total = await getTotalEligibleUsers();
 	let x = solves / total;
 	let initial = challenge['initialPoints'];
 	let min = challenge['minPoints'];

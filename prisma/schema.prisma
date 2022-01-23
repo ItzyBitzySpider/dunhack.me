@@ -87,7 +87,6 @@ model challenges {
   description                   String      @db.Text
   hints                         hints[]
   files                         files[]
-  writeups                      writeups[]
   exposed                       Boolean     @default(true)
   flag                          String      @db.Text
   case_insensitive              Boolean     @default(true)
@@ -114,13 +113,6 @@ model files {
   url                String          @db.Text
 }
 
-model writeups {
-  id                 Int             @id @default(autoincrement())
-  challenge          challenges      @relation(fields: [challengeId], references: [id])
-  challengeId        Int
-  link               String          @db.Text
-}
-
 model submissions {
   id                            Int      @id @default(autoincrement())
   added                         DateTime
@@ -128,14 +120,6 @@ model submissions {
   userId                        String
   flag                          String   @db.Text
   correct                       Boolean  @default(false)
-}
-
-model announcements {
-  id                 Int      @id @default(autoincrement())
-  added              DateTime
-  addedBy           String
-  title              String   @db.VarChar(255)
-  body               String   @db.Text
 }
 
 model email_whitelist {

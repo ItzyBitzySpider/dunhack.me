@@ -1,5 +1,5 @@
 import { getSession } from "next-auth/react"
-import { getChallengeByID, getLastSubmission, submitFlag } from '../../server/challengeFunctions';
+import { getChallengeById, getLastSubmission, submitFlag } from '../../server/challengeFunctions';
 import { userEnabled } from "../../server/userFunctions";
 
 export default async function submit(req, res) {
@@ -17,7 +17,7 @@ export default async function submit(req, res) {
 				return;
 			}
 
-			let challenge = await getChallengeByID(challengeId);
+			let challenge = await getChallengeById(challengeId);
 			if (challenge === null) {
 				res.status(400).json({ error: 'Challenge does not exist' });
 				return;

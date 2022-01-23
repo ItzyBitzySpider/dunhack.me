@@ -15,16 +15,16 @@ export default function Home() {
 			<h2 className='txt-center'>Frequent Asked Questions</h2>
 			<br />
 			<br />
-			<h3>&gt;&emsp;What is dunhack.me?</h3>
+			<h3>What is dunhack.me?</h3>
 			<br />
 			<p>
-				It'z Different CTF is a CTF training platform. We host a collection of
+				dunhack.me is a CTF training platform. We host a collection of
 				challenges from past CTFs held in Singapore. This CTF will run
 				indefinitely.
 			</p>
 			<br />
 			<br />
-			<h3>&gt;&emsp;How does it work?</h3>
+			<h3>How does it work?</h3>
 			<br />
 			<p>
 				If you are unfamiliar with CTFs, you may take a look at this{' '}
@@ -33,7 +33,7 @@ export default function Home() {
 			</p>
 			<br />
 			<br />
-			<h3>&gt;&emsp;List of CTFs collated</h3>
+			<h3>List of CTFs collated</h3>
 			<ul>
 				<li>None</li>
 			</ul>

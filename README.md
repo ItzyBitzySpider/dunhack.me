@@ -1,4 +1,4 @@
-# It'z Different CTF Platform 
+# dunhack.me
 
 CTF Platform built with [Next.JS](https://nextjs.org/) React Framework. 
 

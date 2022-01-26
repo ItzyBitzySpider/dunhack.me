@@ -10,7 +10,7 @@ export default function Admin({ logs }) {
     return <>
         <h1>Admin Controls</h1>
         <h2>Submission logs</h2>
-        // TODO CSS
+        {/* TODO CSS */}
         <table>
             {logs.map((submission, index) =>
                 <tr>

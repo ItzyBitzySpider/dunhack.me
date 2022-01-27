@@ -4,6 +4,8 @@ interface challenge_type {
 	id: number;
 	title: string;
 	description: string;
+	hash: string;
+	service: Boolean;
 	ctfName: {
 		name: string;
 	};

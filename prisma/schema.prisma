@@ -80,11 +80,13 @@ model ctfList {
 model challenges {
   id                            Int         @id @default(autoincrement())
   title                         String      @db.VarChar(255)
+  hash                          String      @db.VarChar(300) @default(dbgenerated("SHA2(title,256)"))
   category                      category    @relation(fields: [categoryId], references: [id])
   categoryId                    Int         @db.Int
   ctfName                       ctfList     @relation(fields: [ctfNameId], references: [id])
   ctfNameId                     Int         @db.Int
   description                   String      @db.Text
+  service                       Boolean
   hints                         hints[]
   files                         files[]
   exposed                       Boolean     @default(true)

@@ -30,6 +30,8 @@ export async function getChallengeByCategory(categoryName: string): Promise<chal
 				id: true,
 				title: true,
 				description: true,
+				hash: true,
+				service: true,
 				ctfName: {
 					select: {
 						name: true,
@@ -91,6 +93,8 @@ export async function getChallengeByCTF(CTFName: string): Promise<challenge_type
 				id: true,
 				title: true,
 				description: true,
+				hash: true,
+				service: true,
 				ctfName: {
 					select: {
 						name: true,
@@ -128,7 +132,7 @@ export async function getChallengeByCTF(CTFName: string): Promise<challenge_type
 
 /**
  * Gets All Challenges
- * @returns all challenges
+ * @returns challegnesByCategory Object
  */
 export async function getAllChallenges(): Promise<Array<challengesByCategory>> {
 	let categories = await prisma.category.findMany({
@@ -185,7 +189,7 @@ export async function getChallengeById(id: number): Promise<challengeDetails | n
  * Get Last User Submission for Challenge
  * @param userId 
  * @param challengeId 
- * @returns Submission object
+ * @returns lastSubmission object
  */
 export async function getLastSubmission(userId: string,challengeId: number): Promise<lastSubmission | null> {
 	try {
@@ -213,7 +217,7 @@ export async function getLastSubmission(userId: string,challengeId: number): Pro
 /**
  * Get Submission by Submission ID
  * @param submissionId 
- * @returns 
+ * @returns singleSubmission Object
  */
 export async function getSubmissionById(submissionId: number): Promise<singleSubmission | null> {
 	try {
@@ -240,6 +244,10 @@ export async function getSubmissionById(submissionId: number): Promise<singleSub
 	}
 }
 
+/**
+ * Gets All Submissions for a User
+ * @returns Submission Object
+ */
 export async function getAllSubmissions(): Promise<Array<Submission>> {
 	try {
 		return await prisma.$queryRaw`
@@ -308,7 +316,7 @@ export async function getChallengesSolved(userId: string): Promise<Array<solvedC
  * @param userId
  * @param flagSubmission
  * @param Submission
- * @returns correct/wrong flag submission
+ * @returns Flag Correct/Wrong
  */
 export async function submitFlag(challenge: object, userId: string, flagSubmission: string, submission: object): Promise<boolean | null> {
 	try {
@@ -359,7 +367,7 @@ export async function submitFlag(challenge: object, userId: string, flagSubmissi
 /**
  * Updates Challenge Solve and Points
  * @param challenge
- * @returns Status
+ * @returns Function Execution Status
  */ 
 async function ChallengeSolve(challenge: object): Promise<boolean> {
 	try {
@@ -384,9 +392,9 @@ async function ChallengeSolve(challenge: object): Promise<boolean> {
 }
 
 /**
- * Unsolves a Challenge
+ * Unsolves a Challenge, Updates Challenge Solve and Points
  * @param challenge 
- * @returns Status
+ * @returns Function Execution Status
  */
  async function ChallengeUnsolve(challenge: object): Promise<boolean> {
 	try {
@@ -436,7 +444,7 @@ async function dynamicScoringFormula(challenge: object, solves: number): Promise
  * Admin Panel Manual Marking of Submissions
  * @param submissionId 
  * @param correct 
- * @returns Status
+ * @returns Function Execution Status
  */
 export async function markSubmission(submissionId: number, correct: boolean): Promise<boolean> {
 	try {

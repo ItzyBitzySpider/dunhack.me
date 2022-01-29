@@ -45,11 +45,17 @@ export async function clearAllLogs(): Promise<void> {
  */
 export async function getAllLogs(): Promise<Array<Log>> {
     try {
-        return await prisma.exceptions.findMany({
-            orderBy: {
-                added: "desc",
-            },
-        });
+        // return await prisma.exceptions.findMany({
+        //     orderBy: {
+        //         added: "desc",
+        //     },
+        // });
+		return await prisma.$queryRaw`
+			SELECT
+				*
+			FROM exceptions
+			ORDER BY added DESC
+		`;
 	} catch (err) {
 		logError(err);
 	} finally {

@@ -258,10 +258,10 @@ export async function getAllSubmissions(): Promise<Array<Submission>> {
 				submissions.flag,
 				submissions.challengeId,
 				submissions.userId,
-				user.username,
+				User.username,
 				challenges.title
 			FROM submissions
-			INNER JOIN user ON submissions.userId = users.id
+			INNER JOIN User ON submissions.userId = User.id
 			INNER JOIN challenges ON submissions.challengeId = challenges.id
 			ORDER BY submissions.added DESC
 		`;

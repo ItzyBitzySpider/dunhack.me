@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import Router from 'next/router';
+import dayjs from 'dayjs';
 import { Row, Col } from 'react-bootstrap';
 import TableRow from '../../components/tableRow';
 import Unauthorized from '../../components/unauthorized';
@@ -41,7 +42,7 @@ export default function userProfile({ userData, challengeSolved }) {
 								key={index}
 								left={index + 1}
 								middle={challenge.title}
-								right={challenge.added}
+								right={dayjs(challenge.added).format('DD MMM YYYY, HH:mm:ss')}
 								variant={index % 2 === 0 ? 'dark' : 'light'}
 							/>
 						);

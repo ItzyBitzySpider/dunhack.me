@@ -4,6 +4,7 @@ import { Button, Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';
 import TableRow from '../components/tableRow';
 import { changeUsername } from '../server/userFunctions';
+import dayjs from 'dayjs';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
 import { getChallengesSolved } from '../server/challengeFunctions';
@@ -129,7 +130,7 @@ export default function Profile({ challengeSolved }) {
 								key={index}
 								left={index + 1}
 								middle={challenge.title}
-								right={challenge.added}
+								right={dayjs(challenge.added).format('DD MMM YYYY, HH:mm:ss')}
 								variant={index % 2 === 0 ? 'dark' : 'light'}
 							/>
 						);

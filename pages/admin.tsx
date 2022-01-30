@@ -4,12 +4,14 @@ import { getAllLogs } from "../server/logging";
 import styles from '../styles/admin.module.scss';
 import dayjs from "dayjs";
 import { useState } from "react";
+import { Modal } from "react-bootstrap";
+import Log from "../components/log";
 
 export default function Admin({ submissions, logs }) {
     const { data: session, status } = useSession();
-    const [ subLimit, setSubLimit] = useState(10);
-    const [ logLimit, setLogLimit] = useState(10);
-    console.log(logs)
+    const [subLimit, setSubLimit] = useState(10);
+    const [logLimit, setLogLimit] = useState(10);
+    const [show, setShow] = useState(false);
 
     // TODO session is treated as a state: https://github.com/nextauthjs/next-auth/discussions/704
     // fix involves moving session checks to SSR
@@ -40,25 +42,20 @@ export default function Admin({ submissions, logs }) {
                 )}
             </tbody>
         </table>
-        {/* TODO: minimise long messages until they are clicked on */}
+        <br/>
         <h2>Exceptions</h2>
         <table className='table table-hover'>
             <thead>
                 <tr>
                     <th>Time Added</th>
-                    <th>Message</th>
                     <th>Code</th>
+                    <th>Message</th>
                     <th>Trace</th>
                 </tr>
             </thead>
             <tbody>
                 {logs.map((log, index) => index < subLimit &&
-                    <tr className={styles.click} onClick={()=>console.log('clicked')}>
-                        <td>{dayjs(log.added).format('DD MMM, HH:mm:ss')}</td>
-                        <td>{log.message}</td>
-                        <td>{log.code}</td>
-                        <td>{log.trace}</td>
-                    </tr>
+                    <Log style={styles.click} data={log}/>
                 )}
             </tbody>
         </table>

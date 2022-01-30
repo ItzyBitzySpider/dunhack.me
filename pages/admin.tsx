@@ -3,9 +3,10 @@ import { getAllSubmissions } from "../server/challengeFunctions";
 import { getAllLogs } from "../server/logging";
 import styles from '../styles/admin.module.scss';
 import dayjs from "dayjs";
-import { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Modal, Row, Form } from "react-bootstrap";
 import Log from "../components/log";
+import { MdSettingsInputAntenna } from "react-icons/md";
 
 export default function Admin({ submissions, logs }) {
     const { data: session, status } = useSession();
@@ -19,7 +20,21 @@ export default function Admin({ submissions, logs }) {
     return <>
         <h1>Admin Controls</h1>
         <br />
-        <h2>Submission logs</h2>
+        <Row>
+            <Col md={8}>
+                <h2>Submission Logs</h2>
+            </Col>
+            <Col md={4} className={styles.displayFilter}>
+                Showing Last
+                <Form.Select size='sm' className={styles.mini} value={subLimit} onChange={(e)=>{setSubLimit(parseInt(e.target.value))}}>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </Form.Select>
+            </Col>
+        </Row>
         <table className='table table-hover'>
             <thead>
                 <tr>
@@ -42,8 +57,22 @@ export default function Admin({ submissions, logs }) {
                 )}
             </tbody>
         </table>
-        <br/>
-        <h2>Exceptions</h2>
+        <br />
+        <Row>
+            <Col md={8}>
+                <h2>Exceptions</h2>
+            </Col>
+            <Col md={4} className={styles.displayFilter}>
+                Showing Last
+                <Form.Select size='sm' className={styles.mini} value={logLimit} onChange={(e)=>{setLogLimit(parseInt(e.target.value))}}>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </Form.Select>
+            </Col>
+        </Row>
         <table className='table table-hover'>
             <thead>
                 <tr>
@@ -54,8 +83,8 @@ export default function Admin({ submissions, logs }) {
                 </tr>
             </thead>
             <tbody>
-                {logs.map((log, index) => index < subLimit &&
-                    <Log style={styles.click} data={log}/>
+                {logs.map((log, index) => index < logLimit &&
+                    <Log style={styles.click} data={log} />
                 )}
             </tbody>
         </table>

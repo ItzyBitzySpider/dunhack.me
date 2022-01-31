@@ -8,7 +8,7 @@ export default function TableRow({
 	variant,
 }: {
 	left: string;
-	middle: string;
+	middle: any;
 	right: string;
 	variant?: string;
 }) {

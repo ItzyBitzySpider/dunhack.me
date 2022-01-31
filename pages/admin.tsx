@@ -75,7 +75,7 @@ export default function Admin({ submissions, logs }) {
             </thead>
             <tbody>
                 {submissions.map((submission, index) => index < subLimit &&
-                    <tr>
+                    <tr key={index}>
                         <td>{dayjs(submission.added).format('DD MMM, HH:mm:ss')}</td>
                         <td>{userLink(submission.username)}</td>
                         <td>{submission.title}</td>
@@ -115,7 +115,7 @@ export default function Admin({ submissions, logs }) {
             </thead>
             <tbody>
                 {logs.map((log, index) => index < logLimit &&
-                    <Log style={styles.click} data={log} />
+                    <Log style={styles.click} data={log} key=  {index}/>
                 )}
             </tbody>
         </table>

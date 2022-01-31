@@ -22,7 +22,6 @@ export default function Admin({ submissions, logs }) {
         const response = await fetch('/api/deleteLogs', {
             method: 'POST'
         });
-        console.log(response);
         if (response.status === 200) {
             router.replace(router.asPath);
         }

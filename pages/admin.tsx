@@ -3,36 +3,47 @@ import { getAllSubmissions } from "../server/challengeFunctions";
 import { getAllLogs } from "../server/logging";
 import styles from '../styles/admin.module.scss';
 import dayjs from "dayjs";
-import {  useState } from "react";
-import { Col, Row, Form } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Row, Form, Button, Toast } from "react-bootstrap";
 import Log from "../components/log";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Admin({ submissions, logs }) {
     const { data: session, status } = useSession();
     const [subLimit, setSubLimit] = useState(10);
     const [logLimit, setLogLimit] = useState(10);
-
     // TODO session is treated as a state: https://github.com/nextauthjs/next-auth/discussions/704
     // fix involves moving session checks to SSR
     if (session && session.user.role !== 'USER') return <h1>Unauthorized</h1>;
 
+    const router = useRouter();
+    const clearLogs = async () => {
+        const response = await fetch('/api/deleteLogs', {
+            method: 'POST'
+        });
+        console.log(response);
+        if (response.status === 200) {
+            router.replace(router.asPath);
+        }
+    };
+
     const userLink = (username) => {
-		return <>
-			<Link href={'users/' + username}>
-				<a className="userLink">
-					{username}
-				</a>
-			</Link>
-			<style jsx>
-				{`
+        return <>
+            <Link href={'users/' + username}>
+                <a className="userLink">
+                    {username}
+                </a>
+            </Link>
+            <style jsx>
+                {`
 				.userLink{
 					text-decoration: none;
 				}
 				`}
-			</style>
-		</>
-	}
+            </style>
+        </>
+    }
 
     return <>
         <h1>Admin Controls</h1>
@@ -43,7 +54,7 @@ export default function Admin({ submissions, logs }) {
             </Col>
             <Col md={4} className={styles.displayFilter}>
                 Showing Last
-                <Form.Select size='sm' className={styles.mini} value={subLimit} onChange={(e)=>{setSubLimit(parseInt(e.target.value))}}>
+                <Form.Select size='sm' className={styles.mini} value={subLimit} onChange={(e) => { setSubLimit(parseInt(e.target.value)) }}>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>
@@ -76,12 +87,15 @@ export default function Admin({ submissions, logs }) {
         </table>
         <br />
         <Row>
-            <Col md={8}>
+            <Col md={2}>
                 <h2>Exceptions</h2>
+            </Col>
+            <Col>
+                <Button variant='danger' onClick={clearLogs}>Clear Exceptions</Button>
             </Col>
             <Col md={4} className={styles.displayFilter}>
                 Showing Last
-                <Form.Select size='sm' className={styles.mini} value={logLimit} onChange={(e)=>{setLogLimit(parseInt(e.target.value))}}>
+                <Form.Select size='sm' className={styles.mini} value={logLimit} onChange={(e) => { setLogLimit(parseInt(e.target.value)) }}>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>

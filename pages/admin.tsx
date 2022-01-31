@@ -3,20 +3,37 @@ import { getAllSubmissions } from "../server/challengeFunctions";
 import { getAllLogs } from "../server/logging";
 import styles from '../styles/admin.module.scss';
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
-import { Col, Modal, Row, Form } from "react-bootstrap";
+import {  useState } from "react";
+import { Col, Row, Form } from "react-bootstrap";
 import Log from "../components/log";
-import { MdSettingsInputAntenna } from "react-icons/md";
+import Link from "next/link";
 
 export default function Admin({ submissions, logs }) {
     const { data: session, status } = useSession();
     const [subLimit, setSubLimit] = useState(10);
     const [logLimit, setLogLimit] = useState(10);
-    const [show, setShow] = useState(false);
 
     // TODO session is treated as a state: https://github.com/nextauthjs/next-auth/discussions/704
     // fix involves moving session checks to SSR
     if (session && session.user.role !== 'USER') return <h1>Unauthorized</h1>;
+
+    const userLink = (username) => {
+		return <>
+			<Link href={'users/' + username}>
+				<a className="userLink">
+					{username}
+				</a>
+			</Link>
+			<style jsx>
+				{`
+				.userLink{
+					text-decoration: none;
+				}
+				`}
+			</style>
+		</>
+	}
+
     return <>
         <h1>Admin Controls</h1>
         <br />
@@ -49,7 +66,7 @@ export default function Admin({ submissions, logs }) {
                 {submissions.map((submission, index) => index < subLimit &&
                     <tr>
                         <td>{dayjs(submission.added).format('DD MMM, HH:mm:ss')}</td>
-                        <td>{submission.username}</td>
+                        <td>{userLink(submission.username)}</td>
                         <td>{submission.title}</td>
                         <td>{submission.flag}</td>
                         <td>{submission.correct === 1 ? "True" : "False"}</td>

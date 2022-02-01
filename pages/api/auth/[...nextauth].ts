@@ -32,12 +32,31 @@ export default NextAuth({
 		signIn: 'login',
 		error: '/login'
 	},
+	session:{
+		strategy: 'jwt'
+	}, 
+	jwt: {
+		// TODO read from env
+		secret: "vqIWiGwReiDQzm2XxdECG+vg651K6/ip1EF/NHEVJs4"
+	},
 	callbacks: {
-		session: async ({ session, user }) => {
-			session.user.id = user.id;
-			session.user.username = user.username;
-			session.user.role = user.role;
+		session: async ({ session, token, user }) => {
+			session.user.id = token.userId;
+			session.user.username = token.username;
+			session.user.role = token.role;
 			return Promise.resolve(session);
+		},
+		jwt: async ({ token, user, account, profile, isNewUser }) => {
+			if(account){
+				token.username = user.username;
+				token.role = user.role;
+				token.userId = user.id;
+				// token.user.username = user.username;
+				// token.user.role = user.role;
+				console.log(JSON.stringify(token))
+				return token;
+			}
+			return token;
 		},
 		async signIn({ account, profile }) {
 			if (process.env.EMAIL_VERIFICATION === 'true') {
@@ -51,10 +70,10 @@ export default NextAuth({
 					else return false;
 				}
 				else {
-					return false
+					return false;
 				}
 			} else {
-				return true
+				return true;
 			}			
 		},
 	},

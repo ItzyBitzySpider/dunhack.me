@@ -11,10 +11,6 @@ import styles from '../../styles/profile.module.scss';
 export default function userProfile({ userData, challengeSolved }) {
 	const { data: session, status } = useSession();
 	if (session) {
-		//TODO: fix
-		// if (session.user.username === userData.username) {
-		// 	return  Router.push('/profile');
-		// }
 		return (
 			<>
 				<h1 className='txt-center'>{userData.username}'s Profile</h1>

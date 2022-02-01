@@ -1,13 +1,15 @@
-import { getSession } from "next-auth/react"
+import { getToken } from "next-auth/jwt";
 import { getChallengeById, getLastSubmission, submitFlag } from '../../server/challengeFunctions';
 import { userEnabled } from "../../server/userFunctions";
 
+const secret = "vqIWiGwReiDQzm2XxdECG+vg651K6/ip1EF/NHEVJs4";
+
 export default async function submit(req, res) {
 	if (req.method === 'POST') {
-		const session = await getSession({ req })
-  		if (session) {
+		const token = await getToken({ req, secret })
+  		if (token) {
     		// Signed in
-			let userId = session.user.id;
+			let userId = token.userId;
 			let challengeId = req.body.challengeId;
 			let flag = req.body.flag.trim();
 

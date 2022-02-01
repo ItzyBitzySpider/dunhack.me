@@ -1,9 +1,8 @@
-import { getSession, signOut, useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';
 import TableRow from '../components/tableRow';
-import { changeUsername } from '../server/userFunctions';
 import dayjs from 'dayjs';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
@@ -79,6 +78,7 @@ export default function Profile({ challengeSolved }) {
 			return;
 		}
 	};
+
 	if (session) {
 		return (
 			<>
@@ -149,7 +149,7 @@ export async function getServerSideProps(context) {
 	const challengeSolved = await getChallengesSolved(session.user.id);
 	return {
 		props: {
-			challengeSolved,
+			challengeSolved
 		},
 	};
 }

@@ -1,11 +1,14 @@
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { clearAllLogs } from '../../server/logging';
+
+const secret = "vqIWiGwReiDQzm2XxdECG+vg651K6/ip1EF/NHEVJs4";
 
 export default async function deleteLogs(req, res) {
     if (req.method === 'POST') {
-        const session = await getSession({ req });
-
-        if (session && session.user.role !== 'USER') {
+        const token = await getToken({ req, secret });
+        
+        //TODO change to admin
+        if (token && token.role !== 'USER') {
             res.status(401).json({ error: 'Unauthorized' });
             return;
         }

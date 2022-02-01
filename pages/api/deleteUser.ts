@@ -1,12 +1,14 @@
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import { deleteAccount } from '../../server/userFunctions';
+
+const secret = "vqIWiGwReiDQzm2XxdECG+vg651K6/ip1EF/NHEVJs4";
 
 export default async function deleteUser(req, res) {
 	if (req.method === 'POST') {
-		const session = await getSession({ req });
-		if (session) {
+		const token = await getToken({ req, secret });
+		if (token) {
 			// Signed in
-			let userId = session.user.id;
+			let userId = token.userId;
 			let reqId = req.body.userId;
 
 			//Ensure user is deleting their own account

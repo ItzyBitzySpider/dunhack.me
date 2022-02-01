@@ -40,10 +40,12 @@ export default NextAuth({
 		secret: "vqIWiGwReiDQzm2XxdECG+vg651K6/ip1EF/NHEVJs4"
 	},
 	callbacks: {
-		session: async ({ session, token, user }) => {
+		session: async ({ session, token }) => {
+			
 			session.user.id = token.userId;
-			session.user.username = token.username;
-			session.user.role = token.role;
+			// required to display username of current user
+			session.user.username = token.username; 
+			session.user.role = token.role; //TODO review if needed or can be replaced by middleware
 			return Promise.resolve(session);
 		},
 		jwt: async ({ token, user, account, profile, isNewUser }) => {
@@ -51,8 +53,6 @@ export default NextAuth({
 				token.username = user.username;
 				token.role = user.role;
 				token.userId = user.id;
-				// token.user.username = user.username;
-				// token.user.role = user.role;
 				console.log(JSON.stringify(token))
 				return token;
 			}

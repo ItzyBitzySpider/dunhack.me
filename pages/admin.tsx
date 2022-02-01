@@ -8,6 +8,7 @@ import { Col, Row, Form, Button, Toast } from "react-bootstrap";
 import Log from "../components/log";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Unauthorized from "../components/unauthorized";
 
 export default function Admin({ submissions, logs }) {
     const { data: session, status } = useSession();
@@ -15,7 +16,7 @@ export default function Admin({ submissions, logs }) {
     const [logLimit, setLogLimit] = useState(10);
     // TODO session is treated as a state: https://github.com/nextauthjs/next-auth/discussions/704
     // fix involves moving session checks to SSR
-    if (session && session.user.role !== 'USER') return <h1>Unauthorized</h1>;
+    if (session && session.user.role !== 'USER') return <Unauthorized />;
 
     const router = useRouter();
     const clearLogs = async () => {

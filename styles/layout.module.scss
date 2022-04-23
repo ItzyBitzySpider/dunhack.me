@@ -1,0 +1,18 @@
+@import '_variables.scss';
+
+.main {
+	display: inline-flex;
+    height: 100vh;
+    width: 100vw;
+    background: $body-bg;
+}
+
+.sidebar{
+    display: flex;
+    padding: 10px;
+}
+
+.content {
+    padding: 15px;
+    flex-grow: 100;
+}

@@ -10,8 +10,8 @@ export default function SidebarNavigation() {
 	const path = pathname.split('/');
 	const [active, setActive] = useState(path[1]);
 	return (
-		<>
 			<nav className={styles.sidebar}>
+				<img className={styles.img} src='./Logo.png'/>
 				<ul className={styles.nav}>
 					<li>
 						<Link href='/'>
@@ -90,6 +90,5 @@ export default function SidebarNavigation() {
 					)}
 				</ul>
 			</nav>
-		</>
 	);
 }

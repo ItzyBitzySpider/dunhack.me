@@ -1,25 +1,23 @@
 @import 'styles/_variables.scss';
 
-@media screen and (max-width: 1000px) {
-	.sidebar {
-		background-color: $primary-dark;
-		display: flex;
-		height: 100%;
-		width: 100%;
-		align-items: center;
-		// position: fixed;
-	}
+.img{
+	margin-top: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-bottom: 40px;
+	width: 240px;
+	height: 90px;
 }
-@media screen and (min-width: 1000px) {
-	.sidebar {
-		background-color: $primary-dark;
-		display: flex;
-		height: 100%;
-		width: 17%;
-		align-items: center;
-		position: fixed;
-	}
+
+.sidebar {
+	background-color: #222;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 240px;
 }
+
 
 .nav {
 	position: relative;
@@ -28,7 +26,7 @@
 }
 
 .text {
-	color: $secondary-dark;
+	color: #f0f0f0;
 	letter-spacing: 0.1em;
 	margin-top: 20px;
 	font-size: 1em;
@@ -40,22 +38,21 @@
 .selected {
 	@extend .text;
 	font-weight: bold;
-	color: $secondary;
+	color: $acs-yellow;
 }
 
 .text:hover {
-	color: $secondary;
+	color: $acs-yellow;
 	font-weight: bold;
 }
 
 .text:active {
-	color: $secondary;
+	color: $acs-yellow;
 	font-weight: bold;
 }
 
 .btnSignout {
-	background-color: $primary-dark;
-	color: $secondary-dark;
+	color: $acs-yellow;
 	z-index: 9999999;
 	position: absolute;
 	border: none;

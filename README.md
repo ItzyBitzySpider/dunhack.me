@@ -6,6 +6,8 @@ CTF Platform built with [Next.JS](https://nextjs.org/) React Framework.
 
 ### Installation
 
+Clone with `git clone --recurse-submodules`
+
 The platform is built with the following node.js and npm versions. For how to install node.js and npm, refer to this [guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
 ```bash

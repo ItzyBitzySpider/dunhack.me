@@ -2,17 +2,19 @@
 
 .main {
 	display: inline-flex;
-    height: 100vh;
-    width: 100vw;
-    background: $body-bg;
+	height: 100vh;
+	width: 100vw;
+	background: $body-bg;
 }
 
-.sidebar{
-    display: flex;
-    padding: 10px;
+.sidebar {
+	display: flex;
+	padding: 10px;
 }
 
 .content {
-    padding: 15px;
-    flex-grow: 100;
+	padding: 15px;
+	flex-grow: 100;
+	overflow-y: auto;
+	flex-direction: column;
 }

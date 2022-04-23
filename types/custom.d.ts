@@ -4,6 +4,8 @@ interface challenge_type {
 	id: number;
 	title: string;
 	description: string;
+	hash: string;
+	service: Boolean;
 	ctfName: {
 		name: string;
 	};
@@ -24,6 +26,14 @@ interface challengesByCategory extends Array<challenge_type> {
 	challenges: Array<challenge_type>;
 }
 
+interface Log {
+	id: number;
+	added: Date;
+	message: string;
+	code: string;
+	trace: string;
+}
+
 interface challengeDetails {
 	id: number;
 	flag: string;
@@ -35,8 +45,28 @@ interface challengeDetails {
 
 interface lastSubmission {
 	id: number;
-	added: number;
+	added: Date;
 	correct: boolean;
+}
+
+interface singleSubmission {
+	id: number;
+	added: Date;
+	challengeId: number;
+	userId: string;
+	flag: string;
+	correct: boolean;
+}
+
+interface Submission {
+	id: number;
+	added: Date;
+	challengeId: number;
+	userId: string;
+	flag: string;
+	correct: boolean;
+	username: string;
+	challengeName: string;
 }
 
 interface solvedChallenge {

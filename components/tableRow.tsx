@@ -8,48 +8,31 @@ export default function TableRow({
 	variant,
 }: {
 	left: string;
-	middle: string;
+	middle: any;
 	right: string;
-	variant: string;
+	variant?: string;
 }) {
 	return (
 		<>
 			{variant === 'header' && (
 				<Row className={styles.header}>
-					<Col className={styles.center} md={1}>
+					<Col className='txt-center' md={1}>
 						{left}
 					</Col>
-					<Col md={1} />
-					<Col md={5}>{middle}</Col>
-					<Col md={2} />
-					<Col className={styles.center} md={3}>
+					<Col md={7}>{middle}</Col>
+					<Col className='txt-right' md={4}>
 						{right}
 					</Col>
 				</Row>
 			)}
-			{variant === 'dark' && (
-				<Row className={styles.even}>
-					<Col className={styles.center} md={1}>
+			
+			{variant !== 'header' && (
+				<Row className={styles.row}>
+					<Col className='txt-center' md={1}>
 						{left}
 					</Col>
-					<Col md={1} />
-					<Col md={5}>{middle}</Col>
-					<Col md={2} />
-					<Col className={styles.center} md={3}>
-						{right}
-					</Col>
-				</Row>
-			)}
-
-			{variant === 'light' && (
-				<Row className={styles.odd}>
-					<Col className={styles.center} md={1}>
-						{left}
-					</Col>
-					<Col md={1} />
-					<Col md={5}>{middle}</Col>
-					<Col md={2} />
-					<Col className={styles.center} md={3}>
+					<Col md={7}>{middle}</Col>
+					<Col className='txt-right' md={4}>
 						{right}
 					</Col>
 				</Row>

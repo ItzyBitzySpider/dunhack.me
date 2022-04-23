@@ -19,7 +19,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
         LEFT JOIN submissions AS s ON u.id = s.userId AND s.correct = true
         LEFT JOIN challenges AS c ON c.id = s.challengeId
         WHERE 
-            u.competing = true AND u.enabled = true AND u.role = 'USER'
+            u.enabled = true
         GROUP BY u.id
         ORDER BY score DESC, lastCorrectSubmission ASC;
         `;

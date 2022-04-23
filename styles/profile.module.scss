@@ -1,10 +1,36 @@
-.container{
-    align-self: end;
-}
+@import 'styles/_variables.scss';
 
 .imageContainer{
     float: right;
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    padding: 40px;
+    width: 250px;
+    height: 250px;
+}
+
+.wrap{
+    height: fit-content;
+    width: fit-content;
+}
+
+.buttonCluster{
+    display:flex;
+    justify-content: flex-end;
+    padding: 0px;
+}
+
+.border{
+    border-bottom: 3px solid $neutral-600;
+    margin: 0px;
+}
+
+.btn{
+    height: 48px;
+    width: 200px;
+    line-height: 24px;
+    font-size: 18px;
+}
+
+.txt{
+    line-height: 64px;
 }

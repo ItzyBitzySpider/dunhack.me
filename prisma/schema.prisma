@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -39,14 +39,13 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING(UUID(),1,4))"))
+  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING((gen_random_uuid()::TEXT),1,4))"))
   email         String?   @unique
   emailVerified DateTime?
   image         String    @default("https://s.gravatar.com/avatar/d59b5e94d8190c84c1efe5d9863743ae?s=200")
   accounts      Account[]
   sessions      Session[]
   enabled       Boolean   @default(true)
-  competing     Boolean   @default(true)  
   role          Role      @default(USER)  
 }
 
@@ -80,14 +79,15 @@ model ctfList {
 model challenges {
   id                            Int         @id @default(autoincrement())
   title                         String      @db.VarChar(255)
+  hash                          String      @db.VarChar(300)
   category                      category    @relation(fields: [categoryId], references: [id])
-  categoryId                    Int         @db.Int
+  categoryId                    Int         
   ctfName                       ctfList     @relation(fields: [ctfNameId], references: [id])
-  ctfNameId                     Int         @db.Int
+  ctfNameId                     Int         
   description                   String      @db.Text
+  service                       Boolean
   hints                         hints[]
   files                         files[]
-  writeups                      writeups[]
   exposed                       Boolean     @default(true)
   flag                          String      @db.Text
   case_insensitive              Boolean     @default(true)
@@ -95,8 +95,8 @@ model challenges {
   initialPoints                 Int
   points                        Int
   dynamicScoring                Boolean      
-  solves                        Int         @db.UnsignedInt @default(0)
-  min_seconds_btwn_submissions  Int         @db.UnsignedSmallInt @default(5)
+  solves                        Int         @default(0)
+  min_seconds_btwn_submissions  Int         @db.SmallInt @default(5)
 }
 
 model hints {
@@ -114,28 +114,13 @@ model files {
   url                String          @db.Text
 }
 
-model writeups {
-  id                 Int             @id @default(autoincrement())
-  challenge          challenges      @relation(fields: [challengeId], references: [id])
-  challengeId        Int
-  link               String          @db.Text
-}
-
 model submissions {
   id                            Int      @id @default(autoincrement())
   added                         DateTime
-  challengeId                   Int      @db.UnsignedInt
+  challengeId                   Int      
   userId                        String
   flag                          String   @db.Text
   correct                       Boolean  @default(false)
-}
-
-model announcements {
-  id                 Int      @id @default(autoincrement())
-  added              DateTime
-  addedBy           String
-  title              String   @db.VarChar(255)
-  body               String   @db.Text
 }
 
 model email_whitelist {

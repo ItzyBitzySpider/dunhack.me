@@ -1,17 +1,16 @@
 version: '3.7'
 services:
   database:
-    image: mysql:latest
+    image: postgres
     restart: always
     environment: 
-        MYSQL_ROOT_PASSWORD: "root"
-        MYSQL_ROOT_HOST: '%'
+        POSTGRES_USER: "root"
+        POSTGRES_PASSWORD: "root"
+        POSTGRES_DB: 'db'
     ports:
-        - "3306:3306"
-    expose:
-        - '3306'
+      - '5432:5432'
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
   webapp:
     build: ./
     restart: always
@@ -20,6 +19,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-            
-volumes: #define our mysql volume used above
-  mysql:
+    links:
+      - "database"            
+volumes: 
+  postgres:

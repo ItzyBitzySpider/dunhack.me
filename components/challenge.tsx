@@ -8,6 +8,7 @@ import {
 	Accordion,
 	useAccordionButton,
 } from 'react-bootstrap';
+import ReactMarkdown from 'react-markdown';
 import styles from '../styles/challenge.module.scss';
 import { challenge_type } from '../types/custom';
 
@@ -47,11 +48,11 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 			body: JSON.stringify(data),
 		});
 		let res = await response.json();
-	
-		if (res.result !== undefined) {	
+
+		if (res.result !== undefined) {
 			// Flag is correct
 			if (res.result === true) {
-				setCount(solves+1);
+				setCount(solves + 1);
 				showSolve(true);
 				handleClose();
 				return;
@@ -99,7 +100,9 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 						<div className={styles.solve}>Solves: {solveCount}</div>
 					</Row>
 				</Modal.Header>
-				<Modal.Body>{description}</Modal.Body>
+				<Modal.Body>
+					<ReactMarkdown children={description} />
+				</Modal.Body>
 
 				{files[0] && (
 					<>
@@ -136,7 +139,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 								</Card.Header>
 								<Accordion.Collapse eventKey={index.toString()}>
 									<Card.Body className={styles.hintContent}>
-										{content.body}
+										<ReactMarkdown children={content.body} />
 									</Card.Body>
 								</Accordion.Collapse>
 							</Card>

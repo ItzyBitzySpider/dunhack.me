@@ -4,9 +4,11 @@ import { Button, Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';
 import TableRow from '../components/tableRow';
 import { changeUsername } from '../server/userFunctions';
+import dayjs from 'dayjs';
 import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
 import { getChallengesSolved } from '../server/challengeFunctions';
+import Unauthorized from '../components/unauthorized';
 
 export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
@@ -80,11 +82,19 @@ export default function Profile({ challengeSolved }) {
 	if (session) {
 		return (
 			<>
-				<Row>
-					<Col className={styles.container}>
-						<h1>{session.user.username}</h1>
-						<div>
+				<h1 className='txt-center'>{session.user.username}'s Profile</h1>
+				<Row className='justify-content-center'>
+					<img className={styles.imageContainer} src={session.user.image} />
+				</Row>
+				<br />
+				<Row className={styles.border}>
+					<Col className='g-0 align-items-center'>
+						<h2 className={styles.txt}>User Submissions</h2>
+					</Col>
+					<Col className={styles.buttonCluster}>
+						<div className='px-3'>
 							<ModalForm
+								style={styles.btn}
 								title='Change Username'
 								content='Enter new username'
 								placeholder='Username'
@@ -93,8 +103,9 @@ export default function Profile({ challengeSolved }) {
 								variant='secondary'
 							/>
 						</div>
-						<div className='pt-2'>
+						<div>
 							<ModalForm
+								style={styles.btn}
 								title='Delete Account'
 								content="You're about to permanently delete this account. This action is not reversible. To confirm, please enter your username."
 								placeholder={session.user.username}
@@ -104,15 +115,12 @@ export default function Profile({ challengeSolved }) {
 							/>
 						</div>
 					</Col>
-					<Col>
-						<img className={styles.imageContainer} src={session.user.image} />
-					</Col>
 				</Row>
 				<br />
-				<Row className='justify-content-center g-1'>
+				<Row className='justify-content-center g-0'>
 					<TableRow
 						variant='header'
-						left='S/N'
+						left='No.'
 						middle='Challenge'
 						right='Submission Time'
 					/>
@@ -120,9 +128,9 @@ export default function Profile({ challengeSolved }) {
 						return (
 							<TableRow
 								key={index}
-								left={index+1}
+								left={index + 1}
 								middle={challenge.title}
-								right={challenge.added}
+								right={dayjs(challenge.added).format('DD MMM YYYY, HH:mm:ss')}
 								variant={index % 2 === 0 ? 'dark' : 'light'}
 							/>
 						);
@@ -131,12 +139,13 @@ export default function Profile({ challengeSolved }) {
 			</>
 		);
 	} else {
-		return <h1>Unauthorized</h1>;
+		return <Unauthorized/>;
 	}
 }
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
+	if (!session) return { props: { challengeSolved: []} };
 	const challengeSolved = await getChallengesSolved(session.user.id);
 	return {
 		props: {

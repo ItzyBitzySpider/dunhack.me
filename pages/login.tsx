@@ -66,7 +66,7 @@ export default function Login({ csrfToken }: { csrfToken: string }) {
 										className={styles.submit}
 										variant='secondary'
 										type='submit'>
-										<MdKeyboardArrowRight size='2rem' />
+										Submit
 									</Button>
 								</Col>
 							</Row>

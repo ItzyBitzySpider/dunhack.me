@@ -18,7 +18,7 @@ export default function SignInError({ error }) {
 	};
 	const errorMessage = error && (errors[error] ?? errors.default);
 	return (
-		<Toast className={styles.toast} onClose={() => setShow(false)} show={show} delay={5000} bg='danger' autohide>
+		<Toast className={styles.toast} onClose={() => setShow(false)} show={show} delay={3000} bg='danger' autohide>
 			<Toast.Header className={styles.header} closeButton={false}>
 				<h2>Error</h2>
 			</Toast.Header>

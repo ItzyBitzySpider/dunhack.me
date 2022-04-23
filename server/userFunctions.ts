@@ -77,7 +77,6 @@ export async function getAllEligibleUsers(): Promise<Array<userList> | null> {
 		return await prisma.user.findMany({
 			where: {
 				enabled: true,
-				competing: true,
 			},
 			select: {
 				username: true,
@@ -103,5 +102,22 @@ export async function userEnabled(userId: string): Promise<boolean | null> {
 	} catch (err) {
 		logError(err);
 		return null;
+	}
+}
+
+export async function getTotalEligibleUsers(): Promise<number> {
+    try {
+		return await prisma.user.count({
+			where: {
+				enabled: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return 0;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
 	}
 }

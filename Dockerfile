@@ -13,6 +13,5 @@ RUN dos2unix /app/entrypoint.sh
 RUN npx prisma generate
 RUN chmod +x /app/entrypoint.sh
 
-
 EXPOSE 3000
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["npm" , "run", "dev"]

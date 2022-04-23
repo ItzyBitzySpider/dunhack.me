@@ -39,7 +39,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING(UUID(),1,4))"))
+  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING((gen_random_uuid()::TEXT),1,4))"))
   email         String?   @unique
   emailVerified DateTime?
   image         String    @default("https://s.gravatar.com/avatar/d59b5e94d8190c84c1efe5d9863743ae?s=200")
@@ -79,7 +79,7 @@ model ctfList {
 model challenges {
   id                            Int         @id @default(autoincrement())
   title                         String      @db.VarChar(255)
-  hash                          String      @db.VarChar(300) @default(dbgenerated("SHA2(title,256)"))
+  hash                          String      @db.VarChar(300)
   category                      category    @relation(fields: [categoryId], references: [id])
   categoryId                    Int         
   ctfName                       ctfList     @relation(fields: [ctfNameId], references: [id])

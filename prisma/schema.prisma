@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -46,7 +46,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   enabled       Boolean   @default(true)
-  competing     Boolean   @default(true)  
   role          Role      @default(USER)  
 }
 
@@ -82,9 +81,9 @@ model challenges {
   title                         String      @db.VarChar(255)
   hash                          String      @db.VarChar(300) @default(dbgenerated("SHA2(title,256)"))
   category                      category    @relation(fields: [categoryId], references: [id])
-  categoryId                    Int         @db.Int
+  categoryId                    Int         
   ctfName                       ctfList     @relation(fields: [ctfNameId], references: [id])
-  ctfNameId                     Int         @db.Int
+  ctfNameId                     Int         
   description                   String      @db.Text
   service                       Boolean
   hints                         hints[]
@@ -96,8 +95,8 @@ model challenges {
   initialPoints                 Int
   points                        Int
   dynamicScoring                Boolean      
-  solves                        Int         @db.UnsignedInt @default(0)
-  min_seconds_btwn_submissions  Int         @db.UnsignedSmallInt @default(5)
+  solves                        Int         @default(0)
+  min_seconds_btwn_submissions  Int         @db.SmallInt @default(5)
 }
 
 model hints {
@@ -118,7 +117,7 @@ model files {
 model submissions {
   id                            Int      @id @default(autoincrement())
   added                         DateTime
-  challengeId                   Int      @db.UnsignedInt
+  challengeId                   Int      
   userId                        String
   flag                          String   @db.Text
   correct                       Boolean  @default(false)

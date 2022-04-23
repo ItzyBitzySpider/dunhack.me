@@ -77,7 +77,6 @@ export async function getAllEligibleUsers(): Promise<Array<userList> | null> {
 		return await prisma.user.findMany({
 			where: {
 				enabled: true,
-				competing: true,
 			},
 			select: {
 				username: true,
@@ -111,8 +110,6 @@ export async function getTotalEligibleUsers(): Promise<number> {
 		return await prisma.user.count({
 			where: {
 				enabled: true,
-                competing: true,
-                role: "USER",
 			},
 		});
 	} catch (err) {

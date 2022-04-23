@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+        POSTGRES_USER: "root"
+        POSTGRES_PASSWORD: "root"
+        POSTGRES_DB: "db"
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+      - postgres:/var/lib/postgresql/data
+  webapp:
+    build: ./
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - "runner"
+    links:
+      - "database"
+      - "runner"
+  runner:
+    container_name: runner
+    build:
+      context: ./runner
+    restart: always
+    depends_on:
+      - "database"
+    links:
+      - "database"
+volumes:
+  postgres:

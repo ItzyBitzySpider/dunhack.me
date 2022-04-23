@@ -68,7 +68,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 		else setCTFPlaceholder(num + ' CTFs selected');
 	}
 
-	if (session) {
+	if (!session) {
 		return (
 			<>
 				<h1 className='txt-center'>Challenges</h1>

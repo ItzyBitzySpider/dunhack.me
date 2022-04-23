@@ -2,8 +2,8 @@
 
 .img{
 	margin-top: 40px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
 	margin-bottom: 40px;
 	width: 240px;
 	height: 90px;
@@ -21,15 +21,15 @@
 
 .nav {
 	position: relative;
-	font-size: 20px;
+	font-size: 1.3rem;
 	list-style: none;
 }
 
 .text {
 	color: #f0f0f0;
-	letter-spacing: 0.1em;
 	margin-top: 20px;
 	display: inline-flex;
+	font-weight: 400;
 	transition: all ease-out 300ms;
 	align-items: center;
 	text-decoration: none;

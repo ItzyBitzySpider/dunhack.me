@@ -287,10 +287,10 @@ export async function getChallengesSolved(userId: string): Promise<Array<solvedC
 		SELECT
            s.added,
            ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = True AND ss.added < s.added AND ss."challengeId"=s."challengeId")+1) AS pos,
-           ch.id AS challengeId,
+           ch.id AS "challengeId",
            ch.title,
            ch.points,
-           ca.name AS categoryName
+           ca.name AS "categoryName"
         FROM submissions AS s
         LEFT JOIN challenges AS ch ON ch.id = s."challengeId"
         LEFT JOIN category AS ca ON ca.id = ch."categoryId"

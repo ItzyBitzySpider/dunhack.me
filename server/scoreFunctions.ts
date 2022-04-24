@@ -14,14 +14,14 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
             u.id AS user_id, 
             u.username, 
             SUM(c.points) AS score, 
-            MAX(s.added) AS lastCorrectSubmission 
+            MAX(s.added) AS "lastCorrectSubmission" 
         FROM "User" AS u
         LEFT JOIN submissions AS s ON u.id = s."userId" AND s.correct = true
         LEFT JOIN challenges AS c ON c.id = s."challengeId"
         WHERE 
             u.enabled = true
         GROUP BY u.id
-        ORDER BY score DESC, lastCorrectSubmission ASC;
+        ORDER BY score DESC, "lastCorrectSubmission" ASC;
         `;
         let scoreboard = [];
         for (let i = 0; i < scores.length; i++) {

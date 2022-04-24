@@ -136,7 +136,7 @@ export async function getServerSideProps(context) {
 	if (userSolved) {
 		for (const solved of userSolved) {
 			console.log(solved)
-			solvedIDs.push(solved.challengeid);
+			solvedIDs.push(solved.challengeId);
 		}
 	}
 	return {

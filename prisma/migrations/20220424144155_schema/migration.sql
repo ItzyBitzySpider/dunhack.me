@@ -76,7 +76,7 @@ CREATE TABLE "ctfList" (
 CREATE TABLE "challenges" (
     "id" SERIAL NOT NULL,
     "title" VARCHAR(255) NOT NULL,
-    "hash" VARCHAR(300) NULL GENERATED ALWAYS AS (sha256(title::bytea)) STORED,
+    "hash" VARCHAR(300) NOT NULL,
     "categoryId" INTEGER NOT NULL,
     "ctfNameId" INTEGER NOT NULL,
     "description" TEXT NOT NULL,

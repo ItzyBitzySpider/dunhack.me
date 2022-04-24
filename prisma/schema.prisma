@@ -79,8 +79,6 @@ model ctfList {
   challenges  challenges[]
 }
 
-//The field for hash is inaccurate and is changed to the following in the .sql file
-// "hash" VARCHAR(300) NULL GENERATED ALWAYS AS (sha256(title::bytea)) STORED
 
 model challenges {
   id                            Int         @id @default(autoincrement())

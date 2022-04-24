@@ -480,4 +480,3 @@ export async function markSubmission(submissionId: number, correct: boolean): Pr
 		};
 	}
 }
-

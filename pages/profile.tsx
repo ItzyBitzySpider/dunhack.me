@@ -82,11 +82,11 @@ export default function Profile({ challengeSolved }) {
 	if (session) {
 		return (
 			<>
+			<br/>
 				<h1 className='txt-center'>{session.user.username}'s Profile</h1>
 				<Row className='justify-content-center'>
 					<img className={styles.imageContainer} src={session.user.image} />
 				</Row>
-				<br />
 				<Row className={styles.border}>
 					<Col className='g-0 align-items-center'>
 						<h2 className={styles.txt}>User Submissions</h2>

@@ -53,12 +53,7 @@ You will need to create a `.env` file in the project root. Refer to the [`env.ex
 
 ### Database setup
 
-If you are using the docker-compose file, you may skip this step. The platform uses a MySQL database. Prisma is used to initialize the database schema. After configuring the `DATABASE_URL` in your `.env` file, run
-
-```bash
-$ npx prisma generate
-$ npx prisma db push
-```
+If you are using the docker-compose file, you may skip this step. The platform uses a Postgres database. One can initialise the database with the script found in docker-misc
 
 ## Usage
 
@@ -66,4 +61,4 @@ There are several scripts available for development and deployment.
 
 ## License
 
-It'z Different Platform is [MIT licensed](./LICENSE)
+dunhack.me is [MIT licensed](./LICENSE)

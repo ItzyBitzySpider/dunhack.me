@@ -70,20 +70,22 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 	return (
 		<>
 			{!userSolved && <button className={styles.btnCard} onClick={handleShow}>
-				<Card className={styles.card} style={{ width: '21rem' }}>
+				<Card className={styles.card} style={{ width: '20rem' }}>
 					<Card.Body>
-						<Card.Title>
-							[{ctfName.name}] {title}
+						<Card.Text className={styles.ctfName}>{ctfName.name}</Card.Text>
+						<Card.Title className={styles.ctfTitle}>
+							{title}
 						</Card.Title>
 						<Card.Text>{points}</Card.Text>
 					</Card.Body>
 				</Card>
 			</button>}
 			{userSolved && <button className={styles.btnCardSolved} onClick={handleShow}>
-				<Card className={styles.cardSolved} style={{ width: '21rem' }}>
+				<Card className={styles.cardSolved} style={{ width: '20rem' }}>
 					<Card.Body>
-						<Card.Title>
-							[{ctfName.name}] {title}
+					<Card.Text>{ctfName.name}</Card.Text>
+						<Card.Title className={styles.ctfTitle}>
+							{title}
 						</Card.Title>
 						<Card.Text>{points}</Card.Text>
 					</Card.Body>

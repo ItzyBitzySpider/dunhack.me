@@ -72,7 +72,7 @@ interface Submission {
 interface solvedChallenge {
 	added: Date;
 	pos: number;
-	challengeId: number;
+	challengeid: number;
 	title: string;
 	points: number;
 	categoryName: string;

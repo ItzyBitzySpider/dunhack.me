@@ -132,11 +132,11 @@ export async function getServerSideProps(context) {
 	if (!session) return { props: { challengeData: [], solvedIDs: [] } };
 	const challengeData = await getAllChallenges();
 	const userSolved = await getChallengesSolved(session.user.id);
-	console.log(userSolved);
 	const solvedIDs = [];
 	if (userSolved) {
 		for (const solved of userSolved) {
-			solvedIDs.push(solved.challengeId);
+			console.log(solved)
+			solvedIDs.push(solved.challengeid);
 		}
 	}
 	return {

@@ -56,7 +56,10 @@ export default function Scoreboard({ scores }) {
 }
 
 export async function getServerSideProps(context) {
-	const scores = await getScoreboard();
+	let scores = await getScoreboard();
+	if(!scores){
+		scores = [];
+	}
 	return {
 		props: { scores },
 	};

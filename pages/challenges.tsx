@@ -68,7 +68,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 		else setCTFPlaceholder(num + ' CTFs selected');
 	}
 
-	if (!session) {
+	if (session) {
 		return (
 			<>
 				<h1 className='txt-center'>Challenges</h1>
@@ -122,7 +122,7 @@ export default function Challenges({ challengeData, solvedIDs }) {
 			</>
 		);
 	} else {
-		return <Unauthorized/>;
+		return <Unauthorized />;
 	}
 }
 
@@ -132,9 +132,12 @@ export async function getServerSideProps(context) {
 	if (!session) return { props: { challengeData: [], solvedIDs: [] } };
 	const challengeData = await getAllChallenges();
 	const userSolved = await getChallengesSolved(session.user.id);
+	console.log(userSolved);
 	const solvedIDs = [];
-	for (const solved of userSolved) {
-		solvedIDs.push(solved.challengeId);
+	if (userSolved) {
+		for (const solved of userSolved) {
+			solvedIDs.push(solved.challengeId);
+		}
 	}
 	return {
 		props: { challengeData, solvedIDs },

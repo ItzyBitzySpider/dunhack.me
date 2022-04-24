@@ -139,14 +139,17 @@ export default function Profile({ challengeSolved }) {
 			</>
 		);
 	} else {
-		return <Unauthorized/>;
+		return <Unauthorized />;
 	}
 }
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	if (!session) return { props: { challengeSolved: []} };
-	const challengeSolved = await getChallengesSolved(session.user.id);
+	if (!session) return { props: { challengeSolved: [] } };
+	let challengeSolved = await getChallengesSolved(session.user.id);
+	if (!challengeSolved) {
+		challengeSolved = [];
+	}
 	return {
 		props: {
 			challengeSolved,

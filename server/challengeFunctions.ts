@@ -256,8 +256,8 @@ export async function getAllSubmissions(): Promise<Array<Submission>> {
 				submissions.added,
 				submissions.correct,
 				submissions.flag,
-				submissions.challengeId,
-				submissions.userId,
+				submissions."challengeId",
+				submissions."userId",
 				"User".username,
 				challenges.title
 			FROM submissions
@@ -286,7 +286,7 @@ export async function getChallengesSolved(userId: string): Promise<Array<solvedC
 		return await prisma.$queryRaw`
 		SELECT
            s.added,
-           ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challengeId=s.challengeId)+1) AS pos,
+           ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = True AND ss.added < s.added AND ss."challengeId"=s."challengeId")+1) AS pos,
            ch.id AS challengeId,
            ch.title,
            ch.points,
@@ -296,8 +296,8 @@ export async function getChallengesSolved(userId: string): Promise<Array<solvedC
         LEFT JOIN category AS ca ON ca.id = ch."categoryId"
         WHERE
            s.correct = true AND
-           s.userId = ${userId} AND
-           ch.exposed = 1
+           s."userId" = ${userId} AND
+           ch.exposed = True
         ORDER BY s.added DESC;
 		`;
 	} catch (err) {

@@ -3,7 +3,7 @@
 set -e
 set -u
 
-echo "Setup DB"
+echo "Init Dunhack.me DB"
 psql -d db -v ON_ERROR_STOP=1 --username root <<-EOSQL
     CREATE EXTENSION IF NOT EXISTS pgcrypto;
     -- CreateEnum
@@ -161,14 +161,14 @@ psql -d db -v ON_ERROR_STOP=1 --username root <<-EOSQL
     ALTER TABLE "challenges" ALTER COLUMN "hash" SET NOT NULL;
 EOSQL
 
-echo "Creating user and database"
+echo "Creating Database for Runner"
 psql -d db -v ON_ERROR_STOP=1 --username root <<-EOSQL
     CREATE DATABASE runner_db;
     GRANT ALL PRIVILEGES ON DATABASE runner_db TO root;
 EOSQL
 
 #create runner_db database
-echo "runner_db init"
+echo "Init Runner DB"
 psql -d runner_db -v ON_ERROR_STOP=1 --username root <<-EOSQL
     CREATE TABLE challenges (
         challenge_id varchar(64) PRIMARY KEY,

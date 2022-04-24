@@ -36,10 +36,13 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// note for username, the following is added to the top of the .sql file
+// CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING((gen_random_uuid()::TEXT),1,4))"))
+  username      String?   @unique @default(dbgenerated("CONCAT('User',SUBSTRING((gen_random_uuid()::TEXT),1,4))")) 
   email         String?   @unique
   emailVerified DateTime?
   image         String    @default("https://s.gravatar.com/avatar/d59b5e94d8190c84c1efe5d9863743ae?s=200")
@@ -75,6 +78,9 @@ model ctfList {
   description String
   challenges  challenges[]
 }
+
+//The field for hash is inaccurate and is changed to the following in the .sql file
+// "hash" VARCHAR(300) NULL GENERATED ALWAYS AS (sha256(title::bytea)) STORED
 
 model challenges {
   id                            Int         @id @default(autoincrement())

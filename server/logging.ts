@@ -51,10 +51,10 @@ export async function getAllLogs(): Promise<Array<Log>> {
         //     },
         // });
 		return await prisma.$queryRaw`
-			SELECT
+			"SELECT
 				*
 			FROM exceptions
-			ORDER BY added DESC
+			ORDER BY added DESC"
 		`;
 	} catch (err) {
 		logError(err);

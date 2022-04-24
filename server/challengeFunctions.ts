@@ -251,7 +251,7 @@ export async function getSubmissionById(submissionId: number): Promise<singleSub
 export async function getAllSubmissions(): Promise<Array<Submission>> {
 	try {
 		return await prisma.$queryRaw`
-			SELECT
+			"SELECT
 				submissions.id,
 				submissions.added,
 				submissions.correct,
@@ -263,7 +263,7 @@ export async function getAllSubmissions(): Promise<Array<Submission>> {
 			FROM submissions
 			INNER JOIN User ON submissions.userId = User.id
 			INNER JOIN challenges ON submissions.challengeId = challenges.id
-			ORDER BY submissions.added DESC
+			ORDER BY submissions.added DESC"
 		`;
 	} catch (err) {
 		logError(err);
@@ -284,7 +284,7 @@ export async function getAllSubmissions(): Promise<Array<Submission>> {
 export async function getChallengesSolved(userId: string): Promise<Array<solvedChallenge> | null> {
 	try {
 		return await prisma.$queryRaw`
-		SELECT
+		"SELECT
            s.added,
            ((SELECT COUNT(*) FROM submissions AS ss WHERE ss.correct = 1 AND ss.added < s.added AND ss.challengeId=s.challengeId)+1) AS pos,
            ch.id AS challengeId,
@@ -298,7 +298,7 @@ export async function getChallengesSolved(userId: string): Promise<Array<solvedC
            s.correct = true AND
            s.userId = ${userId} AND
            ch.exposed = 1
-        ORDER BY s.added DESC;
+        ORDER BY s.added DESC;"
 		`;
 	} catch (err) {
 		logError(err);

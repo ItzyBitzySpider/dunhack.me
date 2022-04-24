@@ -10,7 +10,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
         let scores = await prisma.$queryRaw`
-        SELECT 
+        "SELECT 
             u.id AS user_id, 
             u.username, 
             SUM(c.points) AS score, 
@@ -21,7 +21,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
         WHERE 
             u.enabled = true
         GROUP BY u.id
-        ORDER BY score DESC, lastCorrectSubmission ASC;
+        ORDER BY score DESC, lastCorrectSubmission ASC;"
         `;
         let scoreboard = [];
         for (let i = 0; i < scores.length; i++) {
@@ -46,13 +46,13 @@ export async function getUserScore(userId: string): Promise<number | null> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
         let score = await prisma.$queryRaw`
-        SELECT 
+        "SELECT 
             SUM(c.points) AS score
         FROM User AS u
         LEFT JOIN submissions AS s ON u.id = s.userId AND s.correct = true
         LEFT JOIN challenges AS c ON c.id = s.challengeId
         WHERE 
-            u.id = ${userId}
+            u.id = ${userId}"
         `;
         return score[0]['score'] ? parseInt(score[0]['score']) : 0;
 	} catch (err) {

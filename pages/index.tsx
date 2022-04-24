@@ -6,8 +6,7 @@ import { Col, Row } from 'react-bootstrap';
 export default function Home() {
 	return (
 		<>
-			<br />
-			<div className={styles.banner}><img src='banner.png'/></div>
+			<div className={styles.banner}><img src='Logo.png'/></div>
 			<br/>
 			<h5 className='txt-center'>CTF Training Platform</h5>
 			<h6 className='txt-center'>brought to you by ItzyBitzySpider</h6>

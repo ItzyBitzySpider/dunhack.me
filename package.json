@@ -22,7 +22,7 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint",
-    "docker": "docker-compose up"
+    "docker": "docker-compose -f docker-compose-dev.yml build && docker-compose -f docker-compose-dev.yml up"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.5",

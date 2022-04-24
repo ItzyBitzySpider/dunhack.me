@@ -7,7 +7,6 @@ COPY . /app
 
 RUN npm install --legacy-peer-deps
 
-RUN apt update
 RUN npx prisma generate
 
 EXPOSE 3000

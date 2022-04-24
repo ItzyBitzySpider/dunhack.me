@@ -1,6 +1,5 @@
 version: '3.7'
 services:
-
   database:
     image: postgres
     restart: always
@@ -9,12 +8,10 @@ services:
         POSTGRES_PASSWORD: "root"
         POSTGRES_DB: "db"
     volumes:
-      - ./postgres-init:/docker-entrypoint-initdb.d
+      - ./docker-misc/postgres-init:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-
-# TO CHANGE example.com!!
   Nginx:
     container_name: Nginx
     hostname: Nginx
@@ -22,16 +19,13 @@ services:
     restart: on-failure
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./nginx:/etc/nginx/conf.d:ro
-      - ./dhparam:/etc/nginx/dhparam:ro
-      - /lets_encrypt/example.com_ecc/example.com.key:/etc/nginx/certs/server.key:ro
-      - /lets_encrypt/example.com_ecc/fullchain.cer:/etc/nginx/certs/server.crt:ro
-      - /lets_encrypt/example.com_ecc/ca.cer:/etc/nginx/certs/ca.cer:ro
+      - ./docker-misc/nginx:/etc/nginx/conf.d:ro
+      - ./docker-misc/certs:/etc/nginx/certs:ro
     ports:
-      - "443:443/tcp"
+      - "80:80"
+      - "443:443"
     links:
       - "webapp"
-
   webapp:
     build: ./
     restart: always
@@ -44,7 +38,6 @@ services:
     links:
       - "database"
       - "runner"
-
   runner:
     container_name: runner
     build:

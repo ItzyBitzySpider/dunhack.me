@@ -1,0 +1,1 @@
+https://github.com/vercel/next.js/discussions/10935#discussioncomment-2295832

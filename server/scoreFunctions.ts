@@ -9,7 +9,7 @@ import { logError } from "./logging";
 export async function getScoreboard(): Promise<Array<userRanking> | null> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
-        let scores = await prisma.$queryRaw`
+        let scores = await prisma.$queryRaw(`
         "SELECT 
             u.id AS user_id, 
             u.username, 
@@ -22,7 +22,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
             u.enabled = true
         GROUP BY u.id
         ORDER BY score DESC, lastCorrectSubmission ASC;"
-        `;
+        `);
         let scoreboard = [];
         for (let i = 0; i < scores.length; i++) {
             const obj = {};
@@ -45,7 +45,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
 export async function getUserScore(userId: string): Promise<number | null> {
 	try {
 		//raw query since Prisma currently cannot handle such quries
-        let score = await prisma.$queryRaw`
+        let score = await prisma.$queryRaw(`
         "SELECT 
             SUM(c.points) AS score
         FROM User AS u
@@ -53,7 +53,7 @@ export async function getUserScore(userId: string): Promise<number | null> {
         LEFT JOIN challenges AS c ON c.id = s.challengeId
         WHERE 
             u.id = ${userId}"
-        `;
+        `);
         return score[0]['score'] ? parseInt(score[0]['score']) : 0;
 	} catch (err) {
 		logError(err);

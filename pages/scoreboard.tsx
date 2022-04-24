@@ -9,25 +9,26 @@ export default function Scoreboard({ scores }) {
 	const { data: session, status } = useSession();
 
 	const userLink = (username) => {
-		return <>
-			<Link href={'users/' + username}>
-				<a className="userLink">
-					{username}
-				</a>
-			</Link>
-			<style jsx>
-				{`
-				.userLink{
-					text-decoration: none;
-				}
-				`}
-			</style>
-		</>
-	}
+		return (
+			<>
+				<Link href={'users/' + username}>
+					<a className='userLink'>{username}</a>
+				</Link>
+				<style jsx>
+					{`
+						.userLink {
+							text-decoration: none;
+						}
+					`}
+				</style>
+			</>
+		);
+	};
 
 	if (session) {
 		return (
 			<>
+				<br />
 				<h1 className='txt-center'>Scoreboard</h1>
 				<Row className='justify-content-center'>
 					<Col className='g-5'>
@@ -41,7 +42,7 @@ export default function Scoreboard({ scores }) {
 							return (
 								<TableRow
 									left={entry.position.toString()}
-									middle={userLink(entry.username)} 
+									middle={userLink(entry.username)}
 									right={entry.score}
 								/>
 							);
@@ -57,7 +58,7 @@ export default function Scoreboard({ scores }) {
 
 export async function getServerSideProps(context) {
 	let scores = await getScoreboard();
-	if(!scores){
+	if (!scores) {
 		scores = [];
 	}
 	return {

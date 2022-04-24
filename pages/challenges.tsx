@@ -71,8 +71,8 @@ export default function Challenges({ challengeData, solvedIDs }) {
 	if (session) {
 		return (
 			<>
+				<br/>
 				<h1 className='txt-center'>Challenges</h1>
-				<br />
 				<h4>Filters</h4>
 				<Row>
 					<Col>

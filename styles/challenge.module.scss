@@ -1,12 +1,19 @@
 @import 'styles/_variables.scss';
 
-.ctfName{
+.modalHeader {
+	background-color: $acs-blue;
+	border-radius: 15px;
+	margin: 10px;
+	color: white;
+}
+
+.ctfName {
 	font-weight: 400;
 	font-size: 1.2rem;
 	color: $neutral-600;
 }
 
-.ctfTitle{
+.ctfTitle {
 	font-size: 1.3rem;
 }
 
@@ -16,7 +23,7 @@
 	margin: 10px;
 	background-color: white;
 	border: none;
-	border-radius: 10px;	
+	border-radius: 10px;
 	transition: 0.3s;
 }
 
@@ -37,7 +44,7 @@
 	background-color: #dee0e4;
 	box-shadow: 1px 1px 1px 1px rgba($acs-blue-dark, 0.2);
 	border: none;
-	border-radius: 10px;	
+	border-radius: 10px;
 	transition: 0.3s;
 }
 
@@ -54,7 +61,8 @@
 	}
 }
 
-.inputField, .inputField:focus {
+.inputField,
+.inputField:focus {
 	height: 100%;
 	width: 100%;
 	padding-left: 10px;
@@ -67,15 +75,25 @@
 .submit {
 	width: 100%;
 	height: 100%;
-	// background-color: rgba($primary, 0.8);
+	background-color: $acs-yellow;
 	border-width: 2px;
+	border-color: $acs-yellow;
+	color: $neutral-100;
+	font-weight: 500;
+}
+
+.submit:hover, .submit:focus {
+	background-color: $acs-yellow-light;
+	border-color: $acs-yellow-light;
+	color: black;
+	font-weight: 500;
 }
 
 .btnHint {
 	width: fit-content;
 	background: none;
 	border: none;
-	text-align: left;	
+	text-align: left;
 	padding-left: 0.5rem;
 }
 
@@ -85,21 +103,75 @@
 	font-weight: bold;
 }
 
-.empty{
+.empty {
 	background-color: white;
 	background: transparent;
-	border:none;
+	border: none;
 }
 
-.hintContent{
+.hintContent {
 	// margin-left: 10px;
 	color: $subtext;
 	padding-top: 0;
 }
 
-.solve{
+.solve {
 	font-size: 1rem;
-	font-weight:normal;
-	color: $subtext;
+	font-weight: normal;
+	color: $neutral-400;
 	margin-bottom: 0;
+}
+
+.serviceStart{
+	width: 8rem;
+	background-color: $acs-red;
+	border-color: $acs-red;
+	margin-top:5px;
+	font-weight: 500;
+}
+
+.serviceStart:hover, .serviceStart:focus{
+	background-color: $acs-red-light;
+	border-color: $acs-red-light;
+	color:black;
+}
+
+.serviceRestart{
+	width: 9rem;
+	background-color: $acs-yellow;
+	border-color: $acs-yellow;
+	font-weight: 500;
+}
+
+.serviceRestart:hover, .serviceRestart:focus{
+	background-color: $acs-yellow-light;
+	border-color: $acs-yellow-light;
+	color:black;
+}
+
+.serviceStop{
+	width: 8rem;
+	background-color: $acs-red;
+	border-color: $acs-red;
+	margin-left: 10px;
+	font-weight: 500;
+}
+
+.serviceStop:hover, .serviceStop:focus{
+	background-color: $acs-red-light;
+	border-color: $acs-red-light;
+	color:black;
+}
+
+.thin{
+	padding-top:0px;
+}
+
+.subheader{
+	font-weight: 500;
+	font-size: 1.2rem;
+}
+
+.instanceRow{
+	margin-top:5px;
 }

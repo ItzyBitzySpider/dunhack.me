@@ -21,14 +21,31 @@ function HintToggle({ children, eventKey }) {
 	);
 }
 
-export default function Challenge({ chal, solved }: { chal: challenge_type; solved: Boolean }) {
-	const { id, title, description, ctfName, hints, files, points, solves } =
-		chal;
+export default function Challenge({
+	chal,
+	solved,
+}: {
+	chal: challenge_type;
+	solved: Boolean;
+}) {
+	const {
+		id,
+		title,
+		description,
+		ctfName,
+		hash,
+		service,
+		hints,
+		files,
+		points,
+		solves,
+	} = chal;
 	const [solveCount, setCount] = useState(solves);
 	const [error, setError] = useState('');
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
+	const [instanceDetails, setInstance] = useState('');
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -69,34 +86,34 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 
 	return (
 		<>
-			{!userSolved && <button className={styles.btnCard} onClick={handleShow}>
-				<Card className={styles.card} style={{ width: '20rem' }}>
-					<Card.Body>
-						<Card.Text className={styles.ctfName}>{ctfName.name}</Card.Text>
-						<Card.Title className={styles.ctfTitle}>
-							{title}
-						</Card.Title>
-						<Card.Text>{points}</Card.Text>
-					</Card.Body>
-				</Card>
-			</button>}
-			{userSolved && <button className={styles.btnCardSolved} onClick={handleShow}>
-				<Card className={styles.cardSolved} style={{ width: '20rem' }}>
-					<Card.Body>
-					<Card.Text>{ctfName.name}</Card.Text>
-						<Card.Title className={styles.ctfTitle}>
-							{title}
-						</Card.Title>
-						<Card.Text>{points}</Card.Text>
-					</Card.Body>
-				</Card>
-			</button>}
+			{!userSolved && (
+				<button className={styles.btnCard} onClick={handleShow}>
+					<Card className={styles.card} style={{ width: '20rem' }}>
+						<Card.Body>
+							<Card.Text className={styles.ctfName}>{ctfName.name}</Card.Text>
+							<Card.Title className={styles.ctfTitle}>{title}</Card.Title>
+							<Card.Text>{points}</Card.Text>
+						</Card.Body>
+					</Card>
+				</button>
+			)}
+			{userSolved && (
+				<button className={styles.btnCardSolved} onClick={handleShow}>
+					<Card className={styles.cardSolved} style={{ width: '20rem' }}>
+						<Card.Body>
+							<Card.Text>{ctfName.name}</Card.Text>
+							<Card.Title className={styles.ctfTitle}>{title}</Card.Title>
+							<Card.Text>{points}</Card.Text>
+						</Card.Body>
+					</Card>
+				</button>
+			)}
 			<Modal
 				dialogClassName={styles.modal}
 				show={show}
 				onHide={handleClose}
 				centered>
-				<Modal.Header closeButton>
+				<Modal.Header className={styles.modalHeader}>
 					<Row>
 						<Modal.Title>{title}</Modal.Title>
 						<div className={styles.solve}>Solves: {solveCount}</div>
@@ -104,14 +121,45 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 				</Modal.Header>
 				<Modal.Body>
 					<ReactMarkdown children={description} />
+					{service && (
+						<>
+							<div className={styles.subheader}>Instance</div>
+							<div>{instanceDetails}</div>
+							{/* TODO check better way to verify there is no instance available */}
+							{instanceDetails === '' && (
+								<Button
+									className={styles.serviceStart}
+									onClick={() => {
+										setInstance('some random text here');
+									}}>
+									Start Instance
+								</Button>
+							)}
+							{instanceDetails !== '' && (
+								<div className={styles.instanceRow}>
+									<Button
+										className={styles.serviceRestart}
+										onClick={() => {
+											setInstance('some random text here');
+										}}>
+										Restart Instance
+									</Button>
+									<Button
+										className={styles.serviceStop}
+										onClick={() => {
+											setInstance('');
+										}}>
+										Stop Instance
+									</Button>
+								</div>
+							)}
+						</>
+					)}
 				</Modal.Body>
-
 				{files[0] && (
 					<>
 						<Modal.Body>
-							<div style={{ fontWeight: '500', fontSize: '1rem' }}>
-								Challenge Files
-							</div>
+							<div className={styles.subheader}>Challenge Files</div>
 							<Row className='mt-2'>
 								{files.map((file) => {
 									return (
@@ -166,7 +214,7 @@ export default function Challenge({ chal, solved }: { chal: challenge_type; solv
 								<Col md={2}>
 									<Button
 										className={styles.submit}
-										variant='outline-primary'
+										// variant='outline-primary'
 										onClick={submit}>
 										Submit
 									</Button>

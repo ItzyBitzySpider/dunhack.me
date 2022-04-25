@@ -26,9 +26,16 @@ export default function Filter({
 			showCheckbox
 			closeOnSelect={false}
 			style={{
+				searchBox:{
+					backgroundColor: '#f2f2f2',
+				},
 				chips: {
 					display: 'none',
 				},
+				option: {
+					backgroundColor: '#f2f2f2',
+					color: 'black'
+				}
 			}}
 		/>
 	);

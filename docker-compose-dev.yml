@@ -1,14 +1,9 @@
 version: '3'
 services:
   database:
-    image: postgres
+    build: ./docker-misc/postgres/
     restart: always
-    environment:
-        POSTGRES_USER: "root"
-        POSTGRES_PASSWORD: "root"
-        POSTGRES_DB: "db"
     volumes:
-      - ./docker-misc/postgres-init:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
@@ -18,10 +13,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/app
+      - .:/app #to change when deploying to production
       - /app/node_modules
     links:
       - "database"
-
 volumes:
   postgres:

@@ -1,26 +1,17 @@
 version: '3.7'
 services:
   database:
-    image: postgres
+    build: ./docker-misc/postgres/
     restart: always
-    environment:
-        POSTGRES_USER: "root"
-        POSTGRES_PASSWORD: "root"
-        POSTGRES_DB: "db"
     volumes:
-      - ./docker-misc/postgres-init:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-  Nginx:
-    container_name: Nginx
-    hostname: Nginx
-    image: nginx
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    build: ./docker-misc/nginx/
     restart: on-failure
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./docker-misc/nginx:/etc/nginx/conf.d:ro
-      - ./docker-misc/certs:/etc/nginx/certs:ro
     ports:
       - "80:80"
       - "443:443"
@@ -40,8 +31,7 @@ services:
       - "runner"
   runner:
     container_name: runner
-    build:
-      context: ./runner
+    build: ./runner
     restart: always
     depends_on:
       - "database"

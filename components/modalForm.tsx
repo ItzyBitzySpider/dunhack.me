@@ -32,7 +32,7 @@ export default function ModalForm({
 				show={show}
 				onHide={handleClose}
 				centered>
-				<Modal.Header closeButton>
+				<Modal.Header>
 					<Modal.Title>{title}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>{content}</Modal.Body>

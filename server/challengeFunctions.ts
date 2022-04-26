@@ -186,6 +186,82 @@ export async function getChallengeById(id: number): Promise<challengeDetails | n
 }
 
 /**
+ * Get challenge details by its SHA256 Hash
+ * @param hash 
+ * @returns 
+ */
+export async function getChallengeByHash(hash: String): Promise<challenge_type | null> {
+	try {
+		return await prisma.challenges.findFirst({
+			where: {
+				hash: hash,
+				exposed: true,
+			},
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				hash: true,
+				service: true,
+				ctfName: {
+					select: {
+						name: true,
+					},
+				},
+				category: {
+					select: {
+						name: true,
+					},
+				},
+				hints: {
+					select: {
+						body: true,
+					},
+				},
+				files: {
+					select: {
+						title: true,
+						url: true,
+					},
+				},
+				points: true,
+				solves: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
+ * Validate Challenge hash
+ * @param hash 
+ * @returns 
+ */
+export async function validateChallengeHash(hash: string): Promise<Boolean> {
+	try {
+		return await prisma.challenges.findFirst({
+			where: {
+				hash: hash,
+				exposed: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return false;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+/**
  * Get Last User Submission for Challenge
  * @param userId 
  * @param challengeId 

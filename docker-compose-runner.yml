@@ -6,7 +6,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - '5432:5432' #meant for script to add/update challs
   nginx:
     container_name: nginx
     hostname: nginx
@@ -20,8 +20,6 @@ services:
   webapp:
     build: ./
     restart: always
-    ports:
-      - '3000:3000'
     volumes:
       - /app/node_modules
     depends_on:
@@ -38,6 +36,6 @@ services:
     links:
       - "database"
     ports:
-      - '10000:10000'
+      - '10000:10000' #meant for script at portainer within VPC to communicate.
 volumes:
   postgres:

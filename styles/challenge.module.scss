@@ -136,14 +136,14 @@
 	color:black;
 }
 
-.serviceRestart{
+.serviceExtend{
 	width: 9rem;
 	background-color: $acs-yellow;
 	border-color: $acs-yellow;
 	font-weight: 500;
 }
 
-.serviceRestart:hover, .serviceRestart:focus{
+.serviceExtend:hover, .serviceExtend:focus{
 	background-color: $acs-yellow-light;
 	border-color: $acs-yellow-light;
 	color:black;

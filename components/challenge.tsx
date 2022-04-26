@@ -138,11 +138,11 @@ export default function Challenge({
 							{instanceDetails !== '' && (
 								<div className={styles.instanceRow}>
 									<Button
-										className={styles.serviceRestart}
+										className={styles.serviceExtend}
 										onClick={() => {
 											setInstance('some random text here');
 										}}>
-										Restart Instance
+										Extend Time
 									</Button>
 									<Button
 										className={styles.serviceStop}

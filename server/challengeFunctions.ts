@@ -190,7 +190,7 @@ export async function getChallengeById(id: number): Promise<challengeDetails | n
  * @param hash 
  * @returns 
  */
-export async function getChallengeByHash(hash: String): Promise<challenge_type | null> {
+export async function getChallengeByHash(hash: string): Promise<challenge_type | null> {
 	try {
 		return await prisma.challenges.findFirst({
 			where: {

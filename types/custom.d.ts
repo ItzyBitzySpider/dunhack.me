@@ -12,7 +12,7 @@ interface challenge_type {
 	category: {
 		name: string;
 	};
-	hints: Array<Record<String>>;
+	hints: Array<Record<string>>;
 	files: Array<{
 		title: string;
 		url: string;
@@ -93,14 +93,6 @@ interface userRanking {
 	position: number;
 	username: string;
 	score: number;
-}
-
-interface announcement {
-	id: number;
-	added: Date;
-	addedBy: string;
-	title: string;
-	body: string;
 }
 
 interface userData {

@@ -29,7 +29,7 @@ export default NextAuth({
 		})
 	],
 	pages: {
-		signIn: 'login',
+		signIn: '/login',
 		error: '/login'
 	},
 	callbacks: {
@@ -58,5 +58,6 @@ export default NextAuth({
 			}			
 		},
 	},
+	secret: process.env.JWT_SECRET,
 });
 

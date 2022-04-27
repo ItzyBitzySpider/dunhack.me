@@ -37,7 +37,7 @@ export default async function submit(req, res) {
 			let latestSubmission = 0;
 			let submission = await getLastSubmission(userId, challengeId);
 			if (submission !== null) {
-				latestSubmission = submission["added"];
+				latestSubmission = new Date(submission["added"]).getTime();
 				if (submission["correct"]){
 					res.status(400).json({ error: 'Challenge was previously solved' });
 					return;

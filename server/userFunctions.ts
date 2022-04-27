@@ -56,6 +56,32 @@ export async function getUserInfo(username: string): Promise<userData | null> {
 	} catch (err) {
 		logError(err);
 		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
+	}
+}
+
+export async function getUserfromId(userId: string): Promise<userData | null> {
+	try {
+		return await prisma.user.findUnique({
+			where: {
+				id: userId,
+			},
+			select: {
+				id: true,
+				username: true,
+				image: true,
+			},
+		});
+	} catch (err) {
+		logError(err);
+		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
 	}
 }
 
@@ -69,6 +95,10 @@ export async function getAllUsers(): Promise<Array<userList> | null> {
 	} catch (err) {
 		logError(err);
 		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
 	}
 }
 
@@ -85,6 +115,10 @@ export async function getAllEligibleUsers(): Promise<Array<userList> | null> {
 	} catch (err) {
 		logError(err);
 		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
 	}
 }
 
@@ -102,6 +136,10 @@ export async function userEnabled(userId: string): Promise<boolean | null> {
 	} catch (err) {
 		logError(err);
 		return null;
+	} finally {
+		async () => {
+			await prisma.$disconnect();
+		};
 	}
 }
 

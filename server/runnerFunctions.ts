@@ -1,7 +1,4 @@
-import { getSession } from "next-auth/react"
 import { userEnabled } from "./userFunctions";
-
-import prisma from "./databaseFunctions";
 
 /**
  * Get instance status of a user

@@ -1,5 +1,4 @@
 FROM nginx
-
 COPY default.conf /etc/nginx/conf.d/
 COPY ./certs /etc/nginx/certs
 ENV TZ=Asia/Singapore

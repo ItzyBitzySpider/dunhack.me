@@ -54,6 +54,10 @@ export default function Profile({ challengeSolved }) {
 		const data = {
 			userId: session.user.id,
 		};
+
+		// Sign out before deleting to prevent errors
+		signOut({redirect: false});
+
 		const response = await fetch('/api/deleteUser', {
 			method: 'POST',
 			headers: {

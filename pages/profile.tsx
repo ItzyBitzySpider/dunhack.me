@@ -70,12 +70,11 @@ export default function Profile({ challengeSolved }) {
 		if (res.result !== undefined) {
 			// Account delete successful
 			if (res.result === true) {
-				close();
 				Router.push('/');
 				return;
 			} else {
 				// Display error to user
-				setError('Something went wrong. Please contact admin.');
+				setError('Delete failed');
 				return;
 			}
 		} else {
@@ -142,7 +141,18 @@ export default function Profile({ challengeSolved }) {
 				</Row>
 			</>
 		);
-	} else {
+	} else if (error === "Delete failed"){
+		return ( 	
+			<div className='txt-center h-100 align-items-center row'>
+				<div>
+					<h1>Something went wrong</h1>
+					<h3>
+						Account has not been deleted. Please <a href='/login'>login</a> and try again. 
+					</h3>
+				</div>
+			</div>
+		);
+	}else {
 		return <Unauthorized />;
 	}
 }

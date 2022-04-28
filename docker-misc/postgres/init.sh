@@ -4,7 +4,7 @@ set -e
 set -u
 
 echo "Init Dunhack.me DB"
-psql -d db -v ON_ERROR_STOP=1 --username root <<-EOSQL
+psql -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- CreateEnum
@@ -201,14 +201,14 @@ ALTER TABLE "User" ALTER COLUMN "username" SET DEFAULT CONCAT('User',SUBSTRING((
 EOSQL
 
 echo "Creating Database for Runner"
-psql -d db -v ON_ERROR_STOP=1 --username root <<-EOSQL
-    CREATE DATABASE runner_db;
-    GRANT ALL PRIVILEGES ON DATABASE runner_db TO root;
+psql -d "$POSTGRES_DB" -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+    CREATE DATABASE $RUNNER_DB;
+    GRANT ALL PRIVILEGES ON DATABASE runner_db TO $POSTGRES_USER;
 EOSQL
 
 #create runner_db database
 echo "Init Runner DB"
-psql -d runner_db -v ON_ERROR_STOP=1 --username root <<-EOSQL
+psql -d "$RUNNER_DB" -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE TABLE challenges (
         challenge_id varchar(64) PRIMARY KEY,
         challenge_name varchar(255) NOT NULL,
@@ -228,3 +228,4 @@ psql -d runner_db -v ON_ERROR_STOP=1 --username root <<-EOSQL
         ports_used varchar(255) NOT NULL
     );
 EOSQL
+echo "DONE!!!"

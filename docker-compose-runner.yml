@@ -5,6 +5,11 @@ services:
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
+    environment:
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=root
+        - POSTGRES_DB=db #db for webapp
+        - RUNNER_DB=runner_db #db for runner
     ports:
       - '5432:5432' #meant for script to add/update challs
   nginx:
@@ -18,7 +23,9 @@ services:
     links:
       - "webapp"
   webapp:
-    build: ./
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.prod
     restart: always
     volumes:
       - /app/node_modules

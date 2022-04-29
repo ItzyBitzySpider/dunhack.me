@@ -11,7 +11,7 @@ export default function SidebarNavigation() {
 	const [active, setActive] = useState(path[1]);
 	return (
 			<nav className={styles.sidebar}>
-				<img className={styles.img} src='./Logo.png'/>
+				<img className={styles.img} src='/Logo.png'/>
 				<ul className={styles.nav}>
 					<li>
 						<Link href='/'>

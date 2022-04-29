@@ -52,8 +52,8 @@ export default function userProfile({ userData, challengeSolved }) {
 }
 
 export async function getServerSideProps(context){
-	const userData = await getUserInfo(context.query.user);
-	const challengeSolved = await getChallengesSolved(userData.id);
+	let userData = await getUserInfo(context.query.user);
+	let challengeSolved = await getChallengesSolved(userData);
 	return {
 		props: {
 			userData, 

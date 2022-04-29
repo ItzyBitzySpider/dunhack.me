@@ -29,7 +29,6 @@ export async function deleteAccount(userId: string): Promise<boolean> {
 		await prisma.user.delete({
 			where: { id: userId },
 		});
-		signOut();
 		return true;
 	} catch (err) {
 		logError(err);

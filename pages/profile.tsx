@@ -55,9 +55,6 @@ export default function Profile({ challengeSolved }) {
 			userId: session.user.id,
 		};
 
-		// Sign out before deleting to prevent errors
-		signOut({redirect: false});
-
 		const response = await fetch('/api/deleteUser', {
 			method: 'POST',
 			headers: {
@@ -70,7 +67,8 @@ export default function Profile({ challengeSolved }) {
 		if (res.result !== undefined) {
 			// Account delete successful
 			if (res.result === true) {
-				Router.push('/');
+				Router.push('/login')
+				Router.reload();
 				return;
 			} else {
 				// Display error to user

@@ -8,35 +8,34 @@ import {
 	getChallengesSolved,
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
-import { assert } from 'console';
 import Unauthorized from '../components/unauthorized';
 
-export default function Challenges({ challengeData, solvedIDs }) {
+export default function Challenges({ challengeData, solvedIDs, runningInstances }) {
 	const { data: session, status } = useSession();
 
 	// category filter
-	let catMap = {};
-	for (const category of challengeData) catMap[category.name] = true;
-	const [categoryFilter, setCategories] = useState(catMap);
-	const [catPlaceholder, setCatPlaceholder] = useState(
-		Object.keys(catMap).length + ' categories selected'
+	let categoryMap = {};
+	for (const category of challengeData) categoryMap[category.name] = true;
+	const [categoryFilter, setCategories] = useState(categoryMap);
+	const [categoryPlaceholder, setCategoryPlaceholder] = useState(
+		Object.keys(categoryMap).length + ' categories selected'
 	);
 
-	function catSelect(selectedList, selectedItem) {
+	const categorySelect = (selectedList, selectedItem) => {
 		let filteredMap = { ...categoryFilter };
 		filteredMap[selectedItem] = true;
 		setCategories(filteredMap);
 		const num = Object.values(filteredMap).filter((e) => e).length;
-		setCatPlaceholder(num + ' categories selected');
+		setCategoryPlaceholder(num + ' categories selected');
 	}
 
-	function catRemove(selectedList, selectedItem) {
+	const categoryRemove = (selectedList, selectedItem) => {
 		let filteredMap = { ...categoryFilter };
 		filteredMap[selectedItem] = false;
 		setCategories(filteredMap);
 		const num = Object.values(filteredMap).filter((e) => e).length;
-		if (num === 0) setCatPlaceholder('Select Category');
-		else setCatPlaceholder(num + ' categories selected');
+		if (num === 0) setCategoryPlaceholder('Select Category');
+		else setCategoryPlaceholder(num + ' categories selected');
 	}
 
 	// ctf filter
@@ -77,10 +76,10 @@ export default function Challenges({ challengeData, solvedIDs }) {
 				<Row>
 					<Col>
 						<Filter
-							options={Object.keys(catMap)}
-							onSelect={catSelect}
-							onRemove={catRemove}
-							placeholder={catPlaceholder}
+							options={Object.keys(categoryMap)}
+							onSelect={categorySelect}
+							onRemove={categoryRemove}
+							placeholder={categoryPlaceholder}
 						/>
 					</Col>
 					<Col>
@@ -138,7 +137,8 @@ export async function getServerSideProps(context) {
 			solvedIDs.push(solved.challengeId);
 		}
 	}
+	let runningInstances = [];
 	return {
-		props: { challengeData, solvedIDs },
+		props: { challengeData, solvedIDs, runningInstances },
 	};
 }

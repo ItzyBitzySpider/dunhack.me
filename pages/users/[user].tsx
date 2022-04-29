@@ -51,31 +51,13 @@ export default function userProfile({ userData, challengeSolved }) {
 	}
 }
 
-export async function getStaticPaths() {
-	const users = await getAllUsers();
-	let paths = [];
-	if (users) {
-		paths = users.map((user) => {
-			return {
-				params: {
-					user: user.username,
-				},
-			};
-		});
-	}
-	return {
-		paths,
-		fallback: false,
-	};
-}
-
-export async function getStaticProps(pathData) {
-	const userData = await getUserInfo(pathData.params.user);
+export async function getServerSideProps(context){
+	const userData = await getUserInfo(context.query.user);
 	const challengeSolved = await getChallengesSolved(userData.id);
 	return {
 		props: {
-			userData,
+			userData, 
 			challengeSolved,
-		},
-	};
+		}
+	}
 }

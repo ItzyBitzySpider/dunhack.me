@@ -21,7 +21,7 @@ export default function Challenges({ challengeData, solvedIDs, runningInstances 
 		Object.keys(categoryMap).length + ' categories selected'
 	);
 
-	const categorySelect = (selectedList, selectedItem) => {
+	const categorySelect = (_, selectedItem) => {
 		let filteredMap = { ...categoryFilter };
 		filteredMap[selectedItem] = true;
 		setCategories(filteredMap);
@@ -29,7 +29,7 @@ export default function Challenges({ challengeData, solvedIDs, runningInstances 
 		setCategoryPlaceholder(num + ' categories selected');
 	}
 
-	const categoryRemove = (selectedList, selectedItem) => {
+	const categoryRemove = (_, selectedItem) => {
 		let filteredMap = { ...categoryFilter };
 		filteredMap[selectedItem] = false;
 		setCategories(filteredMap);
@@ -50,7 +50,7 @@ export default function Challenges({ challengeData, solvedIDs, runningInstances 
 		Object.keys(ctfMap).length + ' CTFs selected'
 	);
 
-	function ctfSelect(selectedList, selectedItem) {
+	const ctfSelect = (_, selectedItem) => {
 		let filteredMap = { ...ctfFilter };
 		filteredMap[selectedItem] = true;
 		setCTF(filteredMap);
@@ -58,7 +58,7 @@ export default function Challenges({ challengeData, solvedIDs, runningInstances 
 		setCTFPlaceholder(num + ' CTFs selected');
 	}
 
-	function ctfRemove(selectedList, selectedItem) {
+	const ctfRemove = (_, selectedItem) => {
 		let filteredMap = { ...ctfFilter };
 		filteredMap[selectedItem] = false;
 		setCTF(filteredMap);

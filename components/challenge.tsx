@@ -139,12 +139,11 @@ export default function Challenge({
 			setInstanceError(res.error);
 		}
 	};
-
 	return (
 		<>
 			{!userSolved && (
 				<button
-					className={true ? styles.activeInstance : styles.btnCard}
+					className={activeInstance ? styles.activeInstance : styles.btnCard}
 					onClick={handleShow}>
 					<Card className={styles.card} style={{ width: '20rem' }}>
 						<Card.Body>

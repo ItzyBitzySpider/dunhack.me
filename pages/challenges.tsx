@@ -108,7 +108,7 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 													key={challenge.id}
 													chal={challenge}
 													solved={solvedIDs.includes(challenge.id)}
-													activeInstance={activeInstances.includes(challenge.hash)}
+													activeInstance={activeInstances.includes(challenge.title)}
 												/>
 											);
 										}
@@ -138,7 +138,22 @@ export async function getServerSideProps(context) {
 			solvedIDs.push(solved.challengeId);
 		}
 	}
+	const response = await fetch(
+		`${process.env.RUNNER_SITE}/getUserStatus?userid=${session.user.id}`,
+		{
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+			},
+		}
+	);
 	let activeInstances = [];
+	let res = await response.json();
+	if (response.status === 200) {
+		// possible loop maybe when there can be multiple running instances
+		activeInstances.push(res.Challenge_Name);
+	} 
+
 	return {
 		props: { challengeData, solvedIDs, activeInstances },
 	};

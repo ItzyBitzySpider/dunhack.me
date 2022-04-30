@@ -104,7 +104,37 @@ export default function Challenge({
 		console.log('response', response);
 		if (response.status === 200) {
 			setInstanceError('');
-			setInstanceDetails(res);
+			setInstanceDetails(`http://portainer.dunhack.me:${res.Ports_Used[0]}`);
+		} else {
+			setInstanceError(res.error);
+		}
+	};
+
+	const stopInstance = async () => {
+		const response = await fetch('/api/stopInstance', {
+			method: 'POST'
+		});
+
+		let res = await response.json();
+		console.log(res)
+		if (response.status === 200 || res.error === 'User does not have an instance') {
+			setInstanceError('');
+			setInstanceDetails('');
+		} else {
+			setInstanceError(res.error);
+		}
+	};
+
+	const extendTime = async () => {
+		const response = await fetch('/api/extendTimeInstance', {
+			method: 'POST'
+		});
+
+		let res = await response.json();
+		console.log(res)
+		if (response.status === 200 || res.error === 'User does not have an instance') {
+			setInstanceError('');
+			setInstanceDetails('');
 		} else {
 			setInstanceError(res.error);
 		}
@@ -152,7 +182,7 @@ export default function Challenge({
 					{service && (
 						<>
 							<div className={styles.subheader}>Instance</div>
-							<div style={{ color: 'red',  }}>{instanceError}</div>
+							<div style={{ color: 'red' }}>{instanceError}</div>
 							<div>{instanceDetails}</div>
 							{/* TODO check better way to verify there is no instance available */}
 							{instanceDetails === '' && (
@@ -169,14 +199,14 @@ export default function Challenge({
 									<Button
 										className={styles.serviceExtend}
 										onClick={() => {
-											setInstanceDetails('some random text here');
+											extendTime();
 										}}>
 										Extend Time
 									</Button>
 									<Button
 										className={styles.serviceStop}
 										onClick={() => {
-											setInstanceDetails('');
+											stopInstance();
 										}}>
 										Stop Instance
 									</Button>

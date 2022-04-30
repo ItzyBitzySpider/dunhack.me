@@ -28,7 +28,7 @@ export default async function startInstance(req, res) {
 			}
 
 			//call runner
-            let response = await fetch(`${process.env.RUNNER_SITE}/addInstance?userid=${userId}&challid=${challengeHash}`, {
+            let response = await fetch(`https://dunhack.me:10000/addInstance?userid=${userId}&challid=${challengeHash}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +36,12 @@ export default async function startInstance(req, res) {
                 }
             });
             let json = await response.json();
-            res.status(200).json(json);
+			console.log(json)
+			if(json.Error){
+				res.status(400).json({error: json.Error});
+			}else{
+            	res.status(200).json(json);
+			}
   		} else {
     		// Not Signed in
     		res.status(401).end('Not signed in')

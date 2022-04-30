@@ -24,7 +24,7 @@ function HintToggle({ children, eventKey }) {
 export default function Challenge({
 	chal,
 	solved,
-	activeInstance
+	activeInstance,
 }: {
 	chal: challenge_type;
 	solved: Boolean;
@@ -47,7 +47,9 @@ export default function Challenge({
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
-	const [instanceDetails, setInstance] = useState('');
+	const [instanceDetails, setInstanceDetails] = useState('');
+	const [instanceError, setInstanceError] = useState('');
+
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -90,7 +92,6 @@ export default function Challenge({
 		const data = {
 			challengeHash: hash,
 		};
-		console.log('test', data);
 		const response = await fetch('/api/startInstance', {
 			method: 'POST',
 			headers: {
@@ -98,20 +99,23 @@ export default function Challenge({
 			},
 			body: JSON.stringify(data),
 		});
-		console.log('test', response)
-		// let res = await response.json();
-		// if(response.status === 200){
-		// 	setInstance(res)
-		// }else{
-		// 	setInstance(res.error);
-		// }
 
+		let res = await response.json();
+		console.log('response', response);
+		if (response.status === 200) {
+			setInstanceError('');
+			setInstanceDetails(res);
+		} else {
+			setInstanceError(res.error);
+		}
 	};
 
 	return (
 		<>
 			{!userSolved && (
-				<button className={true ? styles.activeInstance : styles.btnCard} onClick={handleShow}>
+				<button
+					className={true ? styles.activeInstance : styles.btnCard}
+					onClick={handleShow}>
 					<Card className={styles.card} style={{ width: '20rem' }}>
 						<Card.Body>
 							<Card.Text className={styles.ctfName}>{ctfName.name}</Card.Text>
@@ -148,13 +152,13 @@ export default function Challenge({
 					{service && (
 						<>
 							<div className={styles.subheader}>Instance</div>
+							<div style={{ color: 'red',  }}>{instanceError}</div>
 							<div>{instanceDetails}</div>
 							{/* TODO check better way to verify there is no instance available */}
 							{instanceDetails === '' && (
 								<Button
 									className={styles.serviceStart}
 									onClick={() => {
-										console.log('test')
 										startInstance(hash);
 									}}>
 									Start Instance
@@ -165,14 +169,14 @@ export default function Challenge({
 									<Button
 										className={styles.serviceExtend}
 										onClick={() => {
-											setInstance('some random text here');
+											setInstanceDetails('some random text here');
 										}}>
 										Extend Time
 									</Button>
 									<Button
 										className={styles.serviceStop}
 										onClick={() => {
-											setInstance('');
+											setInstanceDetails('');
 										}}>
 										Stop Instance
 									</Button>

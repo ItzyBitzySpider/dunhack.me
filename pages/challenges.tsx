@@ -10,7 +10,7 @@ import {
 import Filter from '../components/multiSelect';
 import Unauthorized from '../components/unauthorized';
 
-export default function Challenges({ challengeData, solvedIDs, runningInstances }) {
+export default function Challenges({ challengeData, solvedIDs, activeInstances }) {
 	const { data: session, status } = useSession();
 
 	// category filter
@@ -108,6 +108,7 @@ export default function Challenges({ challengeData, solvedIDs, runningInstances 
 													key={challenge.id}
 													chal={challenge}
 													solved={solvedIDs.includes(challenge.id)}
+													activeInstance={activeInstances.includes(challenge.hash)}
 												/>
 											);
 										}
@@ -137,8 +138,8 @@ export async function getServerSideProps(context) {
 			solvedIDs.push(solved.challengeId);
 		}
 	}
-	let runningInstances = [];
+	let activeInstances = [];
 	return {
-		props: { challengeData, solvedIDs, runningInstances },
+		props: { challengeData, solvedIDs, activeInstances },
 	};
 }

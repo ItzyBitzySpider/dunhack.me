@@ -32,6 +32,37 @@
 	transition: 0.3s;
 }
 
+@keyframes AnimationName {
+	0% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: -33% 50%;
+	}
+}
+
+.activeInstance {
+	@extend .btnCard;
+	background: repeating-linear-gradient(
+		90deg,
+		#ff5f6f,
+		#ff755c,
+		#ff8e48,
+		#ffaa35,
+		#ffb132,
+		#ffbf2c,
+		#ffc629,
+		#ffbf2c,
+		#ffb132,
+		#ffaa35,
+		#ff8e48,
+		#ff755c,
+		#ff5f6f
+	);
+	animation: AnimationName 5s linear infinite;
+	background-size: 400% 1000%;
+}
+
 .card {
 	color: black;
 	background-color: inherit;
@@ -82,7 +113,8 @@
 	font-weight: 500;
 }
 
-.submit:hover, .submit:focus {
+.submit:hover,
+.submit:focus {
 	background-color: $acs-yellow-light;
 	border-color: $acs-yellow-light;
 	color: black;
@@ -122,34 +154,36 @@
 	margin-bottom: 0;
 }
 
-.serviceStart{
+.serviceStart {
 	width: 8rem;
 	background-color: $acs-red;
 	border-color: $acs-red;
-	margin-top:5px;
+	margin-top: 5px;
 	font-weight: 500;
 }
 
-.serviceStart:hover, .serviceStart:focus{
+.serviceStart:hover,
+.serviceStart:focus {
 	background-color: $acs-red-light;
 	border-color: $acs-red-light;
-	color:black;
+	color: black;
 }
 
-.serviceExtend{
+.serviceExtend {
 	width: 9rem;
 	background-color: $acs-yellow;
 	border-color: $acs-yellow;
 	font-weight: 500;
 }
 
-.serviceExtend:hover, .serviceExtend:focus{
+.serviceExtend:hover,
+.serviceExtend:focus {
 	background-color: $acs-yellow-light;
 	border-color: $acs-yellow-light;
-	color:black;
+	color: black;
 }
 
-.serviceStop{
+.serviceStop {
 	width: 8rem;
 	background-color: $acs-red;
 	border-color: $acs-red;
@@ -157,21 +191,22 @@
 	font-weight: 500;
 }
 
-.serviceStop:hover, .serviceStop:focus{
+.serviceStop:hover,
+.serviceStop:focus {
 	background-color: $acs-red-light;
 	border-color: $acs-red-light;
-	color:black;
+	color: black;
 }
 
-.thin{
-	padding-top:0px;
+.thin {
+	padding-top: 0px;
 }
 
-.subheader{
+.subheader {
 	font-weight: 500;
 	font-size: 1.2rem;
 }
 
-.instanceRow{
-	margin-top:5px;
+.instanceRow {
+	margin-top: 5px;
 }

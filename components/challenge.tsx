@@ -24,9 +24,11 @@ function HintToggle({ children, eventKey }) {
 export default function Challenge({
 	chal,
 	solved,
+	activeInstance
 }: {
 	chal: challenge_type;
 	solved: Boolean;
+	activeInstance: Boolean;
 }) {
 	const {
 		id,
@@ -84,10 +86,32 @@ export default function Challenge({
 		}
 	};
 
+	const startInstance = async (hash) => {
+		const data = {
+			challengeHash: hash,
+		};
+		console.log('test', data);
+		const response = await fetch('/api/startInstance', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+		console.log('test', response)
+		// let res = await response.json();
+		// if(response.status === 200){
+		// 	setInstance(res)
+		// }else{
+		// 	setInstance(res.error);
+		// }
+
+	};
+
 	return (
 		<>
 			{!userSolved && (
-				<button className={styles.btnCard} onClick={handleShow}>
+				<button className={true ? styles.activeInstance : styles.btnCard} onClick={handleShow}>
 					<Card className={styles.card} style={{ width: '20rem' }}>
 						<Card.Body>
 							<Card.Text className={styles.ctfName}>{ctfName.name}</Card.Text>
@@ -130,7 +154,8 @@ export default function Challenge({
 								<Button
 									className={styles.serviceStart}
 									onClick={() => {
-										setInstance('some random text here');
+										console.log('test')
+										startInstance(hash);
 									}}>
 									Start Instance
 								</Button>

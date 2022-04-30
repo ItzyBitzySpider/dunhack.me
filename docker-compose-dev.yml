@@ -22,5 +22,15 @@ services:
       - /app/node_modules
     links:
       - "database"
+  runner:
+    container_name: runner
+    build: ./runner
+    restart: always
+    depends_on:
+      - "database"
+    links:
+      - "database"
+    ports:
+      - '10000:10000' #meant for script at portainer within VPC to communicate.
 volumes:
   postgres:

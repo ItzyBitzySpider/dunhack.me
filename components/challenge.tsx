@@ -28,7 +28,7 @@ export default function Challenge({
 }: {
 	chal: challenge_type;
 	solved: Boolean;
-	activeInstance: Boolean;
+	activeInstance: any; //TODO: type this later
 }) {
 	const {
 		id,
@@ -47,13 +47,15 @@ export default function Challenge({
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
-	const [instanceDetails, setInstanceDetails] = useState('');
+	const [active, setActive] = useState(activeInstance.Challenge_Name === title); //TODO replace redundant check if name matches
+	const [instanceDetails, setInstanceDetails] = useState(activeInstance.Challenge_Name === title ? `http://portainer.dunhack.me:${activeInstance.Ports_Used}` : '');
 	const [instanceError, setInstanceError] = useState('');
 
 	const handleClose = () => {
 		setShow(false);
 		setError('');
 	};
+
 	const handleShow = () => setShow(true);
 
 	const submit = async () => {
@@ -105,6 +107,7 @@ export default function Challenge({
 		if (response.status === 200) {
 			setInstanceError('');
 			setInstanceDetails(`http://portainer.dunhack.me:${res.Ports_Used[0]}`);
+			setActive(true);
 		} else {
 			setInstanceError(res.error);
 		}
@@ -120,6 +123,7 @@ export default function Challenge({
 		if (response.status === 200 || res.error === 'User does not have an instance') {
 			setInstanceError('');
 			setInstanceDetails('');
+			setActive(false);
 		} else {
 			setInstanceError(res.error);
 		}
@@ -139,11 +143,12 @@ export default function Challenge({
 			setInstanceError(res.error);
 		}
 	};
+
 	return (
 		<>
 			{!userSolved && (
 				<button
-					className={activeInstance ? styles.activeInstance : styles.btnCard}
+					className={active ? styles.activeInstance : styles.btnCard}
 					onClick={handleShow}>
 					<Card className={styles.card} style={{ width: '20rem' }}>
 						<Card.Body>

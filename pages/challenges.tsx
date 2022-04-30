@@ -108,7 +108,7 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 													key={challenge.id}
 													chal={challenge}
 													solved={solvedIDs.includes(challenge.id)}
-													activeInstance={activeInstances.includes(challenge.title)}
+													activeInstance={activeInstances[0] ? activeInstances[0] : {} /* pass in only matched instance */}
 												/>
 											);
 										}
@@ -149,12 +149,14 @@ export async function getServerSideProps(context) {
 	);
 	let activeInstances = [];
 	let res = await response.json();
+	console.log(res)
 	if (response.status === 200) {
+		activeInstances.push(res);
 		// possible loop maybe when there can be multiple running instances
-		activeInstances.push(res.Challenge_Name);
+		// activeInstances.push(res.Challenge_Name);
 	} 
 
 	return {
-		props: { challengeData, solvedIDs, activeInstances },
+		props: { challengeData, solvedIDs, activeInstances }
 	};
 }

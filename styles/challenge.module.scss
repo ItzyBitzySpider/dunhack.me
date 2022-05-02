@@ -121,30 +121,33 @@
 	font-weight: 500;
 }
 
-.btnHint {
-	width: fit-content;
+.cardHint{
 	background: none;
+	padding-left: 0;
 	border: none;
-	text-align: left;
-	padding-left: 0.5rem;
+}
+
+.btnHint {
+	// width: fit-content;
+	// background: none;
+	// border: none;
+	// text-align: left;
+	// padding-left: 0.5rem;
 }
 
 .btnHint:hover {
-	background: none;
-	border: none;
-	font-weight: bold;
-}
-
-.empty {
-	background-color: white;
-	background: transparent;
-	border: none;
+	// background: none;
+	// border: none;
+	// font-weight: bold;
 }
 
 .hintContent {
 	// margin-left: 10px;
-	color: $subtext;
-	padding-top: 0;
+	// color: $neutral-600;
+	// padding: 0;
+	border: solid 2px;
+	border-radius: 8px;
+	padding-bottom: 0px;
 }
 
 .solve {

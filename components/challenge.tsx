@@ -15,9 +15,9 @@ import { challenge_type } from '../types/custom';
 function HintToggle({ children, eventKey }) {
 	const reveal = useAccordionButton(eventKey);
 	return (
-		<button type='button' className={styles.btnHint} onClick={reveal}>
+		<Button className={styles.btnHint} onClick={reveal}>
 			{children}
-		</button>
+		</Button>
 	);
 }
 
@@ -134,14 +134,14 @@ export default function Challenge({
 			method: 'POST'
 		});
 
-		let res = await response.json();
-		console.log(res)
-		if (response.status === 200 || res.error === 'User does not have an instance') {
-			setInstanceError('');
-			setInstanceDetails('');
-		} else {
-			setInstanceError(res.error);
-		}
+		// let res = await response.json();
+		console.log(response)
+		// if (response.status === 200 || res.error === 'User does not have an instance') {
+		// 	setInstanceError('');
+		// 	setInstanceDetails('');
+		// } else {
+		// 	setInstanceError(res.error);
+		// }
 	};
 
 	return (
@@ -220,7 +220,6 @@ export default function Challenge({
 					)}
 				</Modal.Body>
 				{files[0] && (
-					<>
 						<Modal.Body>
 							<div className={styles.subheader}>Challenge Files</div>
 							<Row className='mt-2'>
@@ -238,27 +237,31 @@ export default function Challenge({
 								})}
 							</Row>
 						</Modal.Body>
-					</>
 				)}
 
-				{hints.map((content, index) => {
-					return (
-						<Accordion>
-							<Card className={styles.empty}>
-								<Card.Header className={styles.btnHint}>
-									<HintToggle eventKey={index.toString()}>
-										Hint {index + 1}
-									</HintToggle>
-								</Card.Header>
-								<Accordion.Collapse eventKey={index.toString()}>
-									<Card.Body className={styles.hintContent}>
-										<ReactMarkdown children={content.body} />
-									</Card.Body>
-								</Accordion.Collapse>
-							</Card>
-						</Accordion>
-					);
-				})}
+				{hints[0] && (
+						<Modal.Body>
+							<div className={styles.subheader}>Hints</div>
+							{hints.map((content, index) => {
+							return (
+								<Accordion>
+									<Card className={styles.cardHint}>
+										<Card.Header className={styles.cardHint}>
+											<HintToggle eventKey={index.toString()}>
+												Hint {index + 1}
+											</HintToggle>
+										</Card.Header>
+										<Accordion.Collapse eventKey={index.toString()}>
+											<Card.Body className={styles.hintContent}>
+												<ReactMarkdown children={content.body} />
+											</Card.Body>
+										</Accordion.Collapse>
+									</Card>
+								</Accordion>
+							);
+						})}
+						</Modal.Body>
+				)}
 
 				<Modal.Footer as={Row} className='justify-content-center g-0'>
 					{!userSolved && (

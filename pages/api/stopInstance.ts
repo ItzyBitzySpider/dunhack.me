@@ -31,8 +31,10 @@ export default async function stopInstance(req, res) {
 			let json = await response.json();
 			if (json.Error) {
 				res.status(400).json({ error: json.Error });
+			} else if (json.Success) {
+				res.status(200).json({ success: true });
 			} else {
-				res.status(200).json(json);
+				res.status(500).json({ success: false });
 			}
 		} else {
 			// Not Signed in

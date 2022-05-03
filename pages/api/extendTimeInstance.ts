@@ -11,10 +11,10 @@ export default async function extendTimeInstance(req, res) {
 			//Ensure User is Enabled/Valid
 			let enabled = await userEnabled(userId);
 			if (enabled === false) {
-				res.status(400).json({ error: 'User is not enabled' });
+				res.status(401).json({ error: 'User is not enabled' });
 				return;
 			} else if (enabled === null) {
-				res.status(400).json({ error: 'User does not exist' });
+				res.status(401).json({ error: 'User does not exist' });
 				return;
 			}
 
@@ -28,11 +28,14 @@ export default async function extendTimeInstance(req, res) {
 					},
 				}
 			);
+			
 			let json = await response.json();
 			if (json.Error) {
 				res.status(400).json({ error: json.Error });
+			} else if (json.Success) {
+				res.status(200).json({ success: true });
 			} else {
-				res.status(200).json(json);
+				res.status(500).json({ success: false });
 			}
 		} else {
 			// Not Signed in

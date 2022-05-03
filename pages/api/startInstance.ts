@@ -26,9 +26,6 @@ export default async function startInstance(req, res) {
 				res.status(400).json({ error: 'User does not exist' });
 				return;
 			}
-			console.log(
-				`${process.env.RUNNER_SITE}/addInstance?userid=${userId}&challid=${challengeHash}`
-			);
 			//call runner
 			let response = await fetch(
 				`${process.env.RUNNER_SITE}/addInstance?userid=${userId}&challid=${challengeHash}`,
@@ -40,7 +37,6 @@ export default async function startInstance(req, res) {
 				}
 			);
 			let json = await response.json();
-			console.log(json);
 			if (json.Error) {
 				res.status(400).json({ error: json.Error });
 			} else {

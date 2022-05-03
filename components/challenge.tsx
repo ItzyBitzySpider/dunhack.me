@@ -103,7 +103,6 @@ export default function Challenge({
 		});
 
 		let res = await response.json();
-		console.log('response', response);
 		if (response.status === 200) {
 			setInstanceError('');
 			setInstanceDetails(`http://portainer.dunhack.me:${res.Ports_Used[0]}`);
@@ -119,8 +118,7 @@ export default function Challenge({
 		});
 
 		let res = await response.json();
-		console.log(res)
-		if (response.status === 200 || res.error === 'User does not have an instance') {
+		if (res.success || res.error === 'User does not have an instance') {
 			setInstanceError('');
 			setInstanceDetails('');
 			setActive(false);
@@ -134,14 +132,11 @@ export default function Challenge({
 			method: 'POST'
 		});
 
-		// let res = await response.json();
-		console.log(response)
-		// if (response.status === 200 || res.error === 'User does not have an instance') {
-		// 	setInstanceError('');
-		// 	setInstanceDetails('');
-		// } else {
-		// 	setInstanceError(res.error);
-		// }
+		let res = await response.json();
+		// TODO success msg? some form of instance timer perhaps
+		if (res.error) {
+			setInstanceError(res.error);
+		} 
 	};
 
 	return (

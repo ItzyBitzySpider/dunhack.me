@@ -149,7 +149,6 @@ export async function getServerSideProps(context) {
 	);
 	let activeInstances = [];
 	let res = await response.json();
-	console.log(res)
 	if (response.status === 200) {
 		activeInstances.push(res);
 		// possible loop maybe when there can be multiple running instances

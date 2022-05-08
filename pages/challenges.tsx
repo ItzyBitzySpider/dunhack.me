@@ -109,15 +109,13 @@ export default function Challenges({
 										if (ctfFilter[challenge.ctfName.name]) {
 											return (
 												<Challenge
-													key={challenge.id}
+													key={challenge.title}
 													chal={challenge}
 													solved={solvedIDs.includes(challenge.id)}
-													activeInstance={
-														activeInstances[0]
-															? activeInstances.find((instance) => {
-																	return instance.Challenge_Id === challenge.hash;
+													activeInstance={activeInstances.find((instance) => {
+														// supports multiple running instances 
+														return instance.Challenge_Id === challenge.hash;
 															  })
-															: {} /* pass in only matched instance */
 													}
 												/>
 											);
@@ -160,11 +158,12 @@ export async function getServerSideProps(context) {
 	let activeInstances = [];
 	let res = await response.json();
 	if (response.status === 200) {
-		activeInstances.push(res);
-		// possible loop maybe when there can be multiple running instances
-		// activeInstances.push(res.Challenge_Name);
+		// in the event we support multiple instances per user
+		// for(instance in res){
+		// 	// activeInstances.push();
+		// }
+		if(res.Running_Instance) activeInstances.push(res);
 	}
-	console.log(activeInstances);
 	return {
 		props: { challengeData, solvedIDs, activeInstances },
 	};

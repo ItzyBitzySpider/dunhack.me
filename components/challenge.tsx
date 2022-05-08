@@ -47,10 +47,9 @@ export default function Challenge({
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
-	const [active, setActive] = useState(false); //TODO replace redundant check if name matches
-	const [instanceDetails, setInstanceDetails] = useState(active ? `${activeInstance.Host}:${activeInstance.Ports_Used}` : '');
+	const [active, setActive] = useState(activeInstance !== undefined); //TODO replace redundant check if name matches
+	const [instanceDetails, setInstanceDetails] = useState(activeInstance !== undefined ? `${activeInstance.Host}:${activeInstance.Ports_Used}` : '');
 	const [instanceError, setInstanceError] = useState('');
-
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -105,7 +104,7 @@ export default function Challenge({
 		let res = await response.json();
 		if (response.status === 200) {
 			setInstanceError('');
-			setInstanceDetails(`http://portainer.dunhack.me:${res.Ports_Used[0]}`);
+			setInstanceDetails(`${res.Host}:${res.Ports_Used[0]}`);
 			setActive(true);
 		} else {
 			setInstanceError(res.error);
@@ -138,7 +137,6 @@ export default function Challenge({
 			setInstanceError(res.error);
 		} 
 	};
-	console.log(activeInstance);
 	return (
 		<>
 			{!userSolved && (
@@ -220,7 +218,7 @@ export default function Challenge({
 							<Row className='mt-2'>
 								{files.map((file) => {
 									return (
-										<Col>
+										<Col key={file.title}>
 											<Button
 												target='_blank'
 												href={file.url}
@@ -239,7 +237,7 @@ export default function Challenge({
 							<div className={styles.subheader}>Hints</div>
 							{hints.map((content, index) => {
 							return (
-								<Accordion>
+								<Accordion key={index}>
 									<Card className={styles.cardHint}>
 										<Card.Header className={styles.cardHint}>
 											<HintToggle eventKey={index.toString()}>

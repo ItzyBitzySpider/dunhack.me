@@ -41,6 +41,7 @@ export default function Scoreboard({ scores }) {
 						{scores.map((entry, index) => {
 							return (
 								<TableRow
+									key={index}
 									left={entry.position.toString()}
 									middle={userLink(entry.username)}
 									right={entry.score}

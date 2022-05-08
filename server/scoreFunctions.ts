@@ -13,7 +13,7 @@ export async function getScoreboard(): Promise<Array<userRanking> | null> {
         SELECT 
             u.id AS user_id, 
             u.username, 
-            SUM(c.points) AS score, 
+            COALESCE(SUM(c.points), 0) AS score, 
             MAX(s.added) AS "lastCorrectSubmission" 
         FROM "User" AS u
         LEFT JOIN submissions AS s ON u.id = s."userId" AND s.correct = true

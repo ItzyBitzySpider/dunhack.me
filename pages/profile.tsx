@@ -80,6 +80,7 @@ export default function Profile({ challengeSolved }) {
 			return;
 		}
 	};
+	
 	if (session) {
 		return (
 			<>

@@ -47,8 +47,8 @@ export default function Challenge({
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
-	const [active, setActive] = useState(activeInstance.Challenge_Name === title); //TODO replace redundant check if name matches
-	const [instanceDetails, setInstanceDetails] = useState(activeInstance.Challenge_Name === title ? `http://portainer.dunhack.me:${activeInstance.Ports_Used}` : '');
+	const [active, setActive] = useState(false); //TODO replace redundant check if name matches
+	const [instanceDetails, setInstanceDetails] = useState(active ? `${activeInstance.Host}:${activeInstance.Ports_Used}` : '');
 	const [instanceError, setInstanceError] = useState('');
 
 	const handleClose = () => {
@@ -138,7 +138,7 @@ export default function Challenge({
 			setInstanceError(res.error);
 		} 
 	};
-
+	console.log(activeInstance);
 	return (
 		<>
 			{!userSolved && (

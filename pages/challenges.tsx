@@ -10,7 +10,11 @@ import {
 import Filter from '../components/multiSelect';
 import Unauthorized from '../components/unauthorized';
 
-export default function Challenges({ challengeData, solvedIDs, activeInstances }) {
+export default function Challenges({
+	challengeData,
+	solvedIDs,
+	activeInstances,
+}) {
 	const { data: session, status } = useSession();
 
 	// category filter
@@ -27,7 +31,7 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 		setCategories(filteredMap);
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		setCategoryPlaceholder(num + ' categories selected');
-	}
+	};
 
 	const categoryRemove = (_, selectedItem) => {
 		let filteredMap = { ...categoryFilter };
@@ -36,7 +40,7 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		if (num === 0) setCategoryPlaceholder('Select Category');
 		else setCategoryPlaceholder(num + ' categories selected');
-	}
+	};
 
 	// ctf filter
 	let ctfMap = {};
@@ -56,7 +60,7 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 		setCTF(filteredMap);
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		setCTFPlaceholder(num + ' CTFs selected');
-	}
+	};
 
 	const ctfRemove = (_, selectedItem) => {
 		let filteredMap = { ...ctfFilter };
@@ -65,12 +69,12 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 		const num = Object.values(filteredMap).filter((e) => e).length;
 		if (num === 0) setCTFPlaceholder('Select CTF');
 		else setCTFPlaceholder(num + ' CTFs selected');
-	}
+	};
 
 	if (session) {
 		return (
 			<>
-				<br/>
+				<br />
 				<h1 className='txt-center'>Challenges</h1>
 				<h4>Filters</h4>
 				<Row>
@@ -108,7 +112,13 @@ export default function Challenges({ challengeData, solvedIDs, activeInstances }
 													key={challenge.id}
 													chal={challenge}
 													solved={solvedIDs.includes(challenge.id)}
-													activeInstance={activeInstances[0] ? activeInstances[0] : {} /* pass in only matched instance */}
+													activeInstance={
+														activeInstances[0]
+															? activeInstances.find((instance) => {
+																	return instance.Challenge_Id === challenge.hash;
+															  })
+															: {} /* pass in only matched instance */
+													}
 												/>
 											);
 										}
@@ -153,9 +163,9 @@ export async function getServerSideProps(context) {
 		activeInstances.push(res);
 		// possible loop maybe when there can be multiple running instances
 		// activeInstances.push(res.Challenge_Name);
-	} 
-
+	}
+	console.log(activeInstances);
 	return {
-		props: { challengeData, solvedIDs, activeInstances }
+		props: { challengeData, solvedIDs, activeInstances },
 	};
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Button,
 	Card,
@@ -48,8 +48,15 @@ export default function Challenge({
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
 	const [active, setActive] = useState(activeInstance !== undefined); //TODO replace redundant check if name matches
-	const [instanceDetails, setInstanceDetails] = useState(activeInstance !== undefined ? `${activeInstance.Host}:${activeInstance.Ports_Used}` : '');
+	const [instanceDetails, setInstanceDetails] = useState(
+		activeInstance !== undefined
+			? `${activeInstance.Host}:${activeInstance.Ports_Used}`
+			: ''
+	);
 	const [instanceError, setInstanceError] = useState('');
+	const [timeLeft, setTimeLeft] = useState(
+		activeInstance !== undefined && activeInstance.Time_Left > 0 ? activeInstance.Time_Left : 0
+	);
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -106,6 +113,7 @@ export default function Challenge({
 			setInstanceError('');
 			setInstanceDetails(`${res.Host}:${res.Ports_Used[0]}`);
 			setActive(true);
+			updateTime();
 		} else {
 			setInstanceError(res.error);
 		}
@@ -113,7 +121,7 @@ export default function Challenge({
 
 	const stopInstance = async () => {
 		const response = await fetch('/api/stopInstance', {
-			method: 'POST'
+			method: 'POST',
 		});
 
 		let res = await response.json();
@@ -128,15 +136,43 @@ export default function Challenge({
 
 	const extendTime = async () => {
 		const response = await fetch('/api/extendTimeInstance', {
-			method: 'POST'
+			method: 'POST',
 		});
 
 		let res = await response.json();
 		// TODO success msg? some form of instance timer perhaps
 		if (res.error) {
 			setInstanceError(res.error);
-		} 
+		} else {
+			updateTime();
+		}
 	};
+
+	const updateTime = async () => {
+		const response = await fetch('/api/getTimeLeft', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ challengeHash: hash }),
+		});
+
+		let res = await response.json();
+		if (res.timeLeft) {
+			setTimeLeft(res.timeLeft);
+		} else {
+			setTimeLeft(-1);
+		}
+	};
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (timeLeft > 0) setTimeLeft(timeLeft - 1);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	});
+
 	return (
 		<>
 			{!userSolved && (
@@ -179,8 +215,9 @@ export default function Challenge({
 					{service && (
 						<>
 							<div className={styles.subheader}>Instance</div>
-							<div style={{ color: 'red' }}>{instanceError}</div>
+							{active && <div>Time Left: {timeLeft} seconds</div>}
 							<div>{instanceDetails}</div>
+							<div style={{ color: 'red' }}>{instanceError}</div>
 							{/* TODO check better way to verify there is no instance available */}
 							{instanceDetails === '' && (
 								<Button
@@ -213,29 +250,26 @@ export default function Challenge({
 					)}
 				</Modal.Body>
 				{files[0] && (
-						<Modal.Body>
-							<div className={styles.subheader}>Challenge Files</div>
-							<Row className='mt-2'>
-								{files.map((file) => {
-									return (
-										<Col key={file.title}>
-											<Button
-												target='_blank'
-												href={file.url}
-												variant='secondary'>
-												{file.title}
-											</Button>
-										</Col>
-									);
-								})}
-							</Row>
-						</Modal.Body>
+					<Modal.Body>
+						<div className={styles.subheader}>Challenge Files</div>
+						<Row className='mt-2'>
+							{files.map((file) => {
+								return (
+									<Col key={file.title}>
+										<Button target='_blank' href={file.url} variant='secondary'>
+											{file.title}
+										</Button>
+									</Col>
+								);
+							})}
+						</Row>
+					</Modal.Body>
 				)}
 
 				{hints[0] && (
-						<Modal.Body>
-							<div className={styles.subheader}>Hints</div>
-							{hints.map((content, index) => {
+					<Modal.Body>
+						<div className={styles.subheader}>Hints</div>
+						{hints.map((content, index) => {
 							return (
 								<Accordion key={index}>
 									<Card className={styles.cardHint}>
@@ -253,7 +287,7 @@ export default function Challenge({
 								</Accordion>
 							);
 						})}
-						</Modal.Body>
+					</Modal.Body>
 				)}
 
 				<Modal.Footer as={Row} className='justify-content-center g-0'>

@@ -163,6 +163,7 @@ export async function getServerSideProps(context) {
 		// 	// activeInstances.push();
 		// }
 		if(res.Running_Instance) activeInstances.push(res);
+		console.log(res);
 	}
 	return {
 		props: { challengeData, solvedIDs, activeInstances },

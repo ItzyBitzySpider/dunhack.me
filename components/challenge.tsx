@@ -47,16 +47,25 @@ export default function Challenge({
 	const [show, setShow] = useState(false);
 	const [flag, setFlag] = useState('');
 	const [userSolved, showSolve] = useState(solved);
+	
+	let detailsInit = '';
+	let timeInit = 0;
+	if(activeInstance !== undefined) {
+		if(activeInstance.Time_Left > 0) timeInit =activeInstance.Time_Left;
+		for (var i = 0; i < activeInstance.Ports_Used.length; i++) {
+			if (i > 0) detailsInit += ' , ';
+			if (activeInstance.Port_Types[i] == 'nc') {
+				detailsInit = `nc ${activeInstance.Host} ${activeInstance.Ports_Used[i]}`;
+			} else {
+				detailsInit = `http://${activeInstance.Host}:${activeInstance.Ports_Used[i]}`;
+			}
+		}
+	}
+	
 	const [active, setActive] = useState(activeInstance !== undefined); //TODO replace redundant check if name matches
-	const [instanceDetails, setInstanceDetails] = useState(
-		activeInstance !== undefined
-			? `${activeInstance.Host}:${activeInstance.Ports_Used}`
-			: ''
-	);
+	const [instanceDetails, setInstanceDetails] = useState(detailsInit);
 	const [instanceError, setInstanceError] = useState('');
-	const [timeLeft, setTimeLeft] = useState(
-		activeInstance !== undefined && activeInstance.Time_Left > 0 ? activeInstance.Time_Left : 0
-	);
+	const [timeLeft, setTimeLeft] = useState(timeInit);
 	const handleClose = () => {
 		setShow(false);
 		setError('');
@@ -111,7 +120,16 @@ export default function Challenge({
 		let res = await response.json();
 		if (response.status === 200) {
 			setInstanceError('');
-			setInstanceDetails(`${res.Host}:${res.Ports_Used[0]}`);
+			let connectionInstructions = '';
+			for (var i = 0; i < res.Ports_Used.length; i++) {
+				if (i > 0) connectionInstructions += ' , ';
+				if (res.Port_Types[i] == 'nc') {
+					connectionInstructions = `nc ${res.Host} ${res.Ports_Used[i]}`;
+				} else {
+					connectionInstructions = `http://${res.Host}:${res.Ports_Used[i]}`;
+				}
+			}
+			setInstanceDetails(connectionInstructions);
 			setActive(true);
 			updateTime();
 		} else {

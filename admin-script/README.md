@@ -1,6 +1,6 @@
 # dunhack.me Admin Panel
 
-This is the CLI Admin Interface for dunhack.me. To install it on your system, run `pip install .`. 
+This is the CLI Admin Interface for dunhack.me. To install it on your system, run `pip install -e .`. 
 
 ## Documentation
 

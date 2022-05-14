@@ -5,8 +5,9 @@ setup(
         version='0.0.0',
         py_modules=['dunhack'],
         install_requires=[
+            'boto3',
             'click', 
-            'psycopg[binary]'
+            'psycopg'
         ],
         entry_points={
             'console_scripts': [

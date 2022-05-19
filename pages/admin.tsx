@@ -14,8 +14,8 @@ export default function Admin({ submissions, logs }) {
 	const [subLimit, setSubLimit] = useState(10);
 	const [logLimit, setLogLimit] = useState(10);
 	// TODO session is treated as a state: https://github.com/nextauthjs/next-auth/discussions/704
-	// fix involves moving session checks to SSR
-	if (session && session.user.role !== 'USER') return <h1>Unauthorized</h1>;
+    // fix involves moving session checks to SSR
+	if (session && session.user.role !== 'ADMIN') return <h1>Unauthorized</h1>;
 
 	const router = useRouter();
 	const clearLogs = async () => {

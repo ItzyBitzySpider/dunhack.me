@@ -16,7 +16,7 @@ services:
     container_name: nginx
     hostname: nginx
     build: ./docker-misc/nginx/
-    restart: on-failure
+    restart: always
     ports:
       - "80:80"
       - "443:443"

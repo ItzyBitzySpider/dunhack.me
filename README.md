@@ -30,7 +30,7 @@ You will need to create a `.env` file in the project root. Refer to the [`env.ex
 
 1. **Database URL**    
    If you are using planning to use the docker-compose provided, you may leave the value as is. However, if you plan on hosting the database instance separately, please modify the value as follows:  
-   ```mysql://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE_NAME>```
+   ```postgresql://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE_NAME>```
 
 2. **Email Server**  
    This field would contain the details required to send emails for user logins. The `EMAIL_SERVER` field uses the following format:  
@@ -50,6 +50,10 @@ You will need to create a `.env` file in the project root. Refer to the [`env.ex
 
 4. **Next Auth URL**  
    When deploying to production, set the `NEXTAUTH_URL` environment variable to the canonical URL of your site.
+
+To make use of runner, you will have to edit the configuration in `/runner/config`. A `README.md` is provided there. 
+
+To run with Docker, do also remember to add your SSL Certs to the nginx config. More details can be found in `docker-miisc/README.md`. 
 
 ### Database setup
 

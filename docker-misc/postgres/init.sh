@@ -212,6 +212,7 @@ psql -d "$RUNNER_DB" -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
 CREATE TABLE challenges (
 	challenge_id varchar(64) PRIMARY KEY,
 	challenge_name varchar(255) NOT NULL,
+	port_types varchar(255) NOT NULL,
 	docker_compose bool NOT NULL,
 	port_count int NOT NULL,
 	internal_port varchar(255),

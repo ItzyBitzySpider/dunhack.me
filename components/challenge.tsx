@@ -273,17 +273,17 @@ export default function Challenge({
 				{files[0] && (
 					<Modal.Body>
 						<div className={styles.subheader}>Challenge Files</div>
-						<Row className='mt-2'>
+						<div className='mt-2 d-flex flex-row flex-wrap'>
 							{files.map((file) => {
 								return (
-									<Col key={file.title}>
+									<div style={{paddingRight: '1rem'}} key={file.title}>
 										<Button target='_blank' href={file.url} variant='secondary'>
 											{file.title}
 										</Button>
-									</Col>
+									</div>
 								);
 							})}
-						</Row>
+						</div>
 					</Modal.Body>
 				)}
 

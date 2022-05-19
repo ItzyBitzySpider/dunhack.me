@@ -92,6 +92,9 @@ export default function Challenge({
 			if (res.result === true) {
 				setCount(solves + 1);
 				showSolve(true);
+				await fetch('/api/stopInstance', {
+					method: 'POST',
+				});
 				handleClose();
 				return;
 			} else {

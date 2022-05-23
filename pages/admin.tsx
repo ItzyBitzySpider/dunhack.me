@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { getAllSubmissions } from '../server/challengeFunctions';
 import { getAllLogs } from '../server/logging';
 import styles from '../styles/admin.module.scss';
@@ -146,6 +146,8 @@ export default function Admin({ submissions, logs }) {
 }
 
 export async function getServerSideProps(context) {
+	const session = await getSession(context);
+	if (!session) return { props: { submissions: [], logs: [] } };
 	let submissions = await getAllSubmissions();
 	if (!submissions) submissions = [];
 	let logs = await getAllLogs();

@@ -88,7 +88,7 @@ export default function Admin({ submissions, logs }) {
 									<td>{userLink(submission.username)}</td>
 									<td>{submission.title}</td>
 									<td>{submission.flag}</td>
-									<td>{submission.correct === 1 ? 'True' : 'False'}</td>
+									<td>{submission.correct === true ? 'True' : 'False'}</td>
 								</tr>
 							)
 					)}

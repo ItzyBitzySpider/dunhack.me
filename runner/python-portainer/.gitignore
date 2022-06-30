@@ -1,0 +1,5 @@
+*
+*/
+!.gitignore
+!portainer.py
+!requirements.txt

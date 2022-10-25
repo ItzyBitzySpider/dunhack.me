@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import { Row, Col } from 'react-bootstrap';
 import TableRow from '../../components/tableRow';
@@ -9,6 +9,9 @@ import { getAllUsers, getUserInfo } from '../../server/userFunctions';
 import styles from '../../styles/profile.module.scss';
 
 export default function userProfile({ userData, challengeSolved }) {
+  const router = useRouter();
+  if (router.isFallback) return "Loading...";
+
 	const { data: session, status } = useSession();
 	if (session) {
 		return (
@@ -51,13 +54,21 @@ export default function userProfile({ userData, challengeSolved }) {
 	}
 }
 
-export async function getServerSideProps(context){
-	let userData = await getUserInfo(context.query.user);
-	let challengeSolved = await getChallengesSolved(userData.id);
-	return {
-		props: {
-			userData, 
-			challengeSolved,
-		}
-	}
+export async function getStaticProps(context) {
+  const userData = await getUserInfo(context.query.user);
+  const challengeSolved = await getChallengesSolved(userData.id);
+  return {
+    props: {
+      userData,
+      challengeSolved,
+    },
+    revalidate: 300
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true
+  };
 }

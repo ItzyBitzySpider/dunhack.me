@@ -4,8 +4,12 @@ import { Col, Row } from 'react-bootstrap';
 import TableRow from '../components/tableRow';
 import Unauthorized from '../components/unauthorized';
 import { getScoreboard } from '../server/scoreFunctions';
+import { useRouter } from "next/router";
 
 export default function Scoreboard({ scores }) {
+  const router = useRouter();
+  if (router.isFallback) return "Loading...";
+
 	const { data: session, status } = useSession();
 
 	const userLink = (username) => {
@@ -57,12 +61,20 @@ export default function Scoreboard({ scores }) {
 	}
 }
 
-export async function getServerSideProps(context) {
-	let scores = await getScoreboard();
-	if (!scores) {
-		scores = [];
-	}
-	return {
-		props: { scores },
-	};
+export async function getStaticProps(context) {
+  let scores = await getScoreboard();
+  if (!scores) {
+    scores = [];
+  }
+  return {
+    props: { scores },
+    revalidate: 300
+  }
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true
+  }
 }

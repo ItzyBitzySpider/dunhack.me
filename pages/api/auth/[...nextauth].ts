@@ -37,20 +37,32 @@ export default NextAuth({
 			session.user.role = user.role;
 			return Promise.resolve(session);
 		},
-		async signIn({ account, profile }) {
+		async signIn({ account, profile, email }) {
 			if (process.env.EMAIL_VERIFICATION === 'true') {
-				if (profile.email !== null) {
-					const emailWhitelisted = await prisma.email_whitelist.findUnique({
-						where: {
-							email: profile.email,
-						},
-					});
-					if (emailWhitelisted) return true;
-					else return false;
-				}
+        if (email?.verificationRequest) {
+          return true;
+        } else if (account && account.provider == "email") {
+            const emailWhitelisted = await prisma.email_whitelist.findUnique({
+              where: {
+                email: account.providerAccountId
+              },
+            });
+            if (emailWhitelisted) return true;
+            else return false;
+        } else if (profile) {
+          if (profile.email !== null) {
+            const emailWhitelisted = await prisma.email_whitelist.findUnique({
+              where: {
+                email: profile.email,
+              },
+            });
+            if (emailWhitelisted) return true;
+            else return false;
+          }
 				else {
 					return false
 				}
+        }
 			} else {
 				return true
 			}			

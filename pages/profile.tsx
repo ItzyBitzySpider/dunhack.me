@@ -1,4 +1,4 @@
-import { getSession, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';
@@ -9,6 +9,8 @@ import styles from '../styles/profile.module.scss';
 import Router from 'next/router';
 import { getChallengesSolved } from '../server/challengeFunctions';
 import Unauthorized from '../components/unauthorized';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 
 export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
@@ -157,7 +159,7 @@ export default function Profile({ challengeSolved }) {
 }
 
 export async function getServerSideProps(context) {
-	const session = await getSession(context);
+	const session = await unstable_getServerSession(context.req, context.res, authOptions);
 	if (!session) return { props: { challengeSolved: [] } };
 	let challengeSolved = await getChallengesSolved(session.user.id);
 	if (!challengeSolved) {

@@ -1,4 +1,5 @@
-import { getSession, useSession } from 'next-auth/react';
+import { authOptions } from "./api/auth/[...nextauth]"
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Challenge from '../components/challenge';
@@ -9,6 +10,7 @@ import {
 } from '../server/challengeFunctions';
 import Filter from '../components/multiSelect';
 import Unauthorized from '../components/unauthorized';
+import { unstable_getServerSession } from 'next-auth';
 
 export default function Challenges({
 	challengeData,
@@ -136,7 +138,7 @@ export default function Challenges({
 
 // Get challenges
 export async function getServerSideProps(context) {
-	const session = await getSession(context);
+	const session = await unstable_getServerSession(context.req, context.res, authOptions);
 	if (!session) return { props: { challengeData: [], solvedIDs: [] } };
 	const challengeData = await getAllChallenges();
 	const userSolved = await getChallengesSolved(session.user.id);

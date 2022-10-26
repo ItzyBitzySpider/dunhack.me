@@ -147,7 +147,6 @@ export default function Admin({ submissions, logs }) {
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-	// if (!session) return { props: { submissions: [], logs: [] } };
   if (session?.user.role !== "ADMIN") return { notFound: true };
 	let submissions = await getAllSubmissions();
 	if (!submissions) submissions = [];

@@ -5,7 +5,7 @@ export default async function deleteLogs(req, res) {
     if (req.method === 'POST') {
         const session = await getSession({ req });
 
-        if (session && session.user.role !== 'USER') {
+        if (session && session.user.role !== 'ADMIN') {
             res.status(401).json({ error: 'Unauthorized' });
             return;
         }

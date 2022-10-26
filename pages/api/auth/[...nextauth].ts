@@ -6,7 +6,7 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
 
-export default NextAuth({
+export const authOptions = {
 	adapter: PrismaAdapter(prisma),
 	providers: [
 		EmailProvider({
@@ -69,5 +69,6 @@ export default NextAuth({
 		},
 	},
 	secret: process.env.JWT_SECRET,
-});
+};
 
+export default NextAuth(authOptions);

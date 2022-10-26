@@ -30,7 +30,7 @@ CTFs = []
 challenges = []
 
 # --- build docker-compose.yml and send data to runner endpoint ---
-def docker_compose(challenge, chall_data, dir, env):
+def docker_compose(challenge, chall_data, dir, env, service_type):
     # Reject composes with local volumes
     for service in chall_data['services']:
         try:
@@ -51,7 +51,7 @@ def docker_compose(challenge, chall_data, dir, env):
     except AttributeError:
         pass
     if docker.returncode != 0:
-        logging.warning(f'An error occured while building {challenge}. {bytes.decode(docker.stderr, "utf-8")}')
+        logging.warning(f'An error occured while building {challenge}. {docker.stderr}')
         return
     else:
         logging.info(f'{challenge} built successfully')
@@ -72,7 +72,7 @@ def docker_compose(challenge, chall_data, dir, env):
     }
     payload = {
             'challenge_name': challenge.lower(),
-            'port_types': ",".join(["nc"] * port_count), #TODO: Handle other permutations
+            'port_types': ",".join([service_type] * port_count), 
             'docker_compose': 'True',
             'docker_compose_file': bytes.decode(base64.b64encode(new_compose)),
     }
@@ -86,7 +86,7 @@ def docker_compose(challenge, chall_data, dir, env):
     return
 
 # --- build Dockerfile and send data to runner endpoint
-def dockerfile(challenge, chall_data, dir, env):
+def dockerfile(challenge, chall_data, dir, env, service_type):
     # Grab port from Dockerfile
     port = regex.search('EXPOSE ([0-9]+)', chall_data)
     if port == None:
@@ -104,7 +104,7 @@ def dockerfile(challenge, chall_data, dir, env):
     except AttributeError:
         pass
     if docker.returncode != 0:
-        logging.warning(f'An error occured while building {challenge}. {bytes.decode(docker.stderr, "utf-8")}')
+        logging.warning(f'An error occured while building {challenge}. {docker.stderr}')
         return
     else:
         logging.info(f'{challenge} built successfully')
@@ -115,7 +115,7 @@ def dockerfile(challenge, chall_data, dir, env):
     }
     payload = {
             'challenge_name': challenge.lower(),
-            'port_types': "nc", #TODO: Handle "http"
+            'port_types': service_type, 
             'docker_compose': 'False',
             'internal_port': port,
             'image_name': challenge.lower(),
@@ -146,29 +146,39 @@ def main():
     with os.scandir() as scan:
         for i in scan:
             if i.is_dir():
-                challenges.append(i.name)
+                with os.scandir(i) as ctf:
+                    for challenge in ctf:
+                        if challenge.is_dir():
+                            challenges.append(challenge.path)
 
     # Save challenge data and build image
     for challenge in challenges:
         # Cache challenge directory
-        dir = os.path.join('.', challenge)
+        dir = challenge
+
+        # Check for service type (http/nc)
+        try:
+            with open(os.path.join(dir, 'SERVICE')) as file:
+                service_type = file.readline().strip()
+        except FileNotFoundError:
+            logging.warning(f'{challenge} has no SERVICE, defaulting to nc-type service')
+            service_type = 'nc'
+
 
         # Check for docker-compose.yml
         try:
             with open(os.path.join(dir, 'docker-compose.yml')) as file:
                 chall_data = yaml.safe_load(file)
         except FileNotFoundError:
-            # logging.warning(f'{challenge} has no docker-compose, skipping')
-            # continue
             try:
                 with open(os.path.join(dir, 'Dockerfile')) as file:
                     chall_data = file.read()
             except FileNotFoundError:
                 logging.warning(f'{challenge} has no docker-compose or Dockerfile, skipping')
             else:
-                dockerfile(challenge, chall_data, dir, env)
+                dockerfile(os.path.basename(challenge), chall_data, dir, env, service_type)
         else:
-            docker_compose(challenge, chall_data, dir, env)
+            docker_compose(os.path.basename(challenge), chall_data, dir, env, service_type)
 
 if __name__ == '__main__':
     main()

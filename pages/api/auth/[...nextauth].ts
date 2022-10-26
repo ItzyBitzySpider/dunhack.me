@@ -39,18 +39,16 @@ export default NextAuth({
 		},
 		async signIn({ account, profile, email }) {
 			if (process.env.EMAIL_VERIFICATION === 'true') {
-        if (email) {
-          if (email.verificationRequest) {
-            return true;
-          } else if (email.email) {
+        if (email?.verificationRequest) {
+          return true;
+        } else if (account && account.provider == "email") {
             const emailWhitelisted = await prisma.email_whitelist.findUnique({
               where: {
-                email: email.email,
+                email: account.providerAccountId
               },
             });
             if (emailWhitelisted) return true;
             else return false;
-          }
         } else if (profile) {
           if (profile.email !== null) {
             const emailWhitelisted = await prisma.email_whitelist.findUnique({

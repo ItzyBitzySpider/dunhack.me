@@ -1,5 +1,5 @@
 import { authOptions } from "./api/auth/[...nextauth]"
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Challenge from '../components/challenge';

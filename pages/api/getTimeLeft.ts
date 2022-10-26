@@ -1,9 +1,10 @@
-import { getSession } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth';
 import { userEnabled } from '../../server/userFunctions';
+import { authOptions } from './auth/[...nextauth]';
 
 export default async function getTimeLeft(req, res) {
 	if (req.method === 'POST') {
-		const session = await getSession({ req });
+		const session = await unstable_getServerSession(req, res, authOptions);
 		if (session) {
 			// Signed in
 			let userId = session.user.id;

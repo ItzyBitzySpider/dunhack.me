@@ -1,9 +1,10 @@
-import { getSession } from 'next-auth/react';
+import { unstable_getServerSession } from 'next-auth';
 import { clearAllLogs } from '../../server/logging';
+import { authOptions } from './auth/[...nextauth]';
 
 export default async function deleteLogs(req, res) {
     if (req.method === 'POST') {
-        const session = await getSession({ req });
+        const session = await unstable_getServerSession(req, res, authOptions);
 
         if (session && session.user.role !== 'ADMIN') {
             res.status(401).json({ error: 'Unauthorized' });
@@ -11,7 +12,7 @@ export default async function deleteLogs(req, res) {
         }
         
         //Delete user
-        let result = await clearAllLogs();
+        const result = await clearAllLogs();
         res.status(200).json({ result: 'success' });;
         return;
     } else {

@@ -1,13 +1,15 @@
-import { getSession, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { getAllSubmissions } from '../server/challengeFunctions';
 import { getAllLogs } from '../server/logging';
 import styles from '../styles/admin.module.scss';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
-import { Col, Row, Form, Button, Toast } from 'react-bootstrap';
+import { useState } from 'react';
+import { Col, Row, Form, Button } from 'react-bootstrap';
 import Log from '../components/log';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 
 export default function Admin({ submissions, logs }) {
 	const { data: session, status } = useSession();
@@ -146,7 +148,7 @@ export default function Admin({ submissions, logs }) {
 }
 
 export async function getServerSideProps(context) {
-	const session = await getSession(context);
+	const session = await unstable_getServerSession(context.req, context.res, authOptions);
   if (session?.user.role !== "ADMIN") return { notFound: true };
 	let submissions = await getAllSubmissions();
 	if (!submissions) submissions = [];

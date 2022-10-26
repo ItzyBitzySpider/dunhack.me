@@ -1,4 +1,4 @@
-import { getSession, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalForm from '../components/modalForm';

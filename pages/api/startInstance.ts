@@ -1,10 +1,11 @@
+import { unstable_getServerSession } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { validateChallengeHash } from '../../server/challengeFunctions';
 import { userEnabled } from '../../server/userFunctions';
 
 export default async function startInstance(req, res) {
 	if (req.method === 'POST') {
-		const session = await getSession({ req });
+		const session = await unstable_getServerSession(req, res, authOptions);
 		if (session) {
 			// Signed in
 			let userId = session.user.id;

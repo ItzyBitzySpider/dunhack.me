@@ -11,6 +11,8 @@ import { getChallengesSolved } from '../server/challengeFunctions';
 import Unauthorized from '../components/unauthorized';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Profile({ challengeSolved }) {
 	const { data: session, status } = useSession();
@@ -87,9 +89,9 @@ export default function Profile({ challengeSolved }) {
 		return (
 			<>
 			<br/>
-				<h1 className='txt-center'>{session.user.username}'s Profile</h1>
+				<h1 className='txt-center'>{session.user.username}&apos;s Profile</h1>
 				<Row className='justify-content-center'>
-					<img className={styles.imageContainer} src={session.user.image} />
+					<Image className={styles.imageContainer} src={session.user.image} />
 				</Row>
 				<Row className={styles.border}>
 					<Col className='g-0 align-items-center'>
@@ -148,7 +150,7 @@ export default function Profile({ challengeSolved }) {
 				<div>
 					<h1>Something went wrong</h1>
 					<h3>
-						Account has not been deleted. Please <a href='/login'>login</a> and try again. 
+						Account has not been deleted. Please <Link href='/login'>login</Link> and try again. 
 					</h3>
 				</div>
 			</div>

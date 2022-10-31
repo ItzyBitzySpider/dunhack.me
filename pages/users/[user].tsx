@@ -8,15 +8,14 @@ import { getChallengesSolved } from '../../server/challengeFunctions';
 import { getAllUsers, getUserInfo } from '../../server/userFunctions';
 import styles from '../../styles/profile.module.scss';
 
-export default function userProfile({ userData, challengeSolved }) {
+export default function UserProfile({ userData, challengeSolved }) {
   const router = useRouter();
+  const { data: session, status } = useSession();
   if (router.isFallback) return "Loading...";
-
-	const { data: session, status } = useSession();
 	if (session) {
 		return (
 			<>
-				<h1 className='txt-center'>{userData.username}'s Profile</h1>
+				<h1 className='txt-center'>{userData.username}&apos;s Profile</h1>
 				<Row className='justify-content-center'>
 					<img className={styles.imageContainer} src={userData.image} />
 				</Row>

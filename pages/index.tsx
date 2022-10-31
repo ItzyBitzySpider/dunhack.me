@@ -1,12 +1,13 @@
 import Head from 'next/head';
 import React from 'react';
 import styles from '../styles/home.module.scss';
+import Image from 'next/image';
 import { Col, Row } from 'react-bootstrap';
 
 export default function Home() {
 	return (
 		<>
-			<div className={styles.banner}><img src='Logo.png'/></div>
+			<div className={styles.banner}><Image src='Logo.png'/></div>
 			<br/>
 			<h5 className='txt-center'>CTF Training Platform</h5>
 			<h6 className='txt-center'>brought to you by ItzyBitzySpider</h6>

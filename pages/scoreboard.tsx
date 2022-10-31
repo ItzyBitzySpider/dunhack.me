@@ -8,9 +8,9 @@ import { useRouter } from "next/router";
 
 export default function Scoreboard({ scores }) {
   const router = useRouter();
-  if (router.isFallback) return "Loading...";
+  const { data: session, status } = useSession();
 
-	const { data: session, status } = useSession();
+  if (router.isFallback) return "Loading...";
 
 	const userLink = (username) => {
 		return (

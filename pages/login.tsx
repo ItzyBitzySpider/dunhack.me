@@ -23,8 +23,8 @@ import SignInError from '../components/signInError';
 export default function Login({ csrfToken }: { csrfToken: string }) {
 	const { error } = useRouter().query;
 	const { data: session, status } = useSession();
+	const router = useRouter();
 	if (session) {
-		const router = useRouter();
 		router.push('profile');
 		return <a>Redirecting</a>;
 	} else {

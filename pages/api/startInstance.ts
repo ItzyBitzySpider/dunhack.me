@@ -1,7 +1,7 @@
 import { unstable_getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
 import { validateChallengeHash } from '../../server/challengeFunctions';
 import { userEnabled } from '../../server/userFunctions';
+import { authOptions } from "./auth/[...nextauth]";
 
 export default async function startInstance(req, res) {
 	if (req.method === 'POST') {

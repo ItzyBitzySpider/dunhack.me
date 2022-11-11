@@ -43,7 +43,7 @@ export default function SidebarNavigation() {
         </li>
         {session && (
           <li>
-            <a
+            <Link
               href='/profile'
               onClick={() => setActive('profile')}
               className={
@@ -51,7 +51,7 @@ export default function SidebarNavigation() {
                   ? styles.selected
                   : styles.text
               }>Profile
-            </a>
+            </Link>
           </li>
         )}
         {session && (

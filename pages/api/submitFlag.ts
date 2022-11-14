@@ -62,8 +62,8 @@ export default async function submit(req, res) {
         res.status(400).json({ error: 'Something went wrong, Please try again Later' });
         return;
       } else {
-        await res.revalidate(`/users/${session.user.username}/`)
-        await res.revalidate('/scoreboard/')
+        await res.revalidate(`/users/${session.user.username}`)
+        await res.revalidate('/scoreboard')
         res.status(200).json({ result: result });
       }
     } else {

@@ -18,8 +18,8 @@ export default async function deleteUser(req, res) {
 
       //Delete user
       let result = await deleteAccount(userId);
-      await res.revalidate(`/users/${session.user.username}/`)
-      await res.revalidate('/scoreboard/')
+      await res.revalidate(`/users/${session.user.username}`)
+      await res.revalidate('/scoreboard')
       res.status(200).json({ result: result });
     } else {
       // Not Signed in

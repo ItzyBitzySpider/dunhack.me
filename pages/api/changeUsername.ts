@@ -26,8 +26,8 @@ export default async function submitUsername(req, res) {
 
       //Change Username
       const result = await changeUsername(userId, username);
-      await res.revalidate(`/users/${session.user.username}/`)
-      await res.revalidate('/scoreboard/')
+      await res.revalidate(`/users/${session.user.username}`)
+      await res.revalidate('/scoreboard')
       res.status(200).json({ result: result });
     } else {
       // Not Signed in

@@ -11,7 +11,6 @@ import { getChallengesSolved } from '../server/challengeFunctions';
 import Unauthorized from '../components/unauthorized';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Profile({ challengeSolved }) {
@@ -91,7 +90,7 @@ export default function Profile({ challengeSolved }) {
 			<br/>
 				<h1 className='txt-center'>{session.user.username}&apos;s Profile</h1>
 				<Row className='justify-content-center'>
-					<Image className={styles.imageContainer} src={session.user.image} />
+					<img className={styles.imageContainer} src={session.user.image} />
 				</Row>
 				<Row className={styles.border}>
 					<Col className='g-0 align-items-center'>

@@ -10,7 +10,7 @@ export default function Home() {
       <h5 className='txt-center'>CTF Training Platform</h5>
       <h6 className='txt-center'>brought to you by ItzyBitzySpider</h6>
       <br /><br />
-      <h2 className='txt-center'>Frequent Asked Questions</h2>
+      <h2 className='txt-center'>Frequently Asked Questions</h2>
       <br />
       <br />
       <h3>What is dunhack.me?</h3>
